@@ -1,4 +1,4 @@
--- Number of Lua scripts = 63
+-- Number of Lua scripts = 66
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_black_market.lua"
 function p.__start(wid)
     p.make_list(wid)
@@ -1003,9 +1003,10 @@ function p.set_hud_table(new_hud_table) hud_table = new_hud_table end
 --No two hud elements can have the same priority.
 --The priority specifies the order it is rendered.
 --Lowever priorities are rendered first.
-function p.add_element(priority, func)
+function p.add_element(priority, func, name)
     local element = {}
     element.func = func
+    element.name = name
     hud_table[priority] = element
     -- table.insert(hud_table, priority, element) --Wrong.
 end
@@ -1027,23 +1028,23 @@ end
 
 function p.force_init_hud_table()
     p.clear_hud_table()
-    p.add_element(-10, blinker_test.render)
-    p.add_element(10, game_hud_render_dark_hole_charge.render_dark_hole_charge)
-    p.add_element(20, game_hud_render_low_health_border.render_low_health_border)
-    p.add_element(30, game_hud_render_compass.render_compass)
-    p.add_element(40, game_hud_render_dps.render_dps)
-    p.add_element(50, game_hud_render_identified_ment.render_identified_ment)
-    p.add_element(60, game_hud_render_hive_attack_meter.render_hive_attack_meter)
-    p.add_element(70, game_hud_render_shield.render_shield)
-    p.add_element(80, game_hud_render_health.render_health)
-    p.add_element(90, game_hud_render_armor.render_armor)
-    p.add_element(100, game_hud_render_gold.render_gold)
-    p.add_element(110, game_hud_render_markers.render_markers)
-    p.add_element(120, game_hud_render_xp_bar.render_xp_bar)
-    p.add_element(130, game_hud_render_icons.render_icons)
-    p.add_element(140, game_hud_render_ammo.render_ammo)
-    p.add_element(150, game_hud_render_lower_left_msg.render_lower_left_msg)
-    p.add_element(160, game_hud_render_flash.render_flash)
+    p.add_element(-10, blinker_test.render, "blinker test")
+    p.add_element(10, game_hud_render_dark_hole_charge.render_dark_hole_charge, "dark hole charge")
+    p.add_element(20, game_hud_render_low_health_border.render_low_health_border, "low health border")
+    p.add_element(30, game_hud_render_compass.render_compass, "compass")
+    p.add_element(40, game_hud_render_dps.render_dps, "dps")
+    p.add_element(50, game_hud_render_identified_ment.render_identified_ment, "identified ment")
+    p.add_element(60, game_hud_render_hive_attack_meter.render_hive_attack_meter, "hive attack meter")
+    p.add_element(70, game_hud_render_shield.render_shield, "shield")
+    p.add_element(80, game_hud_render_health.render_health, "health")
+    p.add_element(90, game_hud_render_armor.render_armor, "armor")
+    p.add_element(100, game_hud_render_gold.render_gold, "gold")
+    p.add_element(110, game_hud_render_markers.render_markers, "markers")
+    p.add_element(120, game_hud_render_xp_bar.render_xp_bar, "xp bar")
+    p.add_element(130, game_hud_render_icons.render_icons, "icons")
+    p.add_element(140, game_hud_render_ammo.render_ammo, "ammo")
+    p.add_element(150, game_hud_render_lower_left_msg.render_lower_left_msg, "lower left message")
+    p.add_element(160, game_hud_render_flash.render_flash, "flash")
 end
 
 -------------------------------------------------
@@ -1072,7 +1073,11 @@ function p.__render(wid)
         return
     end
 
+    ga_debug_push("win_hud.__render main")
+
     p.maybe_init_table()
+
+    ga_debug_line("initialized table")
 
     --Calling all functions in the table (in order).
     local sorted_keys = {}
@@ -1083,28 +1088,15 @@ function p.__render(wid)
     for _,k in pairs(sorted_keys) do
         local v = hud_table[k]
         local func = v.func
+        local name = v.name
+        --
+        local debug_frame = "win_hud.__render: " .. name
+        ga_debug_push(debug_frame)
         func(wid)
+        ga_debug_pop(debug_frame)
     end
 
-    --Debugging the "look object."
-    -- local use_type = ga_use_object_get_type()
-    -- ga_win_txt(wid, 0.4, 0.7, "use obj type = " .. tostring(use_type))
-    -- if( ga_look_object_bent_exists() ) then
-    --     local look_bent_chunk_id = ga_look_object_bent_get_chunk_id()
-    --     local look_bent_lbp = ga_look_object_bent_get_lbp()
-    --     ga_win_txt(wid, 0.1, 0.6, "look bent chunk_id = " .. tostring(look_bent_chunk_id))
-    --     ga_win_txt(wid, 0.6, 0.6, "look bent lbp = " .. std.bp_to_str(look_bent_lbp))
-    -- end
-    -- if( ga_look_object_ment_exists() ) then
-    --     local look_ment_inst_id = ga_look_object_ment_inst_id()
-    --     ga_win_txt(wid, 0.5, 0.5, "look ment inst_id = " .. tostring(look_ment_inst_id))
-    -- end
-    -- if( ga_look_object_block_exists() ) then
-    --     local look_block_chunk_id = ga_look_object_block_get_chunk_id()
-    --     local look_block_lbp = ga_look_object_block_get_lbp()
-    --     ga_win_txt(wid, 0.1, 0.4, "look block chunk_id = " .. tostring(look_block_chunk_id))
-    --     ga_win_txt(wid, 0.6, 0.4, "look block lbp = " .. std.bp_to_str(look_block_lbp))
-    -- end
+    ga_debug_pop("win_hud.__render main")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_hud_user_above.lua"
@@ -1140,6 +1132,83 @@ function p.render_green_layer(wid)
     local green = std.vec(0.0, 1.0, 0.0)
     local alpha = 0.5
     ga_win_quad_color_alpha(wid, 0.0, 0.0, 1.0, 1.0, green, alpha)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Windows/win_icarus.lua"
+--File: win_icarus.lua
+
+local button_handle = 1
+
+function p.get_enabled()
+    return ga_get_icarus_enabled()
+end
+
+function p.set_enabled(value)
+    ga_set_icarus_enabled(value)
+end
+
+function p.toggle_enabled(value)
+    p.set_enabled( not p.get_enabled() )
+end
+
+function p.__start(wid)
+    local x = 0.0
+    local y = 0.4
+    local w = 0.02
+    local h = 0.04
+    local msg = "PRESS ENTER TO TOGGLE"
+    ga_win_widget_button_start(wid, button_handle, x,y,w,h, msg)
+    ga_win_widget_button_center_x_at(wid, button_handle, 0.5)
+
+    local go_back_button_y = 0.06
+    local w = 0.02
+    local h = 0.04
+    local go_back_msg = "Return To Game (ESC or F)"
+    ga_win_widget_go_back_button_start(
+        wid, go_back_button_y, w, h, go_back_msg)
+end
+
+function p.__end(wid)
+    --Nothing to do.
+end
+
+function p.__render(wid)
+    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
+
+    ga_win_set_char_size(wid, 0.04, 0.08)
+    ga_win_txt_center(wid, 0.85, "ICARUS MODE")
+
+    local str = "ICARUS MODE IS CURRENTLY "
+    if( p.get_enabled() ) then str = str .. "ENABLED"
+    else str = str .. "DISABLED"
+    end
+    ga_win_set_char_size(wid, 0.02, 0.04)
+    ga_win_txt_center(wid, 0.6, str)
+
+    --The text button is displayed automatically.
+end
+
+function p.__process_input(wid)
+    if( ga_win_widget_go_back_button_process_input(wid) or
+        ga_win_key_pressed(wid, "F") )
+    then
+        ga_play_sound("menu_back")
+        ga_window_pop()
+        return
+    end
+    
+    local button_clicked = ga_win_widget_button_process_input(wid)
+    if( ga_win_key_pressed(wid, "ENTER") or
+        button_clicked == button_handle )
+    then
+        p.toggle_enabled(value)
+
+        if( p.get_enabled() ) then
+            ga_play_sound_menu("holy_cow")
+            -- ga_play_sound_menu("harp")
+        end
+    end
+
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_marker_long.lua"
@@ -3762,7 +3831,9 @@ function p.refresh_options(wid)
             "MOVE ON Z AXIS: " .. value1}
     else
         options = {
-            "USE TRUE UP: FALSE"}
+            "USE TRUE UP: FALSE",
+            "ROLL DRAG: " .. tostring( win_main_menu_camera_roll_drag.get_value() ),
+            "ROLL ACC: "  .. tostring( win_main_menu_camera_roll_acc.get_value() )}
     end
     ga_win_widget_small_list_start(
         wid, min_y, max_y, char_w, char_h,
@@ -3801,6 +3872,14 @@ function p.__process_input(wid)
             local old_value = ga_get_b(var)
             ga_set_b(var, not old_value)
         end
+        if( sel_str:find("^ROLL DRAG") ~= nil ) then
+            ga_window_push("win_main_menu_camera_roll_drag")
+            return
+        end
+        if( sel_str:find("^ROLL ACC") ~= nil ) then
+            ga_window_push("win_main_menu_camera_roll_acc")
+            return
+        end
     end
 end
 
@@ -3812,6 +3891,182 @@ function p.set_true_up(use_true_up)
         ga_set_sys_s("display.hud.attack_display.type", "cylinder")
     else
         ga_set_sys_s("display.hud.attack_display.type", "sphere")
+    end
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_camera_roll_acc.lua"
+--win_main_menu_camera_roll_acc.lua
+
+function p.def_value()
+    return 0.01000 --Default num.
+end
+
+function p.get_value()
+    local var = "movement.roll.acc"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_get_f(var)
+end
+
+function p.set_value(value)
+    local var = "movement.roll.acc"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_set_f(var, value)
+end
+
+--Returns true off worked.
+function p.set_value_maybe(str_value)
+    local num_value = tonumber(str_value)
+    if( num_value == nil ) then return false end
+    if( num_value < 0.0 ) then return false end
+    --
+    p.set_value(num_value)
+    return true
+end
+
+function p.__start(wid)
+    local go_back_button_y = 0.06
+    local w = 0.02
+    local h = 0.04
+    local go_back_msg = "Go Back (ESC)"
+    ga_win_widget_go_back_button_start(
+        wid, go_back_button_y, w, h, go_back_msg);
+
+    local min_y = 0.45
+    local w = 0.02
+    local h = 0.04
+    ga_win_widget_text_input_start(wid, min_y, w, h)
+end
+
+function p.__end(wid)
+    --Nothing to do.
+end
+
+function p.__get_path_display_name()
+    return "ROLL ACCELERATION"
+end
+
+function p.__render(wid)
+    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
+
+    local path = ga_get_window_stack_display_names()
+    game_win_top_bar.render_path(wid, path)
+    ga_win_set_front_color_default(wid)
+
+    ga_win_set_char_size(wid, 0.03, 0.06)
+    ga_win_txt_center(wid, 0.85, "ROLL ACCELERATION")
+
+    ga_win_set_char_size(wid, 0.02, 0.04)
+    ga_win_txt_center(wid, 0.75, "DEFAULT VALUE: 0.01")
+    ga_win_txt_center(wid, 0.7, "NEVER HAVE THIS < 0.0")
+
+    ga_win_txt_center(wid, 0.5, "ENTER NEW VALUE:")
+end
+
+function p.__process_input(wid)
+    if ga_win_widget_go_back_button_process_input(wid) then
+        ga_play_sound("menu_back")
+        ga_window_pop()
+        return
+    end
+
+    local txt = ga_win_widget_text_input_process_input(wid)
+    if( txt ~= "" ) then
+        local ok = p.set_value_maybe(txt)
+        if( ok ) then
+            ga_window_pop()
+            return
+        else
+            ga_play_sound_menu("error")
+        end
+    end
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_camera_roll_drag.lua"
+--win_main_menu_camera_roll_drag.lua
+
+function p.def_value()
+    return 0.70 --Default num.
+end
+
+function p.get_value()
+    local var = "movement.roll.drag"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_get_f(var)
+end
+
+function p.set_value(value)
+    local var = "movement.roll.drag"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_set_f(var, value)
+end
+
+--Returns true off worked.
+function p.set_value_maybe(str_value)
+    local num_value = tonumber(str_value)
+    if( num_value == nil ) then return false end
+    if( num_value > 1.0 ) then return false end
+    if( num_value < 0.0 ) then return false end
+    --
+    p.set_value(num_value)
+    return true
+end
+
+function p.__start(wid)
+    local go_back_button_y = 0.06
+    local w = 0.02
+    local h = 0.04
+    local go_back_msg = "Go Back (ESC)"
+    ga_win_widget_go_back_button_start(
+        wid, go_back_button_y, w, h, go_back_msg);
+
+    local min_y = 0.45
+    local w = 0.02
+    local h = 0.04
+    ga_win_widget_text_input_start(wid, min_y, w, h)
+end
+
+function p.__end(wid)
+    --Nothing to do.
+end
+
+function p.__get_path_display_name()
+    return "ROLL DRAG"
+end
+
+function p.__render(wid)
+    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
+
+    local path = ga_get_window_stack_display_names()
+    game_win_top_bar.render_path(wid, path)
+    ga_win_set_front_color_default(wid)
+
+    ga_win_set_char_size(wid, 0.03, 0.06)
+    ga_win_txt_center(wid, 0.85, "ROLL DRAG")
+
+    ga_win_set_char_size(wid, 0.02, 0.04)
+    ga_win_txt_center(wid, 0.75, "DEFAULT VALUE: 0.7")
+    ga_win_txt_center(wid, 0.7, "CLOSER TO 1.0 MEANS LESS DRAG")
+    ga_win_txt_center(wid, 0.65, "NEVER HAVE THIS > 1.0")
+
+    ga_win_txt_center(wid, 0.5, "ENTER NEW VALUE:")
+end
+
+function p.__process_input(wid)
+    if ga_win_widget_go_back_button_process_input(wid) then
+        ga_play_sound("menu_back")
+        ga_window_pop()
+        return
+    end
+
+    local txt = ga_win_widget_text_input_process_input(wid)
+    if( txt ~= "" ) then
+        local ok = p.set_value_maybe(txt)
+        if( ok ) then
+            ga_window_pop()
+            return
+        else
+            ga_play_sound_menu("error")
+        end
     end
 end
 END_FILE

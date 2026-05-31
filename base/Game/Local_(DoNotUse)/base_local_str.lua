@@ -110,6 +110,23 @@ end
 --Could perhaps put elsewhere.
 function p.path_str_to_level(path_str)
     if( path_str == "EMPTY_PATH" ) then return 0 end
+    --
+    if( path_str:find("^NEG_") ~= nil ) then
+        --The path starts with "NEG_".
+        local path_str2 = path_str:gsub("^NEG_","")
+        local neg_num_str = path_str2:match("^([^_]+)")
+        local neg_num = (-1) * tonumber(neg_num_str)
+        local path_str3 = path_str2:gsub("^" .. neg_num_str, "")
+        if( path_str3 == "" ) then
+            --Corner case. The path str is of the form NEG_XXXX.
+            return neg_num
+        end
+        --Removing the leading "_".
+        local path_str4 = path_str3:gsub("^_", "")
+        local recursive_num = p.path_str_to_level(path_str4)
+        return neg_num + recursive_num
+    end
+    --
     local str_len = string.len(path_str)
     if( str_len == 3 ) then return 1 end
     return math.floor( ( (str_len - 3) / 4 ) + 1 ) --A little cringe, but makes sense.

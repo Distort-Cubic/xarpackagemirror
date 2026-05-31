@@ -30,6 +30,7 @@ pickup_gold        Pickup/(homemade)_pickup_gold_small.ogg
 pickup_upgrade     Pickup/(homemade)_pickup_upgrade.ogg
 pickup_powerup     Pickup/(homemade)_pickup_powerup.ogg
 oh_yeah            (homemade)_oh_yeah.ogg
+holy_cow           (homemade)_holy_cow.ogg
 level_up           (homemade)_level_up_down20db.ogg
 drop_level         (homemade)_drop_level.ogg
 
@@ -79,6 +80,7 @@ shoot_8_1               Shoot/(homemade)_shoot_8_1.ogg
 shoot_8_2               Shoot/(homemade)_shoot_8_2.ogg
 shoot_9_1               Shoot/(homemade)_shoot_9_1.ogg
 shoot_9_2               Shoot/(homemade)_shoot_9_1.ogg
+shoot_9_3               Shoot/(homemade)_shoot_9_1.ogg
 shoot_0_1               Shoot/(homemade)_shoot_0_1.ogg
 shoot_0_1_loud          Shoot/(homemade)_shoot_0_1_loud.ogg
 shoot_0_2               Shoot/(homemade)_shoot_0_2.ogg

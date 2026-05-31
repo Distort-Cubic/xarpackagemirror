@@ -14,9 +14,10 @@ function p.set_hud_table(new_hud_table) hud_table = new_hud_table end
 --No two hud elements can have the same priority.
 --The priority specifies the order it is rendered.
 --Lowever priorities are rendered first.
-function p.add_element(priority, func)
+function p.add_element(priority, func, name)
     local element = {}
     element.func = func
+    element.name = name
     hud_table[priority] = element
     -- table.insert(hud_table, priority, element) --Wrong.
 end
@@ -38,23 +39,23 @@ end
 
 function p.force_init_hud_table()
     p.clear_hud_table()
-    p.add_element(-10, blinker_test.render)
-    p.add_element(10, game_hud_render_dark_hole_charge.render_dark_hole_charge)
-    p.add_element(20, game_hud_render_low_health_border.render_low_health_border)
-    p.add_element(30, game_hud_render_compass.render_compass)
-    p.add_element(40, game_hud_render_dps.render_dps)
-    p.add_element(50, game_hud_render_identified_ment.render_identified_ment)
-    p.add_element(60, game_hud_render_hive_attack_meter.render_hive_attack_meter)
-    p.add_element(70, game_hud_render_shield.render_shield)
-    p.add_element(80, game_hud_render_health.render_health)
-    p.add_element(90, game_hud_render_armor.render_armor)
-    p.add_element(100, game_hud_render_gold.render_gold)
-    p.add_element(110, game_hud_render_markers.render_markers)
-    p.add_element(120, game_hud_render_xp_bar.render_xp_bar)
-    p.add_element(130, game_hud_render_icons.render_icons)
-    p.add_element(140, game_hud_render_ammo.render_ammo)
-    p.add_element(150, game_hud_render_lower_left_msg.render_lower_left_msg)
-    p.add_element(160, game_hud_render_flash.render_flash)
+    p.add_element(-10, blinker_test.render, "blinker test")
+    p.add_element(10, game_hud_render_dark_hole_charge.render_dark_hole_charge, "dark hole charge")
+    p.add_element(20, game_hud_render_low_health_border.render_low_health_border, "low health border")
+    p.add_element(30, game_hud_render_compass.render_compass, "compass")
+    p.add_element(40, game_hud_render_dps.render_dps, "dps")
+    p.add_element(50, game_hud_render_identified_ment.render_identified_ment, "identified ment")
+    p.add_element(60, game_hud_render_hive_attack_meter.render_hive_attack_meter, "hive attack meter")
+    p.add_element(70, game_hud_render_shield.render_shield, "shield")
+    p.add_element(80, game_hud_render_health.render_health, "health")
+    p.add_element(90, game_hud_render_armor.render_armor, "armor")
+    p.add_element(100, game_hud_render_gold.render_gold, "gold")
+    p.add_element(110, game_hud_render_markers.render_markers, "markers")
+    p.add_element(120, game_hud_render_xp_bar.render_xp_bar, "xp bar")
+    p.add_element(130, game_hud_render_icons.render_icons, "icons")
+    p.add_element(140, game_hud_render_ammo.render_ammo, "ammo")
+    p.add_element(150, game_hud_render_lower_left_msg.render_lower_left_msg, "lower left message")
+    p.add_element(160, game_hud_render_flash.render_flash, "flash")
 end
 
 -------------------------------------------------
@@ -83,7 +84,11 @@ function p.__render(wid)
         return
     end
 
+    ga_debug_push("win_hud.__render main")
+
     p.maybe_init_table()
+
+    ga_debug_line("initialized table")
 
     --Calling all functions in the table (in order).
     local sorted_keys = {}
@@ -94,26 +99,13 @@ function p.__render(wid)
     for _,k in pairs(sorted_keys) do
         local v = hud_table[k]
         local func = v.func
+        local name = v.name
+        --
+        local debug_frame = "win_hud.__render: " .. name
+        ga_debug_push(debug_frame)
         func(wid)
+        ga_debug_pop(debug_frame)
     end
 
-    --Debugging the "look object."
-    -- local use_type = ga_use_object_get_type()
-    -- ga_win_txt(wid, 0.4, 0.7, "use obj type = " .. tostring(use_type))
-    -- if( ga_look_object_bent_exists() ) then
-    --     local look_bent_chunk_id = ga_look_object_bent_get_chunk_id()
-    --     local look_bent_lbp = ga_look_object_bent_get_lbp()
-    --     ga_win_txt(wid, 0.1, 0.6, "look bent chunk_id = " .. tostring(look_bent_chunk_id))
-    --     ga_win_txt(wid, 0.6, 0.6, "look bent lbp = " .. std.bp_to_str(look_bent_lbp))
-    -- end
-    -- if( ga_look_object_ment_exists() ) then
-    --     local look_ment_inst_id = ga_look_object_ment_inst_id()
-    --     ga_win_txt(wid, 0.5, 0.5, "look ment inst_id = " .. tostring(look_ment_inst_id))
-    -- end
-    -- if( ga_look_object_block_exists() ) then
-    --     local look_block_chunk_id = ga_look_object_block_get_chunk_id()
-    --     local look_block_lbp = ga_look_object_block_get_lbp()
-    --     ga_win_txt(wid, 0.1, 0.4, "look block chunk_id = " .. tostring(look_block_chunk_id))
-    --     ga_win_txt(wid, 0.6, 0.4, "look block lbp = " .. std.bp_to_str(look_block_lbp))
-    -- end
+    ga_debug_pop("win_hud.__render main")
 end

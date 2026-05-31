@@ -36,7 +36,9 @@ function p.refresh_options(wid)
             "MOVE ON Z AXIS: " .. value1}
     else
         options = {
-            "USE TRUE UP: FALSE"}
+            "USE TRUE UP: FALSE",
+            "ROLL DRAG: " .. tostring( win_main_menu_camera_roll_drag.get_value() ),
+            "ROLL ACC: "  .. tostring( win_main_menu_camera_roll_acc.get_value() )}
     end
     ga_win_widget_small_list_start(
         wid, min_y, max_y, char_w, char_h,
@@ -74,6 +76,14 @@ function p.__process_input(wid)
             local var = "xar.movement.move_on_z_axis"
             local old_value = ga_get_b(var)
             ga_set_b(var, not old_value)
+        end
+        if( sel_str:find("^ROLL DRAG") ~= nil ) then
+            ga_window_push("win_main_menu_camera_roll_drag")
+            return
+        end
+        if( sel_str:find("^ROLL ACC") ~= nil ) then
+            ga_window_push("win_main_menu_camera_roll_acc")
+            return
         end
     end
 end

@@ -1,4 +1,4 @@
--- Number of Lua scripts = 201
+-- Number of Lua scripts = 202
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Ammo/bent_ammo_gun_0.lua"
 function p.has_effect(level, bp)
     local max_value = game_wep_modes.get_ammo_max(0)
@@ -4639,6 +4639,23 @@ function p.remove_door(level, bp)
     end end end
 end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Other/bent_icarus.lua"
+function p.__get_can_use(level, bp)
+    return true
+end
+
+function p.__get_use_msg(level, bp)
+    return "Enable / disable Icarus mode"
+end
+
+function p.__on_use(level, bp)
+    p.payload(level, bp)
+end
+
+function p.payload(level, bp)
+    ga_window_push("win_icarus")
+end
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Other/bent_open_green_door.lua"
 function p.get_required_combo(level, bp)
     return ga_bent_get_param_s(level, bp)
@@ -5653,6 +5670,7 @@ end
 
 function p.payload(level, bp)
     local trophy_name = ga_bent_get_param_s(level, bp)
+    game_secret_trophy.check_secret_trophy(trophy_name)
     game_trophy.pickup_secret_trophy(trophy_name)
     game_bent.remove_perm(level, bp)
 end

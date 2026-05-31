@@ -26,7 +26,7 @@ function p.recordable()
     game_journal.add_path("@area;@area_bur;@area_bur_tegen;{30}Where to find trophy")
 
     str = "^x00ff00Message from your friend K:\n\n"
-        .. "In Willison Fields (in I1), you can find Purple Wells.\n\n"
+        .. "In Willison fields (in I1), you can find Purple Wells.\n\n"
         .. "With a 2/5 chance, there will be no Pink Sphere on the surface, "
         .. "which means that if you enter it and go the bottom, "
         .. "you will find the ^xff00ffSecret Cave of Jerichos^x00ff00."

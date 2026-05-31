@@ -204,6 +204,13 @@ function p.length(v)
     return math.sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
 end
 
+function p.length_linf(v)
+    local x_abs = math.abs(v.x)
+    local y_abs = math.abs(v.y)
+    local z_abs = math.abs(v.z)
+    return math.max( x_abs, math.max( y_abs, z_abs ) )
+end
+
 function p.normalize(v)
     local len = p.length(v)
     if( len < 0.00001 ) then return p.vec_zero() end

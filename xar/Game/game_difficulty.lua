@@ -15,6 +15,7 @@ function p.set_difficulty_friendly_api(str)
     elseif  str == "agony"              then p.set(2)
     elseif  str == "caustic_utopia"     then p.set(3)
     elseif  str == "madness"            then p.set(4)
+    elseif  str == "custom"             then p.set(5)
     else
         ga_print("*** Error: bad string passed to " .. func_name)
         ga_exit()
@@ -40,6 +41,8 @@ function p.num_to_human_readable(num)
         return "caustic utopia"
     elseif num == 4 then
         return "madness"
+    elseif num == 5 then
+        return "custom"
     else
         --Should never happen.
         return "normal"
@@ -61,6 +64,8 @@ function p.num()
         return 3
     elseif ga_get_b("xar.difficulty.hard_4") then
         return 4
+    elseif ga_get_b("xar.difficulty.custom") then
+        return 5
     else
         ga_print("*** Error: unknown game difficulty.")
         return 0
@@ -119,6 +124,7 @@ function p.num_to_var(num)
     elseif( num == 2 ) then return "xar.difficulty.hard_2"
     elseif( num == 3 ) then return "xar.difficulty.hard_3"
     elseif( num == 4 ) then return "xar.difficulty.hard_4"
+    elseif( num == 5 ) then return "xar.difficulty.custom"
     end
 end
 

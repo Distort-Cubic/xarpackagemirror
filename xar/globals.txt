@@ -334,6 +334,7 @@ b game.globals.xar.player.telekinesis.desert_flower_cloud       false
 b game.globals.xar.player.telekinesis.tangerine                 false
 b game.globals.xar.player.telekinesis.super_massive_black_hole  false
 b game.globals.xar.player.telekinesis.top_of_world              false
+b game.globals.xar.player.telekinesis.absolute_infinite         false
 b game.globals.xar.player.telekinesis.main_branch_lib           false
 b game.globals.xar.player.telekinesis.mylantis_great_cavern     false
 b game.globals.xar.player.telekinesis.secret_farmhouse          false

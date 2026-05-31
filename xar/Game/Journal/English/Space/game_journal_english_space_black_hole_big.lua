@@ -216,6 +216,12 @@ function p.recordable()
         .. "I will take you there if you meet me here on Friday,\"^x00ff00 she said."
     game_journal.add_txt(lang, "BLACK_HOLE_BIG_8_TREASURE_k_part4", str)
     game_journal.add_path("@yang;@yang_back;@yang_back_blackhole;{40}The blond woman will take me to the annex;{20}Part 2")
+
+    local str = "There is a secret room. Let us just say it is in an EMERGENCY location. "
+        .. "The room contains a glass wall blocking a Fire Rate Moon. "
+        .. "However, one of the chunks of the glass wall has something very important inside of it."
+    game_journal.add_txt(lang, "BLACK_HOLE_BIG_8_TREASURE_secret", str)
+    game_journal.add_path("@area;@area_space;@area_space_black_hole;{10}Secret message")
 end
 
 -------------------------------------------------------------------------------

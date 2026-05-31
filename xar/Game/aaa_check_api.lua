@@ -1,7 +1,10 @@
+function p.func1() return "foo" end
+function p.func2() return 13 end
+
 function p.main()
     -- local type = ga_get_type("xar.stats.kill_count")
-    local type = ga_dyn_get_var_type("dyn.base.waypoint.2.name")
-    ga_print("aaa_check_api: type = " .. type)
+    -- local type = ga_dyn_get_var_type("dyn.base.waypoint.2.name")
+    -- ga_print("aaa_check_api: type = " .. type)
 
     -- ga_package_set_b("protected.can_use_named_pipes", false)
     -- ga_package_set_b("test_b", false)
@@ -27,12 +30,7 @@ function p.main()
 
     -- ga_print("In aaa_chunk_api: ")
 
-    -- local chunk_id = ga_get_viewer_chunk_id()
-    -- ga_print("Viewer chunk id = " .. tostring(chunk_id))
-    -- local blue_type = base_game_tele_blue.get_chunk_blue_type(chunk_id)
-    -- ga_print("Blue type of chunk = " .. blue_type)
-
-    -- ga_print( ga_what_binds_to_action("PACKAGE_MOVE_FORWARD") )
+    -- local temp = ( p.func1() < p.func2() )
 
     -- ga_command("foo")
     -- ga_save(true)

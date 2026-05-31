@@ -162,7 +162,9 @@ function p.add_category_item()
     game_journal.add_edge_alias("@item_xp_mod", "{70}XP multiplier")
     game_journal.add_edge_alias("@item_damage_mod", "{80}Damage multiplier") --Used?
     game_journal.add_edge_alias("@item_buysell", "{90}Buy / sell")
-    game_journal.add_edge_alias("@item_buysell_blackmar", "{10}Black market")
+    game_journal.add_edge_alias("@item_buysell_blackmar", "{30}Black market")
+    game_journal.add_edge_alias("@item_buysell_us", "{40}Upgrade station")
+    
     -- game_journal.add_edge_alias("@item_buysell_buynuke", "{20}Buy nuke")
 
     game_journal.add_edge_alias("@item_health_loc", "{10}Locations")
@@ -235,7 +237,6 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_lib_mc_silo", "{60}RejuvenX capsules and nuke arsenals")
     game_journal.add_edge_alias("@area_lib_mc_cavern", "{70}Great mylantis cavern")
     game_journal.add_edge_alias("@area_lib_mc_red", "{80}Mylantis red caves")
-    --more!!!
 
     game_journal.add_edge_alias("@area_yw", "{30}Ying world")
     --
@@ -304,52 +305,52 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_i1_bristol", "{60}Bristol")
 
     game_journal.add_edge_alias("@area_i2", "{60}I2")
-    game_journal.add_edge_alias("@area_i2_city", "{10}Towns / cities") --CHANGE NUM!!!
-    -- game_journal.add_edge_alias("@area_i2_city_montreal", "{10}Montreal") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_city_toronto", "{20}Toronto") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_city_danville", "{30}Danville") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_city", "{10}Towns / cities")
+    -- game_journal.add_edge_alias("@area_i2_city_montreal", "{10}Montreal") --Not being used.
+    game_journal.add_edge_alias("@area_i2_city_toronto", "{20}Toronto")
+    game_journal.add_edge_alias("@area_i2_city_danville", "{30}Danville")
     game_journal.add_edge_alias("@area_i2_base", "{20}Basements / cellars")
-    game_journal.add_edge_alias("@area_i2_flower", "{30}Flowers / trees") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_weed", "{10}Fanatic weed") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_spruce", "{20}Spruce tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_sbf", "{30}Small blue flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_willow", "{40}Willow tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_scorpius", "{50}Scorpius flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fi", "{40}Fanatic island") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fi_monster", "{20}The fanatic on the island") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_lattice", "{50}Fanatic lattice") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_flower", "{30}Flowers / trees")
+    game_journal.add_edge_alias("@area_i2_flower_weed", "{10}Fanatic weed")
+    game_journal.add_edge_alias("@area_i2_flower_spruce", "{20}Spruce tree")
+    game_journal.add_edge_alias("@area_i2_flower_sbf", "{30}Small blue flower")
+    game_journal.add_edge_alias("@area_i2_flower_willow", "{40}Willow tree")
+    game_journal.add_edge_alias("@area_i2_flower_scorpius", "{50}Scorpius flower")
+    game_journal.add_edge_alias("@area_i2_fi", "{40}Fanatic island")
+    game_journal.add_edge_alias("@area_i2_fi_monster", "{20}The fanatic on the island")
+    game_journal.add_edge_alias("@area_i2_lattice", "{50}Fanatic lattice")
     game_journal.add_edge_alias("@area_i2_lattice_radcaves", "{10}Nuke radius caves")
-    game_journal.add_edge_alias("@area_i2_vine", "{60}Vines") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_vine", "{60}Vines")
     -- game_journal.add_edge_alias("@area_i2_vine_lab", "{10}Labratory vine")
     -- game_journal.add_edge_alias("@area_i2_vine_lab_mini", "{10}Minigun ammo forest")
     game_journal.add_edge_alias("@area_i2_vine_mystic", "{20}Mystic vine")
     game_journal.add_edge_alias("@area_i2_vine_lbv", "{30}Laser branch vine")
     game_journal.add_edge_alias("@area_i2_bubble_cave", "{70}Bubble cave")
-    game_journal.add_edge_alias("@area_i2_rasp", "{80}Raspberry") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_weedrings", "{90}Weed rings") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fanspire", "{100}Fanatic spire") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_creep", "{110}Creeping jeni") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_rasp", "{80}Raspberry")
+    game_journal.add_edge_alias("@area_i2_weedrings", "{90}Weed rings")
+    game_journal.add_edge_alias("@area_i2_fanspire", "{100}Fanatic spire")
+    game_journal.add_edge_alias("@area_i2_creep", "{110}Creeping jeni")
 
     game_journal.add_edge_alias("@area_i3", "{70}I3")
-    game_journal.add_edge_alias("@area_i3_city", "{10}Towns / cities") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i3_city", "{10}Towns / cities")
     game_journal.add_edge_alias("@area_i3_city_col", "{10}Colchester")
     game_journal.add_edge_alias("@area_i3_base", "{20}Basements / cellars")
     game_journal.add_edge_alias("@area_i3_flower", "{40}Flowers / trees")
-    game_journal.add_edge_alias("@area_i3_flower_hof", "{10}Hard orange flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_rmf", "{20}Red maze flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_jack", "{30}Jackfruit") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_sm", "{40}Salmon mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_bm", "{50}Black mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_ym", "{60}Yellow mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_tan", "{70}Tangerine") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest", "{50}Main forest") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_mah", "{10}Mahogany tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_mus", "{20}Forest museum") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_river", "{30}River") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_river_sliver", "{20}Deep sliver maze") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert", "{60}Desert") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert_overview", "{10}Overview") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert_aladdin", "{20}Aladdin's cave") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i3_flower_hof", "{10}Hard orange flower")
+    game_journal.add_edge_alias("@area_i3_flower_rmf", "{20}Red maze flower")
+    game_journal.add_edge_alias("@area_i3_flower_jack", "{30}Jackfruit")
+    game_journal.add_edge_alias("@area_i3_flower_sm", "{40}Salmon mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_bm", "{50}Black mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_ym", "{60}Yellow mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_tan", "{70}Tangerine")
+    game_journal.add_edge_alias("@area_i3_main_forest", "{50}Main forest")
+    game_journal.add_edge_alias("@area_i3_main_forest_mah", "{10}Mahogany tree")
+    game_journal.add_edge_alias("@area_i3_main_forest_mus", "{20}Forest museum")
+    game_journal.add_edge_alias("@area_i3_main_forest_river", "{30}River")
+    game_journal.add_edge_alias("@area_i3_main_forest_river_sliver", "{20}Deep sliver maze")
+    game_journal.add_edge_alias("@area_i3_desert", "{60}Desert")
+    game_journal.add_edge_alias("@area_i3_desert_overview", "{10}Overview")
+    game_journal.add_edge_alias("@area_i3_desert_aladdin", "{20}Aladdin's cave")
     -- game_journal.add_edge_alias("@area_i3_desert_cave", "{20}Normal cave")
 
     game_journal.add_edge_alias("@area_bur", "{80}Burlington")
@@ -364,53 +365,51 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_space", "{90}Space")
     game_journal.add_edge_alias("@area_space_moon", "{10}Moons")
     -- game_journal.add_edge_alias("@area_space_moon_mod", "{10}Moon modules")
-    game_journal.add_edge_alias("@area_space_moon_gamma", "{50}Gamma moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_tau", "{60}Tau cave moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_ice", "{70}Ice moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_firerate", "{80}Fire rate") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_bluering", "{90}Blue ring station") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_space_moon_gamma", "{30}Gamma moon")
+    game_journal.add_edge_alias("@area_space_moon_tau", "{40}Tau cave moon")
+    game_journal.add_edge_alias("@area_space_moon_ice", "{50}Ice moon")
+    game_journal.add_edge_alias("@area_space_moon_firerate", "{60}Fire rate moon")
+    game_journal.add_edge_alias("@area_space_moon_bluering", "{70}Blue ring station")
     game_journal.add_edge_alias("@area_space_planet", "{20}Planets")
     game_journal.add_edge_alias("@area_space_planet_smallmini", "{10}Small minigun planet")
     game_journal.add_edge_alias("@area_space_planet_clay", "{20}Clay planet")
     -- game_journal.add_edge_alias("@area_space_sun", "{30}Sun")
     game_journal.add_edge_alias("@area_space_soloar", "{40}Solar system")
-    -- game_journal.add_edge_alias("@area_space_black_hole", "{40}Supermassive black hole")
+    game_journal.add_edge_alias("@area_space_black_hole", "{50}Supermassive black hole")
     game_journal.add_edge_alias("@area_space_galaxy", "{60}Galaxy")
-    game_journal.add_edge_alias("@area_space_lev_2", "{95}Outer space level 2") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_lev_1", "{96}Outer space level 1") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_lev_neg1", "{98}Outer space level -1") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_edge", "{99}Edge of the world") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_space_lev_2", "{70}Outer space level 2")
+    game_journal.add_edge_alias("@area_space_lev_1", "{80}Outer space level 1")
+    game_journal.add_edge_alias("@area_space_lev_neg1", "{90}Outer space level -1")
+    game_journal.add_edge_alias("@area_space_edge", "{100}Edge of the world")
 
     game_journal.add_edge_alias("@area_bulk", "{100}Bulk")
     game_journal.add_edge_alias("@area_bulk_where", "{10}Where to find")
 
     game_journal.add_edge_alias("@area_my", "{110}Mylantis")
-    game_journal.add_edge_alias("@area_my_mb", "{10}Main branch") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_lasergen", "{20}Laser genesis planet") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_sponge_beta", "{30}Beta menger sponge") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_city", "{40}Mylantis top city") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_city_room", "{30}Mylantis building rooms") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves", "{50}Mylantis caves") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves_crust", "{10}Mylantis crust") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves_cavern", "{20}Great mylantis cavern") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_topaz", "{60}Topaz") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_iolite", "{70}Iolite") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_jade_museum", "{80}Jade museum") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_emerald", "{90}Emerald") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_denver", "{100}Denver") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_amethyst", "{110}Amethyst maze") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_my_mb", "{10}Main branch")
+    game_journal.add_edge_alias("@area_my_lasergen", "{20}Laser genesis planet")
+    game_journal.add_edge_alias("@area_my_sponge_beta", "{30}Beta menger sponge")
+    game_journal.add_edge_alias("@area_my_city", "{40}Mylantis top city")
+    game_journal.add_edge_alias("@area_my_city_room", "{30}Mylantis building rooms")
+    game_journal.add_edge_alias("@area_my_caves", "{50}Mylantis caves")
+    game_journal.add_edge_alias("@area_my_caves_crust", "{10}Mylantis crust")
+    game_journal.add_edge_alias("@area_my_caves_cavern", "{20}Great mylantis cavern")
+    game_journal.add_edge_alias("@area_my_topaz", "{60}Topaz")
+    game_journal.add_edge_alias("@area_my_iolite", "{70}Iolite")
+    game_journal.add_edge_alias("@area_my_jade_museum", "{80}Jade museum")
+    game_journal.add_edge_alias("@area_my_emerald", "{90}Emerald")
+    game_journal.add_edge_alias("@area_my_denver", "{100}Denver")
+    game_journal.add_edge_alias("@area_my_amethyst", "{110}Amethyst maze")
 
-    --more!!!
-
-    game_journal.add_edge_alias("@area_hell", "{120}Hell") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_hell", "{120}Hell")
     game_journal.add_edge_alias("@area_hell_loc", "{10}Places to find hell") 
     game_journal.add_edge_alias("@area_hell_surface", "{20}Surface of hell")
     game_journal.add_edge_alias("@area_hell_key", "{30}Key to the universe")
     game_journal.add_edge_alias("@area_hell_wolf", "{40}Secret wolf forest")
 
-    game_journal.add_edge_alias("@area_nwp", "{130}No waypoint (NWP)") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_nwp_base", "{10}Basements / cellars") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_nwp_ht", "{20}Health tower") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_nwp", "{130}No waypoint (NWP)")
+    game_journal.add_edge_alias("@area_nwp_base", "{10}Basements / cellars")
+    game_journal.add_edge_alias("@area_nwp_ht", "{20}Health tower")
     game_journal.add_edge_alias("@area_nwp_box", "{30}Boxes")
     game_journal.add_edge_alias("@area_nwp_sponge", "{40}Sponges (menger sponges)")
 end
@@ -421,7 +420,7 @@ function p.add_category_area_lore()
     game_journal.add_edge_alias("@lore_k_hidden_esp", "{30}ESP and the hidden world")
     game_journal.add_edge_alias("@lore_k_hidden_esp_cr", "{20}Chinese room")
     game_journal.add_edge_alias("@lore_k_hidden_esp_mult", "{30}Multiple explanations")
-    game_journal.add_edge_alias("@lore_k_hidden_melody", "{40}Lost melody phenonium")
+    game_journal.add_edge_alias("@lore_k_hidden_melody", "{40}Lost melody phenomenon")
     --Add more to lore_k_hidden_melody: 1) not recording hidden data.
     game_journal.add_edge_alias("@lore_phil", "{30}Philosophy")
     game_journal.add_edge_alias("@lore_fractals", "{40}Fractals")
@@ -448,8 +447,8 @@ function p.add_category_area_lore()
     game_journal.add_edge_alias("@lore_ib_wig", "{40}Genesis of the WIG flower")
     game_journal.add_edge_alias("@lore_ib_wep", "{50}Weaponization")
     game_journal.add_edge_alias("@lore_ib_wep_lose", "{10}When re-creation outpaces inner botany")
-    game_journal.add_edge_alias("@lore_ib_post_credits", "{60}The big picture") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@lore_ib_bcb", "{70}Boston consent bootstrapping") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@lore_ib_post_credits", "{60}The big picture")
+    game_journal.add_edge_alias("@lore_ib_bcb", "{70}Boston consent bootstrapping")
 end
 
 function p.add_category_yang()
@@ -511,4 +510,9 @@ function p.add_category_yang()
 
     game_journal.add_edge_alias("@yang_back", "{50}Back to work again")
     game_journal.add_edge_alias("@yang_back_blackhole", "{20}Accessing the VIP lounge")
+    game_journal.add_edge_alias("@yang_back_trainwest", "{30}Taking a train out west to see you")
+    game_journal.add_edge_alias("@yang_back_trainwest_part1", "{10}Deciding to take the trip")
+    game_journal.add_edge_alias("@yang_back_trainwest_part2", "{20}The painting that reminds me of us")
+    game_journal.add_edge_alias("@yang_back_trainwest_part3", "{30}The ride out west")
+    game_journal.add_edge_alias("@yang_back_trainwest_part4", "{40}Seeing you")
 end

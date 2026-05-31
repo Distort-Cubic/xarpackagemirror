@@ -252,14 +252,14 @@ function p.recordable()
         .. "but are a ^xff00ffmuch better "
         .. "place to pick up nukes^!.\n\n"
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part1", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{10}Part 1")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{10}Part 1")
 
     local str = "There are green vines that hand down from the light blue structures. "
         .. "These are called ^x00ff00Laboratory Vines^!, and\n\n"
         .. "1) they have ^xff00ffIMPORTANT^! things growing on their sides and\n\n"
         .. "2) they have ^xff00ffScorpius Portals^! on their inside."
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part2", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{20}Part 2")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{20}Part 2")
 
     local str = "The black cubes with green \"I3\" symbols on them which are at "
         .. "the end of the light blue structures are ^x00ff00Mirror Gates^! to I3.\n\n"
@@ -268,7 +268,7 @@ function p.recordable()
         .. "But in another sense they are not easy.  Their house of mirrors (glass) "
         .. "style mazes have been known to induce madness."
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part3", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{30}Part 3")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{30}Part 3")
 
     local str = "This picture shows ^x00ff00Fanatic Weeds^! "
         .. "(also called Fanatic Lattice Growth). They are very common in I2.\n\n"
@@ -651,7 +651,7 @@ function p.trophy_room_locations()
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{10}Location room location")
 
     local str = "The trophy list room for ^x00ff00I1^! (of the Infinity Flower) trophies "
-        .. "is in the treasure area of ^x00ff00Williston Caves^!. "
+        .. "is in the treasure area of ^x00ff00Willison Caves^!. "
         .. "You can read more about these caves in the center of Williston Cities."
     game_journal.add_txt(lang, "I2_LIBRARY_TROPHY_ROOM_i1", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{10}Location room location")

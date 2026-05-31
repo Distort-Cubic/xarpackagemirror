@@ -79,12 +79,14 @@ function p.gold_locations()
         .. "3) Burlington Cities (at the top of their central tower)."
     game_journal.add_txt(lang, "MONTREAL_INFO_LOCATIONS_sell2", str)
     game_journal.add_path("@item;@item_gold;@item_gold_loc;{30}Selling ammo/health for gold;{20}Where to find scarce sell stations")
+    game_journal.add_path("@item;@item_buysell;{10}Scarce sell stations") 
 
     local str = "You can find ^x00ff00Rare Sell Stations^! "
         .. "(next to waypoints) in the following locations:\n\n"
         .. "1) ^xff00ffThe Secret Farmhouse^!."
     game_journal.add_txt(lang, "MONTREAL_INFO_LOCATIONS_sell3", str)
     game_journal.add_path("@item;@item_gold;@item_gold_loc;{30}Selling ammo/health for gold;{30}Where to find rare sell stations")
+    game_journal.add_path("@item;@item_buysell;{20}Rare sell stations") 
 end
 
 -------------------------------------------------------------------------------

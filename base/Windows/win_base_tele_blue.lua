@@ -1,7 +1,7 @@
 --File: win_base_tele_blue.lua
 
 --This window is designed to be rendered
---and do input processing while the the
+--and do input processing while the
 --game_base_tele_blue.lua script is teleporting
 --the player.  What happens is that that script
 --calls the function

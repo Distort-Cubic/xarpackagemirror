@@ -8,10 +8,8 @@ function p.use_common(mode)
         return false
     end
 
-    if not game_item_gun_1_1.ammo_check_common(cur_gun, mode) then return false end
-
     --Making sure have enough ammo.
-    game_item_gun_1_1.ammo_check_common(cur_gun, mode)
+    if not game_item_gun_1_1.ammo_check_common(cur_gun, mode) then return false end
 
     local ent_type = ""
     if mode == 1 then ent_type = "ment_player_proj_railgun_1" end

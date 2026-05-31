@@ -14,6 +14,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_marine")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
     ia_ment_new_static_var_s(id, "sound_death", "hurt_marine")
+    ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_static_var_s(id, "identity_str", "Commando")
     --
     ia_ment_new_static_var_b(id, "shoots", true)
