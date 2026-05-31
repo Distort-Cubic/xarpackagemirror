@@ -63,7 +63,7 @@ function p.calc_damage_to_player(raw_amount, allow_powerups)
     end
     if  ga_get_b("xar.difficulty.custom") then
         local factor = ga_get_f("xar.difficulty.custom.dmg_to_player")
-        local amount = math.floor( raw_amount * factor )
+        amount = math.floor( raw_amount * factor )
     end
     
     return amount

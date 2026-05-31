@@ -1,4 +1,4 @@
--- Number of Lua scripts = 9
+-- Number of Lua scripts = 10
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_enter.lua"
 function p.__on_touch()
     game_arcade.set_inside_arcade()
@@ -7,6 +7,16 @@ END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_exit.lua"
 function p.__on_touch()
     game_arcade.set_outside_arcade()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_dans_house.lua"
+function p.__on_touch()
+    if( ga_get_f("xar.key_time.dans_house") > 0 ) then
+        --The player has the key.
+        return
+    end
+    --The player does not have the key.
+    ga_kill_player()
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_laser_genesis.lua"

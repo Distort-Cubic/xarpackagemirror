@@ -63,7 +63,7 @@ function p.laser_locations()
         .. "6) The Central Core Treasure Room #1 "
         .. "(which is at the top of the Mylantis Top City)."
     game_journal.add_txt(lang, "MOON_ICE_INFO_LOCATIONS_freeze_time", str)
-    game_journal.add_path("@wep;@wep_laser;@wep_laser_loc;{40}Free time upgrades")
+    game_journal.add_path("@wep;@wep_laser;@wep_laser_loc;{40}Freeze time upgrades")
 
     local str = "^xff00ffLaser Super^! upgrades "
         .. "are some of the most rare upgrades in the universe. "

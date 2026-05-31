@@ -112,6 +112,7 @@ function p.get_blue_dest_top_chunk_id(source_chunk_id)
     local cur_chunk_id = source_chunk_id
     while( cur_chunk_id >= 0 ) do
         local blue_type = p.get_chunk_blue_type(cur_chunk_id)
+
         if( blue_type == "down" or
             blue_type == "terminal" )
         then
@@ -251,6 +252,11 @@ function p.set_blue_tele_update_stage_1()
     --The target viewer offset does not matter in spirit mode:
     local top_chunk_offset = std.vec(1.5, 1.5, 1.5)
 
+    --Debugging.
+    -- local top_level = ga_chunk_id_to_level(top_chunk_id)
+    -- ga_print("set_blue_tele_update_stage_1: top_level = " .. tostring(top_level))
+    -- ga_print("set_blue_tele_update_stage_1: top_path = " .. top_chunk_path)
+
     --In spirit mode, the player does not have a body
     --(but they are still "in" a chunk).
     --Exploration is faster in spirit mode because we do not
@@ -301,11 +307,15 @@ function p.set_blue_tele_update_stage_2()
     local offset = std.block_center(blue_pos)
 
     --DEBUGGING!!!
-    -- local viewer_level = ga_get_viewer_level()
+    local viewer_level = ga_get_viewer_level()
+    local viewer_chunk_bt = ga_get_viewer_chunk_bt()
     -- ga_print("set_blue_tele_update_stage_2: level = " .. tostring(viewer_level))
+    -- ga_print("set_blue_tele_update_stage_2: viewer_chunk_bt = " .. viewer_chunk_bt .. "\n")
 
     if( blue_type == "up" ) then
-        ga_print("*** Error: chunk of blue type \"up\" found during a blue descend. ")
+        local viewer_chunk_bt = ga_get_viewer_chunk_bt()
+        ga_print("*** Error: chunk of blue type \"up\" found during a blue descend.")
+        ga_print("           viewer_chunk_bt = " .. viewer_chunk_bt)
         ga_exit()
         return false
     end

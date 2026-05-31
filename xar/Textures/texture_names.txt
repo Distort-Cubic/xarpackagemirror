@@ -318,6 +318,8 @@ bent_unlock_stable_sing         _ BEnts/ent_unlock_stable_sing.jpg
 bent_black_hole_control_panel   _ BEnts/ent_black_hole_control_panel.png
 bent_quasar_control_panel       _ BEnts/ent_quasar_control_panel.png
 
+icarus                          _ BEnts/ent_icarus.jpg
+
 genesis_marker_short        _ BEnts/ent_genesis_marker_short.jpg
 genesis_marker_long         _ BEnts/ent_genesis_marker_long.jpg
 

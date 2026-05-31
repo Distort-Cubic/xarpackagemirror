@@ -43,14 +43,15 @@ function p.xar_process_got_hit(args, exceptions)
     exceptions.compute_damage = true
     local ret = game_ment_hit.process_final(args, exceptions)
     --
-    -- if( exceptions.alt_attack_icon ) then
-    --      --Need to do something?
-    -- end
     if( ret.damage_dealt > 0 ) then
         local raw = false
         local vel = ga_ment_get_v(args.source_inst_id, "__vel")
         local neg_vel = std.vec_scale(vel, -1.0)
-        game_top2.damage_player_from_dir(raw, ret.damage_dealt, neg_vel)
+        if( ret.display_hit_to_hud ) then
+            game_top2.damage_player_from_dir(raw, ret.damage_dealt, neg_vel)
+        else
+            game_top2.damage_player(raw, ret.damage_dealt)
+        end
     end
     return ret
 end

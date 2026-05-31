@@ -63,6 +63,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) )
     then
         ga_window_pop()
+        return
     end
 
     local button = ga_win_widget_button_process_input(wid)
@@ -77,11 +78,13 @@ function p.__process_input(wid)
         end
         return
     end
-    if( button == press_b_handle or
-        ga_win_key_pressed(wid, "B") )
-    then
-        p.teleport()
-        ga_window_pop_all()
+    if( p.get_temp_wp_path() ~= "" ) then
+        if( button == press_b_handle or
+            ga_win_key_pressed(wid, "B") )
+        then
+            p.teleport()
+            ga_window_pop_all()
+        end
     end
 end
 
@@ -106,7 +109,9 @@ end
 --Actually teleporting.
 --Teleporting back to temp wp.
 function p.teleport()
+    ga_debug_push("win_base_wp_temp1")
     local target_path = p.get_temp_wp_path()
-    game_base_wp_system.teleport_target_path_only(target_path)
+    game_base_wp_system.teleport_target_path_only(target_path, -1)
     win_base_wp_temp1.set_temp_wp_path("")
+    ga_debug_pop("win_base_wp_temp1")
 end

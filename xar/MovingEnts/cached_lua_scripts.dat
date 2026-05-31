@@ -1,4 +1,4 @@
--- Number of Lua scripts = 253
+-- Number of Lua scripts = 255
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Bee/ment_monster_bee.lua"
 -------------------------------------------------
 --       Rendering, Geometry, and Motion
@@ -3897,6 +3897,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_marine")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
     ia_ment_new_static_var_s(id, "sound_death", "hurt_marine")
+    ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_static_var_s(id, "identity_str", "Commando")
     --
     ia_ment_new_static_var_b(id, "shoots", true)
@@ -4228,6 +4229,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_marine")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
     ia_ment_new_static_var_s(id, "sound_death", "die_marine")
+    ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_static_var_s(id, "die_drop_bent", "bent_ammo_gun_2_huge")
     ia_ment_new_static_var_s(id, "identity_str", "Mercinary")
     --
@@ -4701,6 +4703,10 @@ function p.__type_init(id)
     --Weird vars.
     --The level of the player when the ment was added to the live world.
     ia_ment_new_var_i(id, "starting_player_level", 0, 5*60.0)
+    --
+    --Debugging.
+    -- ia_ment_new_var_s(id, "alt_attack_icon", "icon_yin_yang_warning", 60*60)
+    -- ia_ment_new_var_b(id, "display_hit_to_hud", false, 60*60)
 end
 
 -------------------------------------------------
@@ -5105,6 +5111,26 @@ end
 function p.__on_alarm(inst_id, alarm_name)
     game_ment_alarms.monster(inst_id, alarm_name)
 end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/MonsterMoney/ment_monster_troll_dummy.lua"
+--File: ment_monster_troll_dummy.lua
+
+--This is supposed to be fast to render.
+
+-------------------------------------------------
+--            Type Init Function
+-------------------------------------------------
+
+function p.__type_init(id)
+    ia_ment_set_builtin_var_f(id, "__radius", 5.0)
+    ia_ment_set_builtin_var_s(id, "__mesh", "MonsterTroll")
+    ia_ment_new_static_var_s(id, "identity_str", "Troll Dummy")
+end
+
+-------------------------------------------------
+--              Inst Functions
+-------------------------------------------------
+--Nothing.
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Mystical/ment_monster_disciple.lua"
 -------------------------------------------------
@@ -7462,6 +7488,26 @@ end
 --     end
 -- end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Other/ment_monster_wolf_dummy.lua"
+--File: ment_monster_world_dummy.lua
+
+--This is supposed to be fast to render.
+
+-------------------------------------------------
+--            Type Init Function
+-------------------------------------------------
+
+function p.__type_init(id)
+    ia_ment_set_builtin_var_f(id, "__radius", 2.0)
+    ia_ment_set_builtin_var_s(id, "__mesh", "MonsterWolf")
+    ia_ment_new_static_var_s(id, "identity_str", "Dummy Infinity Wolf")
+end
+
+-------------------------------------------------
+--              Inst Functions
+-------------------------------------------------
+--Nothing.
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Other/ment_white_box_device.lua"
 -------------------------------------------------
 --       Rendering, Geometry, and Motion
@@ -7676,14 +7722,15 @@ function p.xar_process_got_hit(args, exceptions)
     exceptions.compute_damage = true
     local ret = game_ment_hit.process_final(args, exceptions)
     --
-    -- if( exceptions.alt_attack_icon ) then
-    --      --Need to do something?
-    -- end
     if( ret.damage_dealt > 0 ) then
         local raw = false
         local vel = ga_ment_get_v(args.source_inst_id, "__vel")
         local neg_vel = std.vec_scale(vel, -1.0)
-        game_top2.damage_player_from_dir(raw, ret.damage_dealt, neg_vel)
+        if( ret.display_hit_to_hud ) then
+            game_top2.damage_player_from_dir(raw, ret.damage_dealt, neg_vel)
+        else
+            game_top2.damage_player(raw, ret.damage_dealt)
+        end
     end
     return ret
 end
@@ -11895,7 +11942,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -11931,7 +11978,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -11966,7 +12013,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh") --Does not matter.
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon")
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -12002,7 +12049,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -12038,7 +12085,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -12073,7 +12120,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
@@ -12105,11 +12152,11 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_f(id, "__respawn_length", 60*60)
     ia_ment_set_builtin_var_f(id, "__radius", 3.0)
     ia_ment_set_builtin_var_s(id, "__mesh", "MonsterPoolBall8")
-    ia_ment_new_var_i(id, "health", 1000000000, 60.0)
+    ia_ment_new_var_i(id, "health", 1000000000, 60.0) --What has 3 commas?  This guy!
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)

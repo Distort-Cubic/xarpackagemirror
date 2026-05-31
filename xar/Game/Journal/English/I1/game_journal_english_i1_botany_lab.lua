@@ -36,7 +36,7 @@ function p.recordable()
     local str = "Message from NGC 1277: \n\n"
         .. "^x0000ffSN1987A really is a piece of work. "
         .. "While I admit his work on the botany of inner space "
-        .. "is ground breaking, his architecture skills are crappy. \n\n"
+        .. "is groundbreaking, his architecture skills are crappy. \n\n"
         .. "The gaskets used in his Botany Labs, "
         .. "and other rooms he made, allow for leakage. "
         .. "For example, while inside a Purple Dark Hole room "

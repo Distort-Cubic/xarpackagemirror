@@ -37,7 +37,8 @@ end
 --It doesn't capture the full effect if the player reads this
 --from their journal.
 function p.FANATIC_SPIRE_TREASURE_2_k_part1(chunk_id)
-    local seed = ga_chunk_id_to_seed(chunk_id)
+    local seed = -1
+    if( chunk_id >= 0 ) then seed = ga_chunk_id_to_seed(chunk_id) end
     ga_srand(seed)
     local type = ga_randi(1,2)
     --

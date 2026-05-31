@@ -137,10 +137,73 @@ end
 --Mixing several effects together.
 
 function p.color_xar_standard(level, block_side_str)
+    if( level < 0 ) then
+        return p.color_xar_standard_neg(level, block_side_str)
+    end
     local shade1 = p.shade_standard_dir(block_side_str)
     local shade2 = p.shade_abs_fade_out(level)
     local shade3 = p.shade_local_fade_out_maybe(level)
     local shade4 = game_block_blind.get_interpolated_shade()
     local shade = shade1 * shade2 * shade3 * shade4
     return p.shade_to_color(shade)
+end
+
+-------------------------------------------------
+--       Xar standard negative levels
+-------------------------------------------------
+
+--Cappie.
+function p.color_xar_standard_neg(level, block_side_str)
+    local color = p.color_xar_standard_neg_helper1(level)
+    local shade1 = p.shade_standard_dir(block_side_str)
+    local shade2 = p.shade_local_fade_out_maybe(level)
+    local shade3 = game_block_blind.get_interpolated_shade()
+    local shade = shade1 * shade2 * shade3
+    return std.vec_scale_eq(color, shade)
+    -- return p.shade_to_color(shade)
+end
+
+--Cappie.
+function p.color_xar_standard_neg_helper1(level)
+    local level_abs = math.abs(level)
+    --
+    local levs_per_milestone = 10
+    local num_milestones = 9
+    --
+    local rem = level_abs % levs_per_milestone
+    local floor = level_abs - rem
+    local ceil = floor + levs_per_milestone
+    local frac = rem / levs_per_milestone
+    --
+    --Floor and ceiling milestone.
+    local ms_floor = (floor / levs_per_milestone) % num_milestones
+    local ms_ceil = (ms_floor + 1) % num_milestones
+    --
+    local color_floor = p.color_xar_standard_neg_helper2(ms_floor)
+    local color_ceil  = p.color_xar_standard_neg_helper2(ms_ceil)
+    local color_interp = std.vec(
+        color_floor.x * (1.0 - frac) + color_ceil.x * frac,
+        color_floor.y * (1.0 - frac) + color_ceil.y * frac,
+        color_floor.z * (1.0 - frac) + color_ceil.z * frac)
+    return color_interp
+end
+
+--Cappie.
+--i = 0 is the first milestone,
+--i = 1 is the second milestone, etc.
+function p.color_xar_standard_neg_helper2(i)
+    --Lua needs a switch statement.
+    if( i == 0 ) then return std.vec(1.0, 1.0, 1.0) end --White.
+    if( i == 1 ) then return std.vec(1.0, 0.0, 0.0) end --Red.
+    if( i == 2 ) then return std.vec(1.0, 0.5, 0.0) end --Orange.
+    if( i == 3 ) then return std.vec(1.0, 1.0, 0.0) end --Yellow.
+    if( i == 4 ) then return std.vec(0.0, 1.0, 0.0) end --Green.
+    if( i == 5 ) then return std.vec(0.0, 1.0, 1.0) end --Cyan.
+    if( i == 6 ) then return std.vec(0.0, 0.0, 1.0) end --Blue.
+    if( i == 7 ) then return std.vec(0.5, 0.0, 1.0) end --Purple.
+    if( i == 8 ) then return std.vec(1.0, 0.0, 1.0) end --Magenta.
+    --
+    --Uh oh!
+    ga_print("*** Warning: game_level_colors.color_xar_standard_neg_helper2 not used correctly")
+    return p.color_xar_standard_neg_helper2(i % 7)
 end

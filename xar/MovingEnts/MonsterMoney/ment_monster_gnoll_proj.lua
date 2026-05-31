@@ -14,6 +14,10 @@ function p.__type_init(id)
     --Weird vars.
     --The level of the player when the ment was added to the live world.
     ia_ment_new_var_i(id, "starting_player_level", 0, 5*60.0)
+    --
+    --Debugging.
+    -- ia_ment_new_var_s(id, "alt_attack_icon", "icon_yin_yang_warning", 60*60)
+    -- ia_ment_new_var_b(id, "display_hit_to_hud", false, 60*60)
 end
 
 -------------------------------------------------

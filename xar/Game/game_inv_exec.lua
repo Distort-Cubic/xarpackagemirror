@@ -134,14 +134,22 @@ function p.update()
             local delta = game_time - last_fire_time
             if delta <= fire_period then break end
             --Can shoot!
-            local shot = p.try_shoot(cur_gun, primary, starting_shoot)
-            if shot then
-                local new_fire_time = last_fire_time + fire_period
-                ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
-                last_fire_time = new_fire_time
-            else
-                return
-            end
+            --Added May 28. 2026.
+            --We now update last_fire_time even if the shot failed,
+            --to prevent stacking of fires.
+            local new_fire_time = last_fire_time + fire_period
+            ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
+            last_fire_time = new_fire_time
+            --
+            p.try_shoot(cur_gun, primary, starting_shoot)
+            -- local shot = p.try_shoot(cur_gun, primary, starting_shoot)
+            -- if shot then
+            --     local new_fire_time = last_fire_time + fire_period
+            --     ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
+            --     last_fire_time = new_fire_time
+            -- else
+            --     return
+            -- end
         end
     end
 end

@@ -258,8 +258,6 @@ function p.__end(wid)
 end
 
 function p.refresh_options(wid)
-    ga_print("win_base_wp.refresh_options")
-
     local str1 = "ERROR"
     local path = p.get_cur_path()
     local node = p.get_cur_node(path)
@@ -305,6 +303,8 @@ function p.refresh_options(wid)
     ga_win_widget_small_list_set_selected(wid, 1)
 
     need_to_refresh = false
+
+    ga_print("win_base_wp.refresh_options end")
 end
 
 function p.__process_input(wid)

@@ -564,20 +564,27 @@ function p.teleport(
     p.flush_handle(source_wp_node)
     --
     local target_wp_node = waypoints[target_handle]
-    p.teleport_target_path_only(target_wp_node.path)
+    p.teleport_target_path_only(target_wp_node.path, target_handle)
 end
 
 function p.teleport_target_only(
     target_handle)
 --
     local target_wp_node = waypoints[target_handle]
-    p.teleport_target_path_only(target_wp_node.path)
+    p.teleport_target_path_only(target_wp_node.path, target_handle)
 end
 
-function p.teleport_target_path_only(path)
+--The target handle can be negative,
+--in which case the handle is not used.
+function p.teleport_target_path_only(path, target_handle)
     ga_play_sound_menu("waypoint_travel")
     local dummy_offset = std.vec(7.5, 7.5, 7.5)
     ga_tele(path, dummy_offset)
+    --
+    --Passing information to the explore while function (ugly).
+    local temp_var = "temp.base.waypoint.target_handle"
+    ga_create_i(temp_var)
+    ga_set_i(temp_var, target_handle)
     --The explore while function will correctly place the player.
     local explore_while_window = ""
     ga_explore_while("game_base_wp_system.teleport_explore_while", explore_while_window)
@@ -601,6 +608,18 @@ function p.teleport_explore_while()
         ga_tele_back()
         ga_window_push("win_base_wp_not_found")
         ga_play_sound_menu("error")
+        --
+        --Making the wp node as we failed to travel there.
+        local temp_var = "temp.base.waypoint.target_handle"
+        if( ga_exists(temp_var) ) then
+            local target_handle = ga_get_i(temp_var)
+            local target_wp_node = p.get_wp_node_by_handle(target_handle)
+            if( target_wp_node ) then
+                target_wp_node.last_travel_failed = true
+                p.flush_handle(target_handle)
+            end
+        end
+        --
         return false
     end
     --Found the wp block.
@@ -614,6 +633,17 @@ function p.teleport_explore_while()
     --Moving the viewer's eyes.
     game_base_wp_system_aux.tele_same_level_next_to_wp(target_wp_bp)
     --
+    --Marking the waypoint that we traveled there (if we can).
+    local temp_var = "temp.base.waypoint.target_handle"
+    if( ga_exists(temp_var) ) then
+        local target_handle = ga_get_i(temp_var)
+        local target_wp_node = p.get_wp_node_by_handle(target_handle)
+        if( target_wp_node ) then
+            target_wp_node.last_travel_failed = false
+            p.flush_handle(target_handle)
+        end
+    end
+
     --Done the explore while loop.
     return false
 end

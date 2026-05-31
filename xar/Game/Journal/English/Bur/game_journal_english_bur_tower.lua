@@ -24,8 +24,8 @@ function p.recordable()
         p.BURLINGTON_TOWER_BASE)
     game_journal.add_path("@area;@area_bur;@area_bur_showdown;{10}Overview")
 
-    local str = "^x00ff00Message from your friend K: \n\n"
-        .. "As I have gathered, there are at least two fundamentally "
+    local str = "Message from your friend K: \n\n"
+        .. "^x00ff00As I have gathered, there are at least two fundamentally "
         .. "different types of worlds that can exist:\n"
         .. "1) F-type (flat) and\n"
         .. "2) H-type (hierarchical).\n\n"
@@ -48,8 +48,8 @@ function p.recordable()
     game_journal.add_txt(lang, "BURLINGTON_TOWER_FRIEND_RANT_1_part2", str)
     game_journal.add_path("@lore;@lore_fractals;@lore_fractals_f_vs_h;{20}Part 2")
 
-    local str = "^x00ff00More of the message from your friend K: \n\n"
-        .. "I now believe the boundary between the F-type world "
+    local str = "More of the message from your friend K: \n\n"
+        .. "^x00ff00I now believe the boundary between the F-type world "
         .. "of the ordinary part of planet Earth where I was born "
         .. "and the accompanying H-type world is blurry.\n\n"
         .. "And the boundary may move over time: "

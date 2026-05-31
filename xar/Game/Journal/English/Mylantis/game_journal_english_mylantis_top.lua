@@ -53,7 +53,7 @@ function p.recordable()
 
     local str = "Message from Fornax A:\n\n"
         .. "^x0000ffThe Mylantis Council has mandated the labeling "
-        .. "of a path from Mylantis (this planet) to the deepest known depths "
+        .. "of a path from Mylantis to the deepest known depths "
         .. "of inner space: where one can find ^x00ff00Inner Cores^x0000ff. \n\n"
         .. "Actually, the scope of the project is even grander: "
         .. "they want the labeling of such a path starting from ANY suitable location. "
@@ -84,7 +84,7 @@ function p.recordable()
         .. "^x0000ffListen up young one and listen to the tale "
         .. "of when I was young myself!  I grew up on the streets of "
         .. "the Mylantis Top City, where you are now. "
-        .. "Me and my main sequence friends use to play this game where "
+        .. "Me and my main sequence friends used to play this game where "
         .. "we would see how large we could get. "
         .. "When we flew through ^x00ff00Outer Space Level 0^x0000ff "
         .. "we were indeed pretty big. "
@@ -169,7 +169,7 @@ function p.recordable()
         .. "These flowers provide a way to enter I3 (Group #3 of the Infinity Flower).\n\n"
         .. "One way to leave from inside a WIG flower is by using ^xff00ffPink Rings^!."
     game_journal.add_txt(lang, "MYLANTIS_CITY_BUILDING_RANDOM_TOP_room9", str)
-    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{90}Room 9/15: i3 wig flowers in the caves")
+    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{90}Room 9/15: I3 wig flowers in the caves")
 
     local str = "(Room 10/15) Flying through ^x00ff00Outer Space Level 0^! can be peaceful.\n\n"
         .. "You can find ^xffff00Railgun Max Ammo^! upgrades floating in space there. ";
@@ -201,7 +201,7 @@ function p.recordable()
         .. "a distraction: I think RejuvenX comes from Re-Creation "
         .. "and therefore from Inner Cores."
     game_journal.add_txt(lang, "MYLANTIS_CITY_BUILDING_RANDOM_TOP_room12", str)
-    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{120}Room 12/15: RejuvenX comes from re-creation")
+    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{120}Room 12/15: rejuvenx comes from re-creation")
 
     local str = "(Room 13/15) Deep under the surface of Mylantis is the "
         .. "^x00ff00Great Mylantis Cavern^!. "

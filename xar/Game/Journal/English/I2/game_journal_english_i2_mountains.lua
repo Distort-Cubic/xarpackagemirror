@@ -21,7 +21,7 @@ function p.recordable()
 
     str = "^xff00ff\"Stop being a tool-bag\"^x00ff00 said Jane to Tom. "
         .. "She came to my rescue. "
-        .. "^xff00ff\"I am pretty sure there is no such thing as the Integration Engine\"^x00ff00 she said.\n\n"
+        .. "^xff00ff\"I am pretty sure there is no such thing as the \"Integration Engine.\"^x00ff00\n\n"
         .. "It's a funny thing when you know some other-worldly thing is happening, "
         .. "and so then you take any off handed joke someone makes seriously.\n\n"
         .. "For what it is worth, I think Jane knows more about life than Tom. ";

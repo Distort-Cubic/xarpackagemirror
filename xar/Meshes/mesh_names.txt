@@ -378,6 +378,8 @@ marker_short_2         pattern_diag_yellow        octahedron.obj
 marker_long_1          pattern_diag_red           octahedron.obj
 marker_long_2          pattern_diag_green         octahedron.obj
 
+bent_icarus            icarus                       large_box.obj         
+
 ment_picture_m_to_omega picture_m_to_omega          ment_picture_box.obj
 ment_picture_10         block_black                 centered_9_picture_box.obj
 ment_picture_9          block_black                 centered_9_picture_box.obj

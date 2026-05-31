@@ -16,6 +16,14 @@ function p.handler(str)
         elseif( str1 == "off" ) then
             p.turn_off()
         end
+    elseif( #strs == 2 ) then
+        local str1 = strs[1]
+        local str2 = strs[2]
+        -- if( str1 == "set_bt1" ) then
+        --     ga_set_s("xar.cheat.inf2.primary_bt", str2)
+        -- elseif( str1 == "set_bt2" ) then
+        --     ga_set_s("xar.cheat.inf2.secondary_bt", str2)
+        -- end
     end
     --Could complain if args are wrong.
 end
@@ -47,5 +55,7 @@ function p.get_help_str()
            "Usage: inf2\n"
         .. "Usage: inf2 on\n"
         .. "Usage: inf2 off\n\n"
+        -- .. "Usage: inf2 set_bt1 BLOCK_TYPE\n"
+        -- .. "Usage: inf2 set_bt2 BLOCK_TYPE\n\n"
         .. "Cheat code to toggle the Infinifrag 2 Easter egg. "
 end

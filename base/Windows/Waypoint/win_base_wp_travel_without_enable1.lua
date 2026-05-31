@@ -42,15 +42,19 @@ function p.__process_input(wid)
     end
 
     local button = ga_win_widget_button_process_input(wid)
+
     if( button == press_y_handle or
         ga_win_key_pressed(wid, "Y") )
     then
         ga_window_push("win_base_wp_travel_without_enable2")
+        return
     end
+
     if( button == press_n_handle or
         ga_win_key_pressed(wid, "N") )
     then
         ga_window_pop()
+        return
     end
 end
 

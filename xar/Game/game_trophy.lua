@@ -269,9 +269,13 @@ function p.pickup_with_no_achievement(name)
     end
 end
 
+function p.get_secret_trophy_prefix()
+    return "dyn.xar.secret_trophy"
+end
+
 function p.pickup_secret_trophy(name)
     --Figuring out if already have.
-    local dyn_var = "dyn.xar.secret_trophy." .. name
+    local dyn_var = p.get_secret_trophy_prefix() .. "." .. name
     ga_print("game_trophy.pickup_secret_trophy: dyn_var = " .. dyn_var)
     local already_exists = ga_dyn_exists(dyn_var)
     ga_dyn_create_b(dyn_var)

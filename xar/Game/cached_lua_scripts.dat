@@ -1,9 +1,12 @@
--- Number of Lua scripts = 330
+-- Number of Lua scripts = 332
 BEGIN_FILE: "../../Data/Packages/xar/Game/aaa_check_api.lua"
+function p.func1() return "foo" end
+function p.func2() return 13 end
+
 function p.main()
     -- local type = ga_get_type("xar.stats.kill_count")
-    local type = ga_dyn_get_var_type("dyn.base.waypoint.2.name")
-    ga_print("aaa_check_api: type = " .. type)
+    -- local type = ga_dyn_get_var_type("dyn.base.waypoint.2.name")
+    -- ga_print("aaa_check_api: type = " .. type)
 
     -- ga_package_set_b("protected.can_use_named_pipes", false)
     -- ga_package_set_b("test_b", false)
@@ -29,12 +32,7 @@ function p.main()
 
     -- ga_print("In aaa_chunk_api: ")
 
-    -- local chunk_id = ga_get_viewer_chunk_id()
-    -- ga_print("Viewer chunk id = " .. tostring(chunk_id))
-    -- local blue_type = base_game_tele_blue.get_chunk_blue_type(chunk_id)
-    -- ga_print("Blue type of chunk = " .. blue_type)
-
-    -- ga_print( ga_what_binds_to_action("PACKAGE_MOVE_FORWARD") )
+    -- local temp = ( p.func1() < p.func2() )
 
     -- ga_command("foo")
     -- ga_save(true)
@@ -2313,7 +2311,7 @@ function p.calc_damage_to_player(raw_amount, allow_powerups)
     end
     if  ga_get_b("xar.difficulty.custom") then
         local factor = ga_get_f("xar.difficulty.custom.dmg_to_player")
-        local amount = math.floor( raw_amount * factor )
+        amount = math.floor( raw_amount * factor )
     end
     
     return amount
@@ -2492,6 +2490,7 @@ function p.set_difficulty_friendly_api(str)
     elseif  str == "agony"              then p.set(2)
     elseif  str == "caustic_utopia"     then p.set(3)
     elseif  str == "madness"            then p.set(4)
+    elseif  str == "custom"             then p.set(5)
     else
         ga_print("*** Error: bad string passed to " .. func_name)
         ga_exit()
@@ -2517,6 +2516,8 @@ function p.num_to_human_readable(num)
         return "caustic utopia"
     elseif num == 4 then
         return "madness"
+    elseif num == 5 then
+        return "custom"
     else
         --Should never happen.
         return "normal"
@@ -2538,6 +2539,8 @@ function p.num()
         return 3
     elseif ga_get_b("xar.difficulty.hard_4") then
         return 4
+    elseif ga_get_b("xar.difficulty.custom") then
+        return 5
     else
         ga_print("*** Error: unknown game difficulty.")
         return 0
@@ -2596,6 +2599,7 @@ function p.num_to_var(num)
     elseif( num == 2 ) then return "xar.difficulty.hard_2"
     elseif( num == 3 ) then return "xar.difficulty.hard_3"
     elseif( num == 4 ) then return "xar.difficulty.hard_4"
+    elseif( num == 5 ) then return "xar.difficulty.custom"
     end
 end
 
@@ -3766,14 +3770,22 @@ function p.update()
             local delta = game_time - last_fire_time
             if delta <= fire_period then break end
             --Can shoot!
-            local shot = p.try_shoot(cur_gun, primary, starting_shoot)
-            if shot then
-                local new_fire_time = last_fire_time + fire_period
-                ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
-                last_fire_time = new_fire_time
-            else
-                return
-            end
+            --Added May 28. 2026.
+            --We now update last_fire_time even if the shot failed,
+            --to prevent stacking of fires.
+            local new_fire_time = last_fire_time + fire_period
+            ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
+            last_fire_time = new_fire_time
+            --
+            p.try_shoot(cur_gun, primary, starting_shoot)
+            -- local shot = p.try_shoot(cur_gun, primary, starting_shoot)
+            -- if shot then
+            --     local new_fire_time = last_fire_time + fire_period
+            --     ga_set_f("xar.inv_exec.last_fire_time", new_fire_time)
+            --     last_fire_time = new_fire_time
+            -- else
+            --     return
+            -- end
         end
     end
 end
@@ -4359,12 +4371,75 @@ end
 --Mixing several effects together.
 
 function p.color_xar_standard(level, block_side_str)
+    if( level < 0 ) then
+        return p.color_xar_standard_neg(level, block_side_str)
+    end
     local shade1 = p.shade_standard_dir(block_side_str)
     local shade2 = p.shade_abs_fade_out(level)
     local shade3 = p.shade_local_fade_out_maybe(level)
     local shade4 = game_block_blind.get_interpolated_shade()
     local shade = shade1 * shade2 * shade3 * shade4
     return p.shade_to_color(shade)
+end
+
+-------------------------------------------------
+--       Xar standard negative levels
+-------------------------------------------------
+
+--Cappie.
+function p.color_xar_standard_neg(level, block_side_str)
+    local color = p.color_xar_standard_neg_helper1(level)
+    local shade1 = p.shade_standard_dir(block_side_str)
+    local shade2 = p.shade_local_fade_out_maybe(level)
+    local shade3 = game_block_blind.get_interpolated_shade()
+    local shade = shade1 * shade2 * shade3
+    return std.vec_scale_eq(color, shade)
+    -- return p.shade_to_color(shade)
+end
+
+--Cappie.
+function p.color_xar_standard_neg_helper1(level)
+    local level_abs = math.abs(level)
+    --
+    local levs_per_milestone = 10
+    local num_milestones = 9
+    --
+    local rem = level_abs % levs_per_milestone
+    local floor = level_abs - rem
+    local ceil = floor + levs_per_milestone
+    local frac = rem / levs_per_milestone
+    --
+    --Floor and ceiling milestone.
+    local ms_floor = (floor / levs_per_milestone) % num_milestones
+    local ms_ceil = (ms_floor + 1) % num_milestones
+    --
+    local color_floor = p.color_xar_standard_neg_helper2(ms_floor)
+    local color_ceil  = p.color_xar_standard_neg_helper2(ms_ceil)
+    local color_interp = std.vec(
+        color_floor.x * (1.0 - frac) + color_ceil.x * frac,
+        color_floor.y * (1.0 - frac) + color_ceil.y * frac,
+        color_floor.z * (1.0 - frac) + color_ceil.z * frac)
+    return color_interp
+end
+
+--Cappie.
+--i = 0 is the first milestone,
+--i = 1 is the second milestone, etc.
+function p.color_xar_standard_neg_helper2(i)
+    --Lua needs a switch statement.
+    if( i == 0 ) then return std.vec(1.0, 1.0, 1.0) end --White.
+    if( i == 1 ) then return std.vec(1.0, 0.0, 0.0) end --Red.
+    if( i == 2 ) then return std.vec(1.0, 0.5, 0.0) end --Orange.
+    if( i == 3 ) then return std.vec(1.0, 1.0, 0.0) end --Yellow.
+    if( i == 4 ) then return std.vec(0.0, 1.0, 0.0) end --Green.
+    if( i == 5 ) then return std.vec(0.0, 1.0, 1.0) end --Cyan.
+    if( i == 6 ) then return std.vec(0.0, 0.0, 1.0) end --Blue.
+    if( i == 7 ) then return std.vec(0.5, 0.0, 1.0) end --Purple.
+    if( i == 8 ) then return std.vec(1.0, 0.0, 1.0) end --Magenta.
+    --
+    --Uh oh!
+    ga_print("*** Warning: game_level_colors.color_xar_standard_neg_helper2 not used correctly")
+    return p.color_xar_standard_neg_helper2(i % 7)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_maybe_ammo.lua"
@@ -5744,6 +5819,197 @@ function p.respawn_player(param)
     ga_debug_pop("top.__respawn_player")
 end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/game_secret_trophy.lua"
+--File: game_secret_trophy.lua
+
+--This is intended for modders to be able to get
+--the full list of secret trophies.
+
+local all_table = {}
+
+--Adding a secret trophy name.
+function p.add(trophy_name)
+    all_table[trophy_name] = true
+end
+
+--This is what modders should call.
+function p.get_all()
+    return all_table
+end
+
+--Seeing if the API name is valid.
+function p.get_secret_trophy_exists(trophy_name)
+    return all_table[trophy_name] ~= nil
+end
+
+--This is what modders should call.
+function p.get_player_has_secret_trophy(trophy_name)
+    local prefix = game_trophy.get_secret_trophy_prefix()
+    local var = prefix .. "." .. trophy_name
+    return ga_dyn_exists(var)
+end
+
+--To actually get a trophy, we use "game_trophy.lua".
+
+function p.check_secret_trophy(trophy_name)
+    if not p.get_secret_trophy_exists(trophy_name) then
+        ga_print("*** Error: secret trophy not listed in game_secret_trophy.lua: " .. trophy_name)
+    end
+end
+
+function p.__load_game()
+    p.add_all_trophies()
+
+    --Debugging.
+    -- local copy = p.get_all()
+    -- for k,v in pairs(copy) do
+    --     ga_print("secret trophy: " .. k)
+    -- end
+end
+
+-------------------------------------------------------------------------------
+
+function p.add_all_trophies()
+    --Ying world.
+    p.add("st_yw_tutorial_dragon")
+    p.add("st_yw_tutorial_pink_rings")
+    p.add("st_yw_tutorial_yellow_key")
+    p.add("st_yw_noob_maze_large")
+    p.add("st_yw_imp_dungeon_above")
+    p.add("st_yw_small_yellow_flower_blue")
+    p.add("st_yw_small_yellow_flower_dungeon")
+    p.add("st_yw_air_red_cube")
+    p.add("st_yw_lib_below")
+    p.add("st_yw_jumbo_large_cannon_pyramid")
+    p.add("st_yw_spider_air")
+    p.add("st_yw_unremembered_tower_1")
+    p.add("st_yw_unremembered_tower_2")
+    p.add("st_yw_shell_green_island")
+    p.add("st_yw_emergency_wp")
+
+    --Midway.
+    p.add("st_mid_oak_tree_dungeon_1")
+    p.add("st_mid_oak_tree_dungeon_2")
+    p.add("st_mid_laser_fort_small")
+    p.add("st_mid_laser_fort_small_secret")
+    p.add("st_mid_basic_laser_maze")
+    p.add("st_mid_richmond_building_top")
+    p.add("st_mid_richmond_building_secret")
+    p.add("st_mid_richmond_lib_secret")
+    p.add("st_mid_stoney_air_totem_secret")
+    p.add("st_mid_stoney_air_yellow_cube_island_1")
+    p.add("st_mid_stoney_air_yellow_cube_island_2")
+    p.add("st_mid_stoney_church_blackberry")
+    p.add("st_mid_stoney_church_lib_yellow_key")
+    p.add("st_mid_stoney_church_lib_yellow_guard")
+    p.add("st_mid_stoney_church_column")
+    p.add("st_mid_stoney_church_wig_explanation")
+    p.add("st_mid_stoney_church_tower")
+    p.add("st_mid_blackberry_big_room")
+    p.add("st_mid_blackberry_secret_wp")
+    p.add("st_mid_jericho_secret")
+    p.add("st_mid_catacombs_secret")
+    p.add("st_mid_camels_hump")
+    p.add("st_mid_orange_outer_mantle")
+    p.add("st_mid_mossy_basement")
+    p.add("st_mid_mossy_cellar")
+    p.add("st_mid_tweed_haunted")
+    p.add("st_mid_huntington_blue_secret")
+
+    --I1.
+    p.add("st_i1_botany_caves_red_cube")
+    p.add("st_i1_lib_vault")
+    p.add("st_i1_inf_flower_secret_entrance")
+    p.add("st_i1_williston_pyramid_secret")
+    p.add("st_i1_williston_building_top")
+    p.add("st_i1_bristol_maze_start")
+
+    --I2.
+    p.add("st_i2_lib_vault")
+    p.add("st_i2_fanatic_island_secret")
+    p.add("st_i2_fanatic_island_well_secret")
+    p.add("st_i2_spruce_tree")
+    p.add("st_i2_mini_ammo_purple_pod")
+    p.add("st_i2_fanatic_blue")
+    p.add("st_i2_emp_city")
+    p.add("st_i2_bubble_cave_core")
+    p.add("st_i2_i2vb_lbv")
+    p.add("st_i2_i2vb_toronto")
+    p.add("st_i2_i2vb_yellow")
+    p.add("st_i2_toronto_maze_secret_1")
+    p.add("st_i2_toronto_maze_secret_2")
+    p.add("st_i2_toronto_maze_secret_3")
+    p.add("st_i2_small_blue_flower_quaternary")
+    p.add("st_i2_violets_secret_1")
+    p.add("st_i2_violets_secret_2")
+    p.add("st_i2_violets_secret_3")
+    p.add("st_i2_woody_basement")
+    p.add("st_i2_earthy_basement")
+    p.add("st_i2_damp_basement")
+    p.add("st_i2_moldy_basement")
+    p.add("st_i2_woody_cellar")
+    p.add("st_i2_earthy_cellar")
+    p.add("st_i2_damp_cellar")
+    p.add("st_i2_wig_prison_2")
+    p.add("st_i2_pink_puzzle")
+
+    --I3.
+    p.add("st_i3_colchester_secret")
+    p.add("st_i3_essex")
+    p.add("st_i3_carrots")
+    p.add("st_i3_pumpkin")
+    p.add("st_i3_grow_temple")
+    p.add("st_i3_forest_museum")
+    p.add("st_i3_desert_flower_cloud")
+    p.add("st_i3_mahogany_inside")
+    p.add("st_i3_treetop")
+    p.add("st_i3_turnips")
+    p.add("st_i3_beets_above")
+    p.add("st_i3_mahogany_basement")
+    p.add("st_i3_root_veg_basement")
+    p.add("st_i3_mahogany_cellar")
+
+    --Burlington.
+    p.add("st_bur_tower")
+    p.add("st_bur_green_apple_club_hell")
+
+    --Space.
+    p.add("st_space_lib_secret_1")
+    p.add("st_space_lib_secret_2")
+    p.add("st_space_tau_caves_moon_secret")
+    p.add("st_space_high_gold_asteroid")
+    p.add("st_space_galaxy_flower_secret")
+    p.add("st_space_grand_lockbox")
+    p.add("st_space_root_secret")
+    p.add("st_space_root_pink_prison")
+
+    --Mylantis.
+    p.add("st_my_under")
+    p.add("st_my_city_hol")
+    p.add("st_my_city_secret_nuke_room")
+    p.add("st_my_caves_lib_secret")
+    p.add("st_my_jade_museum")
+
+    --Hell.
+    p.add("st_hell_secret_wolf_forest")
+    p.add("st_hell_moon_flower")
+    p.add("st_hell_credits_inf2_story")
+
+    --No waypoint (NWP).
+    p.add("st_nwp_small_white_flower_maze")
+    p.add("st_nwp_small_black_flower_bottom")
+    p.add("st_nwp_health_tower_secret")
+    p.add("st_nwp_paper_box")
+    p.add("st_nwp_cardboard_box")
+    p.add("st_nwp_wood_box")
+    p.add("st_nwp_steel_box")
+    p.add("st_nwp_quicksand_purple_house")
+    p.add("st_nwp_quicksand_basement")
+    p.add("st_nwp_red_rose")
+    p.add("st_nwp_white_rose")
+    p.add("st_nwp_beta_cube")
+end
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_str.lua"
 --Put both make_3_digit and add_commas elsewhere.
 
@@ -5894,6 +6160,7 @@ p.all_array[#p.all_array + 1] = "desert_flower_cloud"
 p.all_array[#p.all_array + 1] = "tangerine"
 p.all_array[#p.all_array + 1] = "super_massive_black_hole"
 p.all_array[#p.all_array + 1] = "top_of_world"
+p.all_array[#p.all_array + 1] = "absolute_infinite"
 p.all_array[#p.all_array + 1] = "secret_farmhouse"
 p.all_array[#p.all_array + 1] = "main_branch_lib"
 p.all_array[#p.all_array + 1] = "mylantis_great_cavern"
@@ -5908,6 +6175,7 @@ p.upgrade_to_display["desert_flower_cloud"]         = "Desert Flower Secret (I3)
 p.upgrade_to_display["tangerine"]                   = "Tangerine (I3)"
 p.upgrade_to_display["super_massive_black_hole"]    = "Super Massive Black Hole (Space)"
 p.upgrade_to_display["top_of_world"]                = "Top of the World"
+p.upgrade_to_display["absolute_infinite"]           = "Absolute Infinite"
 p.upgrade_to_display["secret_farmhouse"]            = "Secret Farmhouse"
 p.upgrade_to_display["main_branch_lib"]             = "Main Branch Library (Mylantis)"
 p.upgrade_to_display["mylantis_great_cavern"]       = "Mylantis Great Cavern (Mylantis)"
@@ -6936,9 +7204,13 @@ function p.pickup_with_no_achievement(name)
     end
 end
 
+function p.get_secret_trophy_prefix()
+    return "dyn.xar.secret_trophy"
+end
+
 function p.pickup_secret_trophy(name)
     --Figuring out if already have.
-    local dyn_var = "dyn.xar.secret_trophy." .. name
+    local dyn_var = p.get_secret_trophy_prefix() .. "." .. name
     ga_print("game_trophy.pickup_secret_trophy: dyn_var = " .. dyn_var)
     local already_exists = ga_dyn_exists(dyn_var)
     ga_dyn_create_b(dyn_var)
@@ -9102,7 +9374,7 @@ function p.milestone_str(level)
     --
     if( level == 110 ) then return "20 Rail Damage Upgrades" end
     if( level == 120 ) then return "Laser Super Damage Upgrade" end
-    if( level == 130 ) then return "5 EMP Radius + 5 EMP Freeze Time Upgrades" end
+    if( level == 130 ) then return "5 EMP Radius + 5 EMP Free Time Upgrades" end
     if( level == 140 ) then return "20 Nuke Projectile Speed Upgrades" end
     if( level == 150 ) then return "Laser Max Ammo Upgrade" end
     if( level == 160 ) then return "Laser Super Damage Upgrade" end
@@ -10223,6 +10495,14 @@ function p.handler(str)
         elseif( str1 == "off" ) then
             p.turn_off()
         end
+    elseif( #strs == 2 ) then
+        local str1 = strs[1]
+        local str2 = strs[2]
+        -- if( str1 == "set_bt1" ) then
+        --     ga_set_s("xar.cheat.inf2.primary_bt", str2)
+        -- elseif( str1 == "set_bt2" ) then
+        --     ga_set_s("xar.cheat.inf2.secondary_bt", str2)
+        -- end
     end
     --Could complain if args are wrong.
 end
@@ -10254,6 +10534,8 @@ function p.get_help_str()
            "Usage: inf2\n"
         .. "Usage: inf2 on\n"
         .. "Usage: inf2 off\n\n"
+        -- .. "Usage: inf2 set_bt1 BLOCK_TYPE\n"
+        -- .. "Usage: inf2 set_bt2 BLOCK_TYPE\n\n"
         .. "Cheat code to toggle the Infinifrag 2 Easter egg. "
 end
 END_FILE
@@ -12816,10 +13098,8 @@ function p.use_common(mode)
         return false
     end
 
-    if not game_item_gun_1_1.ammo_check_common(cur_gun, mode) then return false end
-
     --Making sure have enough ammo.
-    game_item_gun_1_1.ammo_check_common(cur_gun, mode)
+    if not game_item_gun_1_1.ammo_check_common(cur_gun, mode) then return false end
 
     local ent_type = ""
     if mode == 1 then ent_type = "ment_player_proj_railgun_1" end
@@ -13885,7 +14165,9 @@ function p.add_category_item()
     game_journal.add_edge_alias("@item_xp_mod", "{70}XP multiplier")
     game_journal.add_edge_alias("@item_damage_mod", "{80}Damage multiplier") --Used?
     game_journal.add_edge_alias("@item_buysell", "{90}Buy / sell")
-    game_journal.add_edge_alias("@item_buysell_blackmar", "{10}Black market")
+    game_journal.add_edge_alias("@item_buysell_blackmar", "{30}Black market")
+    game_journal.add_edge_alias("@item_buysell_us", "{40}Upgrade station")
+    
     -- game_journal.add_edge_alias("@item_buysell_buynuke", "{20}Buy nuke")
 
     game_journal.add_edge_alias("@item_health_loc", "{10}Locations")
@@ -13958,7 +14240,6 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_lib_mc_silo", "{60}RejuvenX capsules and nuke arsenals")
     game_journal.add_edge_alias("@area_lib_mc_cavern", "{70}Great mylantis cavern")
     game_journal.add_edge_alias("@area_lib_mc_red", "{80}Mylantis red caves")
-    --more!!!
 
     game_journal.add_edge_alias("@area_yw", "{30}Ying world")
     --
@@ -14027,52 +14308,52 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_i1_bristol", "{60}Bristol")
 
     game_journal.add_edge_alias("@area_i2", "{60}I2")
-    game_journal.add_edge_alias("@area_i2_city", "{10}Towns / cities") --CHANGE NUM!!!
-    -- game_journal.add_edge_alias("@area_i2_city_montreal", "{10}Montreal") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_city_toronto", "{20}Toronto") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_city_danville", "{30}Danville") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_city", "{10}Towns / cities")
+    -- game_journal.add_edge_alias("@area_i2_city_montreal", "{10}Montreal") --Not being used.
+    game_journal.add_edge_alias("@area_i2_city_toronto", "{20}Toronto")
+    game_journal.add_edge_alias("@area_i2_city_danville", "{30}Danville")
     game_journal.add_edge_alias("@area_i2_base", "{20}Basements / cellars")
-    game_journal.add_edge_alias("@area_i2_flower", "{30}Flowers / trees") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_weed", "{10}Fanatic weed") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_spruce", "{20}Spruce tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_sbf", "{30}Small blue flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_willow", "{40}Willow tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_flower_scorpius", "{50}Scorpius flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fi", "{40}Fanatic island") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fi_monster", "{20}The fanatic on the island") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_lattice", "{50}Fanatic lattice") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_flower", "{30}Flowers / trees")
+    game_journal.add_edge_alias("@area_i2_flower_weed", "{10}Fanatic weed")
+    game_journal.add_edge_alias("@area_i2_flower_spruce", "{20}Spruce tree")
+    game_journal.add_edge_alias("@area_i2_flower_sbf", "{30}Small blue flower")
+    game_journal.add_edge_alias("@area_i2_flower_willow", "{40}Willow tree")
+    game_journal.add_edge_alias("@area_i2_flower_scorpius", "{50}Scorpius flower")
+    game_journal.add_edge_alias("@area_i2_fi", "{40}Fanatic island")
+    game_journal.add_edge_alias("@area_i2_fi_monster", "{20}The fanatic on the island")
+    game_journal.add_edge_alias("@area_i2_lattice", "{50}Fanatic lattice")
     game_journal.add_edge_alias("@area_i2_lattice_radcaves", "{10}Nuke radius caves")
-    game_journal.add_edge_alias("@area_i2_vine", "{60}Vines") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_vine", "{60}Vines")
     -- game_journal.add_edge_alias("@area_i2_vine_lab", "{10}Labratory vine")
     -- game_journal.add_edge_alias("@area_i2_vine_lab_mini", "{10}Minigun ammo forest")
     game_journal.add_edge_alias("@area_i2_vine_mystic", "{20}Mystic vine")
     game_journal.add_edge_alias("@area_i2_vine_lbv", "{30}Laser branch vine")
     game_journal.add_edge_alias("@area_i2_bubble_cave", "{70}Bubble cave")
-    game_journal.add_edge_alias("@area_i2_rasp", "{80}Raspberry") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_weedrings", "{90}Weed rings") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_fanspire", "{100}Fanatic spire") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i2_creep", "{110}Creeping jeni") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i2_rasp", "{80}Raspberry")
+    game_journal.add_edge_alias("@area_i2_weedrings", "{90}Weed rings")
+    game_journal.add_edge_alias("@area_i2_fanspire", "{100}Fanatic spire")
+    game_journal.add_edge_alias("@area_i2_creep", "{110}Creeping jeni")
 
     game_journal.add_edge_alias("@area_i3", "{70}I3")
-    game_journal.add_edge_alias("@area_i3_city", "{10}Towns / cities") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i3_city", "{10}Towns / cities")
     game_journal.add_edge_alias("@area_i3_city_col", "{10}Colchester")
     game_journal.add_edge_alias("@area_i3_base", "{20}Basements / cellars")
     game_journal.add_edge_alias("@area_i3_flower", "{40}Flowers / trees")
-    game_journal.add_edge_alias("@area_i3_flower_hof", "{10}Hard orange flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_rmf", "{20}Red maze flower") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_jack", "{30}Jackfruit") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_sm", "{40}Salmon mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_bm", "{50}Black mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_ym", "{60}Yellow mushroom") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_flower_tan", "{70}Tangerine") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest", "{50}Main forest") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_mah", "{10}Mahogany tree") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_mus", "{20}Forest museum") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_river", "{30}River") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_main_forest_river_sliver", "{20}Deep sliver maze") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert", "{60}Desert") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert_overview", "{10}Overview") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_i3_desert_aladdin", "{20}Aladdin's cave") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_i3_flower_hof", "{10}Hard orange flower")
+    game_journal.add_edge_alias("@area_i3_flower_rmf", "{20}Red maze flower")
+    game_journal.add_edge_alias("@area_i3_flower_jack", "{30}Jackfruit")
+    game_journal.add_edge_alias("@area_i3_flower_sm", "{40}Salmon mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_bm", "{50}Black mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_ym", "{60}Yellow mushroom")
+    game_journal.add_edge_alias("@area_i3_flower_tan", "{70}Tangerine")
+    game_journal.add_edge_alias("@area_i3_main_forest", "{50}Main forest")
+    game_journal.add_edge_alias("@area_i3_main_forest_mah", "{10}Mahogany tree")
+    game_journal.add_edge_alias("@area_i3_main_forest_mus", "{20}Forest museum")
+    game_journal.add_edge_alias("@area_i3_main_forest_river", "{30}River")
+    game_journal.add_edge_alias("@area_i3_main_forest_river_sliver", "{20}Deep sliver maze")
+    game_journal.add_edge_alias("@area_i3_desert", "{60}Desert")
+    game_journal.add_edge_alias("@area_i3_desert_overview", "{10}Overview")
+    game_journal.add_edge_alias("@area_i3_desert_aladdin", "{20}Aladdin's cave")
     -- game_journal.add_edge_alias("@area_i3_desert_cave", "{20}Normal cave")
 
     game_journal.add_edge_alias("@area_bur", "{80}Burlington")
@@ -14087,53 +14368,51 @@ function p.add_category_area()
     game_journal.add_edge_alias("@area_space", "{90}Space")
     game_journal.add_edge_alias("@area_space_moon", "{10}Moons")
     -- game_journal.add_edge_alias("@area_space_moon_mod", "{10}Moon modules")
-    game_journal.add_edge_alias("@area_space_moon_gamma", "{50}Gamma moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_tau", "{60}Tau cave moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_ice", "{70}Ice moon") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_firerate", "{80}Fire rate") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_moon_bluering", "{90}Blue ring station") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_space_moon_gamma", "{30}Gamma moon")
+    game_journal.add_edge_alias("@area_space_moon_tau", "{40}Tau cave moon")
+    game_journal.add_edge_alias("@area_space_moon_ice", "{50}Ice moon")
+    game_journal.add_edge_alias("@area_space_moon_firerate", "{60}Fire rate moon")
+    game_journal.add_edge_alias("@area_space_moon_bluering", "{70}Blue ring station")
     game_journal.add_edge_alias("@area_space_planet", "{20}Planets")
     game_journal.add_edge_alias("@area_space_planet_smallmini", "{10}Small minigun planet")
     game_journal.add_edge_alias("@area_space_planet_clay", "{20}Clay planet")
     -- game_journal.add_edge_alias("@area_space_sun", "{30}Sun")
     game_journal.add_edge_alias("@area_space_soloar", "{40}Solar system")
-    -- game_journal.add_edge_alias("@area_space_black_hole", "{40}Supermassive black hole")
+    game_journal.add_edge_alias("@area_space_black_hole", "{50}Supermassive black hole")
     game_journal.add_edge_alias("@area_space_galaxy", "{60}Galaxy")
-    game_journal.add_edge_alias("@area_space_lev_2", "{95}Outer space level 2") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_lev_1", "{96}Outer space level 1") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_lev_neg1", "{98}Outer space level -1") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_space_edge", "{99}Edge of the world") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_space_lev_2", "{70}Outer space level 2")
+    game_journal.add_edge_alias("@area_space_lev_1", "{80}Outer space level 1")
+    game_journal.add_edge_alias("@area_space_lev_neg1", "{90}Outer space level -1")
+    game_journal.add_edge_alias("@area_space_edge", "{100}Edge of the world")
 
     game_journal.add_edge_alias("@area_bulk", "{100}Bulk")
     game_journal.add_edge_alias("@area_bulk_where", "{10}Where to find")
 
     game_journal.add_edge_alias("@area_my", "{110}Mylantis")
-    game_journal.add_edge_alias("@area_my_mb", "{10}Main branch") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_lasergen", "{20}Laser genesis planet") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_sponge_beta", "{30}Beta menger sponge") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_city", "{40}Mylantis top city") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_city_room", "{30}Mylantis building rooms") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves", "{50}Mylantis caves") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves_crust", "{10}Mylantis crust") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_caves_cavern", "{20}Great mylantis cavern") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_topaz", "{60}Topaz") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_iolite", "{70}Iolite") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_jade_museum", "{80}Jade museum") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_emerald", "{90}Emerald") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_denver", "{100}Denver") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_my_amethyst", "{110}Amethyst maze") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_my_mb", "{10}Main branch")
+    game_journal.add_edge_alias("@area_my_lasergen", "{20}Laser genesis planet")
+    game_journal.add_edge_alias("@area_my_sponge_beta", "{30}Beta menger sponge")
+    game_journal.add_edge_alias("@area_my_city", "{40}Mylantis top city")
+    game_journal.add_edge_alias("@area_my_city_room", "{30}Mylantis building rooms")
+    game_journal.add_edge_alias("@area_my_caves", "{50}Mylantis caves")
+    game_journal.add_edge_alias("@area_my_caves_crust", "{10}Mylantis crust")
+    game_journal.add_edge_alias("@area_my_caves_cavern", "{20}Great mylantis cavern")
+    game_journal.add_edge_alias("@area_my_topaz", "{60}Topaz")
+    game_journal.add_edge_alias("@area_my_iolite", "{70}Iolite")
+    game_journal.add_edge_alias("@area_my_jade_museum", "{80}Jade museum")
+    game_journal.add_edge_alias("@area_my_emerald", "{90}Emerald")
+    game_journal.add_edge_alias("@area_my_denver", "{100}Denver")
+    game_journal.add_edge_alias("@area_my_amethyst", "{110}Amethyst maze")
 
-    --more!!!
-
-    game_journal.add_edge_alias("@area_hell", "{120}Hell") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_hell", "{120}Hell")
     game_journal.add_edge_alias("@area_hell_loc", "{10}Places to find hell") 
     game_journal.add_edge_alias("@area_hell_surface", "{20}Surface of hell")
     game_journal.add_edge_alias("@area_hell_key", "{30}Key to the universe")
     game_journal.add_edge_alias("@area_hell_wolf", "{40}Secret wolf forest")
 
-    game_journal.add_edge_alias("@area_nwp", "{130}No waypoint (NWP)") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_nwp_base", "{10}Basements / cellars") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@area_nwp_ht", "{20}Health tower") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@area_nwp", "{130}No waypoint (NWP)")
+    game_journal.add_edge_alias("@area_nwp_base", "{10}Basements / cellars")
+    game_journal.add_edge_alias("@area_nwp_ht", "{20}Health tower")
     game_journal.add_edge_alias("@area_nwp_box", "{30}Boxes")
     game_journal.add_edge_alias("@area_nwp_sponge", "{40}Sponges (menger sponges)")
 end
@@ -14144,7 +14423,7 @@ function p.add_category_area_lore()
     game_journal.add_edge_alias("@lore_k_hidden_esp", "{30}ESP and the hidden world")
     game_journal.add_edge_alias("@lore_k_hidden_esp_cr", "{20}Chinese room")
     game_journal.add_edge_alias("@lore_k_hidden_esp_mult", "{30}Multiple explanations")
-    game_journal.add_edge_alias("@lore_k_hidden_melody", "{40}Lost melody phenonium")
+    game_journal.add_edge_alias("@lore_k_hidden_melody", "{40}Lost melody phenomenon")
     --Add more to lore_k_hidden_melody: 1) not recording hidden data.
     game_journal.add_edge_alias("@lore_phil", "{30}Philosophy")
     game_journal.add_edge_alias("@lore_fractals", "{40}Fractals")
@@ -14171,8 +14450,8 @@ function p.add_category_area_lore()
     game_journal.add_edge_alias("@lore_ib_wig", "{40}Genesis of the WIG flower")
     game_journal.add_edge_alias("@lore_ib_wep", "{50}Weaponization")
     game_journal.add_edge_alias("@lore_ib_wep_lose", "{10}When re-creation outpaces inner botany")
-    game_journal.add_edge_alias("@lore_ib_post_credits", "{60}The big picture") --CHANGE NUM!!!
-    game_journal.add_edge_alias("@lore_ib_bcb", "{70}Boston consent bootstrapping") --CHANGE NUM!!!
+    game_journal.add_edge_alias("@lore_ib_post_credits", "{60}The big picture")
+    game_journal.add_edge_alias("@lore_ib_bcb", "{70}Boston consent bootstrapping")
 end
 
 function p.add_category_yang()
@@ -14234,6 +14513,11 @@ function p.add_category_yang()
 
     game_journal.add_edge_alias("@yang_back", "{50}Back to work again")
     game_journal.add_edge_alias("@yang_back_blackhole", "{20}Accessing the VIP lounge")
+    game_journal.add_edge_alias("@yang_back_trainwest", "{30}Taking a train out west to see you")
+    game_journal.add_edge_alias("@yang_back_trainwest_part1", "{10}Deciding to take the trip")
+    game_journal.add_edge_alias("@yang_back_trainwest_part2", "{20}The painting that reminds me of us")
+    game_journal.add_edge_alias("@yang_back_trainwest_part3", "{30}The ride out west")
+    game_journal.add_edge_alias("@yang_back_trainwest_part4", "{40}Seeing you")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/Journal/English/Bur/game_journal_english_bur.lua"
@@ -14561,8 +14845,8 @@ function p.recordable()
         p.BURLINGTON_TOWER_BASE)
     game_journal.add_path("@area;@area_bur;@area_bur_showdown;{10}Overview")
 
-    local str = "^x00ff00Message from your friend K: \n\n"
-        .. "As I have gathered, there are at least two fundamentally "
+    local str = "Message from your friend K: \n\n"
+        .. "^x00ff00As I have gathered, there are at least two fundamentally "
         .. "different types of worlds that can exist:\n"
         .. "1) F-type (flat) and\n"
         .. "2) H-type (hierarchical).\n\n"
@@ -14585,8 +14869,8 @@ function p.recordable()
     game_journal.add_txt(lang, "BURLINGTON_TOWER_FRIEND_RANT_1_part2", str)
     game_journal.add_path("@lore;@lore_fractals;@lore_fractals_f_vs_h;{20}Part 2")
 
-    local str = "^x00ff00More of the message from your friend K: \n\n"
-        .. "I now believe the boundary between the F-type world "
+    local str = "More of the message from your friend K: \n\n"
+        .. "^x00ff00I now believe the boundary between the F-type world "
         .. "of the ordinary part of planet Earth where I was born "
         .. "and the accompanying H-type world is blurry.\n\n"
         .. "And the boundary may move over time: "
@@ -15198,7 +15482,7 @@ function p.recordable()
     local str = "Message from NGC 1277: \n\n"
         .. "^x0000ffSN1987A really is a piece of work. "
         .. "While I admit his work on the botany of inner space "
-        .. "is ground breaking, his architecture skills are crappy. \n\n"
+        .. "is groundbreaking, his architecture skills are crappy. \n\n"
         .. "The gaskets used in his Botany Labs, "
         .. "and other rooms he made, allow for leakage. "
         .. "For example, while inside a Purple Dark Hole room "
@@ -17297,7 +17581,8 @@ end
 --It doesn't capture the full effect if the player reads this
 --from their journal.
 function p.FANATIC_SPIRE_TREASURE_2_k_part1(chunk_id)
-    local seed = ga_chunk_id_to_seed(chunk_id)
+    local seed = -1
+    if( chunk_id >= 0 ) then seed = ga_chunk_id_to_seed(chunk_id) end
     ga_srand(seed)
     local type = ga_randi(1,2)
     --
@@ -17628,14 +17913,14 @@ function p.recordable()
         .. "but are a ^xff00ffmuch better "
         .. "place to pick up nukes^!.\n\n"
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part1", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{10}Part 1")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{10}Part 1")
 
     local str = "There are green vines that hand down from the light blue structures. "
         .. "These are called ^x00ff00Laboratory Vines^!, and\n\n"
         .. "1) they have ^xff00ffIMPORTANT^! things growing on their sides and\n\n"
         .. "2) they have ^xff00ffScorpius Portals^! on their inside."
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part2", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{20}Part 2")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{20}Part 2")
 
     local str = "The black cubes with green \"I3\" symbols on them which are at "
         .. "the end of the light blue structures are ^x00ff00Mirror Gates^! to I3.\n\n"
@@ -17644,7 +17929,7 @@ function p.recordable()
         .. "But in another sense they are not easy.  Their house of mirrors (glass) "
         .. "style mazes have been known to induce madness."
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part3", str)
-    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic Lattice;{30}Part 3")
+    game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{30}Part 3")
 
     local str = "This picture shows ^x00ff00Fanatic Weeds^! "
         .. "(also called Fanatic Lattice Growth). They are very common in I2.\n\n"
@@ -18027,7 +18312,7 @@ function p.trophy_room_locations()
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{10}Location room location")
 
     local str = "The trophy list room for ^x00ff00I1^! (of the Infinity Flower) trophies "
-        .. "is in the treasure area of ^x00ff00Williston Caves^!. "
+        .. "is in the treasure area of ^x00ff00Willison Caves^!. "
         .. "You can read more about these caves in the center of Williston Cities."
     game_journal.add_txt(lang, "I2_LIBRARY_TROPHY_ROOM_i1", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{10}Location room location")
@@ -18161,12 +18446,14 @@ function p.gold_locations()
         .. "3) Burlington Cities (at the top of their central tower)."
     game_journal.add_txt(lang, "MONTREAL_INFO_LOCATIONS_sell2", str)
     game_journal.add_path("@item;@item_gold;@item_gold_loc;{30}Selling ammo/health for gold;{20}Where to find scarce sell stations")
+    game_journal.add_path("@item;@item_buysell;{10}Scarce sell stations") 
 
     local str = "You can find ^x00ff00Rare Sell Stations^! "
         .. "(next to waypoints) in the following locations:\n\n"
         .. "1) ^xff00ffThe Secret Farmhouse^!."
     game_journal.add_txt(lang, "MONTREAL_INFO_LOCATIONS_sell3", str)
     game_journal.add_path("@item;@item_gold;@item_gold_loc;{30}Selling ammo/health for gold;{30}Where to find rare sell stations")
+    game_journal.add_path("@item;@item_buysell;{20}Rare sell stations") 
 end
 
 -------------------------------------------------------------------------------
@@ -18195,7 +18482,7 @@ function p.recordable()
 
     str = "^xff00ff\"Stop being a tool-bag\"^x00ff00 said Jane to Tom. "
         .. "She came to my rescue. "
-        .. "^xff00ff\"I am pretty sure there is no such thing as the Integration Engine\"^x00ff00 she said.\n\n"
+        .. "^xff00ff\"I am pretty sure there is no such thing as the \"Integration Engine.\"^x00ff00\n\n"
         .. "It's a funny thing when you know some other-worldly thing is happening, "
         .. "and so then you take any off handed joke someone makes seriously.\n\n"
         .. "For what it is worth, I think Jane knows more about life than Tom. ";
@@ -20658,7 +20945,7 @@ function p.recordable()
     game_journal.add_path("@area;@area_bur;@area_bur_tegen;{30}Where to find trophy")
 
     str = "^x00ff00Message from your friend K:\n\n"
-        .. "In Willison Fields (in I1), you can find Purple Wells.\n\n"
+        .. "In Willison fields (in I1), you can find Purple Wells.\n\n"
         .. "With a 2/5 chance, there will be no Pink Sphere on the surface, "
         .. "which means that if you enter it and go the bottom, "
         .. "you will find the ^xff00ffSecret Cave of Jerichos^x00ff00."
@@ -23834,7 +24121,7 @@ function p.recordable()
 
     local str = "Message from Fornax A:\n\n"
         .. "^x0000ffThe Mylantis Council has mandated the labeling "
-        .. "of a path from Mylantis (this planet) to the deepest known depths "
+        .. "of a path from Mylantis to the deepest known depths "
         .. "of inner space: where one can find ^x00ff00Inner Cores^x0000ff. \n\n"
         .. "Actually, the scope of the project is even grander: "
         .. "they want the labeling of such a path starting from ANY suitable location. "
@@ -23865,7 +24152,7 @@ function p.recordable()
         .. "^x0000ffListen up young one and listen to the tale "
         .. "of when I was young myself!  I grew up on the streets of "
         .. "the Mylantis Top City, where you are now. "
-        .. "Me and my main sequence friends use to play this game where "
+        .. "Me and my main sequence friends used to play this game where "
         .. "we would see how large we could get. "
         .. "When we flew through ^x00ff00Outer Space Level 0^x0000ff "
         .. "we were indeed pretty big. "
@@ -23950,7 +24237,7 @@ function p.recordable()
         .. "These flowers provide a way to enter I3 (Group #3 of the Infinity Flower).\n\n"
         .. "One way to leave from inside a WIG flower is by using ^xff00ffPink Rings^!."
     game_journal.add_txt(lang, "MYLANTIS_CITY_BUILDING_RANDOM_TOP_room9", str)
-    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{90}Room 9/15: i3 wig flowers in the caves")
+    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{90}Room 9/15: I3 wig flowers in the caves")
 
     local str = "(Room 10/15) Flying through ^x00ff00Outer Space Level 0^! can be peaceful.\n\n"
         .. "You can find ^xffff00Railgun Max Ammo^! upgrades floating in space there. ";
@@ -23982,7 +24269,7 @@ function p.recordable()
         .. "a distraction: I think RejuvenX comes from Re-Creation "
         .. "and therefore from Inner Cores."
     game_journal.add_txt(lang, "MYLANTIS_CITY_BUILDING_RANDOM_TOP_room12", str)
-    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{120}Room 12/15: RejuvenX comes from re-creation")
+    game_journal.add_path("@area;@area_my;@area_my_city;@area_my_city_room;{120}Room 12/15: rejuvenx comes from re-creation")
 
     local str = "(Room 13/15) Deep under the surface of Mylantis is the "
         .. "^x00ff00Great Mylantis Cavern^!. "
@@ -24682,6 +24969,7 @@ function p.main()
     game_journal_english_space_blue_ring_station.main()
     game_journal_english_space_case.main()
     game_journal_english_space_galaxy.main()
+    game_journal_english_space_heart_house.main()
     game_journal_english_space_lib.main()
     game_journal_english_space_mid.main()
     game_journal_english_space_moon_beta.main()
@@ -24920,6 +25208,12 @@ function p.recordable()
         .. "I will take you there if you meet me here on Friday,\"^x00ff00 she said."
     game_journal.add_txt(lang, "BLACK_HOLE_BIG_8_TREASURE_k_part4", str)
     game_journal.add_path("@yang;@yang_back;@yang_back_blackhole;{40}The blond woman will take me to the annex;{20}Part 2")
+
+    local str = "There is a secret room. Let us just say it is in an EMERGENCY location. "
+        .. "The room contains a glass wall blocking a Fire Rate Moon. "
+        .. "However, one of the chunks of the glass wall has something very important inside of it."
+    game_journal.add_txt(lang, "BLACK_HOLE_BIG_8_TREASURE_secret", str)
+    game_journal.add_path("@area;@area_space;@area_space_black_hole;{10}Secret message")
 end
 
 -------------------------------------------------------------------------------
@@ -25090,6 +25384,166 @@ function p.recordable()
 end
 
 -------------------------------------------------------------------------------
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/Journal/English/Space/game_journal_english_space_heart_house.lua"
+--File: game_journal_english_space_heart_house.lua
+
+local lang = "english"
+
+function p.main()
+    p.recordable()
+end
+
+function p.recordable()
+    local str = "^x00ff00Message from your friend K:\n\n"
+        .. "I finished my cat 2.0 costume!\n\n"
+        .. "You might think making the outfit "
+        .. "would take skill, or perhaps the wisdom to use "
+        .. "out of the box solutions.  However, what it came down "
+        .. "to for me was a sheer power of will."
+    game_journal.add_txt(lang, "ENDING_HEART_KEY_part1", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part1;{10}Part 1")
+
+    local str = "^x00ff00"
+        .. "I decided to surprise you with the outfit. "
+        .. "It would be the least I could do for you after saving "
+        .. "me from the Fractal Block World.\n\n"
+        .. "I would visit you not in the east where I live, "
+        .. "but out west where you live.\n\n"
+        .. "I took a vacation from work, put the outfit in "
+        .. "a backpack along with some other necessities, "
+        .. "and got on a train to the west.\n\n"
+        .. "I did not tell you I was visiting."
+    game_journal.add_txt(lang, "ENDING_HEART_KEY_part2", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part1;{20}Part 2")
+
+    local str = "^x00ff00"
+        .. "It is probably better not to open Pandora's Box. "
+        .. "Maybe it is better to stay back and enjoy my "
+        .. "fantasies.  But I say this: Let's open the box and "
+        .. "see what is inside.  Let us see where it takes us."
+    game_journal.add_txt(lang, "ENDING_HEART_KEY_part3", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part1;{30}Part 3")
+
+    local str = "^x00ff00"
+        .. "This key opens a secret door. "
+        .. "In the root of this world (the top of the world), "
+        .. "there is a room with the picture of a dragon "
+        .. "in it.\n\n"
+        .. "One of the ceiling tiles in that room looks solid but you "
+        .. "can actually fly through it.\n\n"
+        .. "Also, the fake ceiling tile is diagonal from a corner."
+    game_journal.add_txt(lang, "ENDING_HEART_KEY_part4", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part1;{40}Part 4")
+
+    local str = "^x00ff00"
+        .. "Secrets are funny things. "
+        .. "It is probably good they are not too much in the open. "
+        .. "That protects us. ";
+    game_journal.add_txt(lang, "ENDING_HEART_KEY_part5", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part1;{50}Part 5")
+
+    ---------------------------------------------
+
+    local str = "^x00ff00Message from your friend K:\n\n"
+        .. "I love this painting.\n\n"
+        .. "It is called \"Springtime\" by Pierre-Auguste Cot.\n\n"
+        .. "It reminds me of us."
+    game_journal.add_txt(lang, "HEART_HOUSE_DOOR_1_part1", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part2;{10}Part 1")
+
+    local str = "^x00ff00"
+        .. "Well, maybe it does not remind me of how we exist now.\n\n"
+        .. "Instead, it reminds me of what we could have been if I had not "
+        .. "stayed in the east and worked for the "
+        .. "Inner Mechanization Agency. ";
+    game_journal.add_txt(lang, "HEART_HOUSE_DOOR_1_part2", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part2;{20}Part 2")
+
+    ---------------------------------------------
+
+    local str = "^x00ff00Message from your friend K:\n\n"
+        .. "I found this secret farmhouse in the Fractal Block World.\n\n"
+        .. "I threw away some of the junk of the previous owners and put in "
+        .. "a few things of my own."
+    game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part1", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{10}Part 1")
+    
+    local str = "^x00ff00"
+        .. "Imagine us living in a place like this together. "
+        .. "Of course, it should not be make of blocks, "
+        .. "and it should be smaller.  Maybe it could be an apartment at first."
+    game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part2", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{20}Part 2")
+
+    local str = "^x00ff00"
+        .. "On the train ride to visit you for your surprise, "
+        .. "using my lucky pen I wrote a letter of resignation to the "
+        .. "Inner Mechanization Agency. "
+        .. "I did not send it, I just read it over and over and "
+        .. "tried it on for size.\n\n"
+        .. "I remember thinking that we lost so much time with me "
+        .. "working for the IMA. "
+        .. "But every day is a new day, they say. "
+        .. "I could get a job out west to be close to you. "
+        .. "There must be a job out there suited for someone "
+        .. "with my particular set of skills."
+    game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part3", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{30}Part 3")
+
+    local str = "^x00ff00"
+        .. "I don't need to see the ^xffffffOmega Core^x00ff00.\n\n"
+        .. "I can do something else with my life. "
+        .. "I can be with you."
+    game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part4", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{40}Part 4")
+
+    local str = "^x00ff00"
+        .. "I would love to watch the stars with you on the balcony, "
+        .. "but there is a secret at the center of the Galaxy."
+    game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part5", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{50}Part 5")
+
+    ---------------------------------------------
+
+    local str = "^x00ff00Message from your friend K:\n\n"
+        .. "I arrived and waited in a park outside your apartment complex. "
+        .. "It was early in the morning.  I wanted to surprise you as you walked out."
+    game_journal.add_txt(lang, "DAN_HOUSE_ICARUS_2_part1", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part4;{10}Part 1")
+
+    local str = "^x00ff00When you did walk out... you came out with someone else.\n\n"
+        .. "You two looked... very close.\n\n"
+        .. "I hoped my eyes were deceiving me.\n\n"
+        .. "I hoped that it wasn't permanent.\n\n"
+        .. "Oh god, I am such a fool.\n\n"
+        .. "I am good old crazy K: always down for a trip to wonderland, but a lone wolf "
+        .. "until the very end.\n\n"
+        .. "Why didn't you tell me? "
+        .. "Did you think I couldn't handle it?"
+    game_journal.add_txt(lang, "DAN_HOUSE_ICARUS_2_part2", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part4;{20}Part 2")
+
+    local str = "^x00ff00I sneaked away. I did not have the courage to see you.\n\n"
+        .. "I spent the next few days there numb, trying to make the most of it by going to "
+        .. "an amusement park and the local botanical gardens.\n\n"
+        .. "I almost threw out my cat outfit in the trash at the gardens, but I kept it just in case. "
+        .. "I did not want to have to reconstruct it later."
+    game_journal.add_txt(lang, "DAN_HOUSE_ICARUS_2_part3", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part4;{30}Part 3")
+
+    local str = "^x00ff00On the train ride back to my home in the east, "
+        .. "I renewed my vows to my true life partner:\n\n"
+        .. "^xff0000the Inner Mechanization Agency^x00ff00.\n\n"
+        .. "I decided to make it my goal to see the ^xffffffOmega Core^x00ff00 with my own eyes. "
+        .. "It might take years to rise in the ranks and get the security clearance to see it. "
+        .. "If I couldn't get the clearance, I would see the Omega Core by other means.\n\n"
+        .. "It was my new destiny."
+    game_journal.add_txt(lang, "DAN_HOUSE_ICARUS_2_part4", str)
+    game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part4;{40}Part 4")
+
+    --more!!!
+end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/Journal/English/Space/game_journal_english_space_lib.lua"
 --File: game_journal_english_space_lib.lua
@@ -25631,7 +26085,7 @@ function p.laser_locations()
         .. "6) The Central Core Treasure Room #1 "
         .. "(which is at the top of the Mylantis Top City)."
     game_journal.add_txt(lang, "MOON_ICE_INFO_LOCATIONS_freeze_time", str)
-    game_journal.add_path("@wep;@wep_laser;@wep_laser_loc;{40}Free time upgrades")
+    game_journal.add_path("@wep;@wep_laser;@wep_laser_loc;{40}Freeze time upgrades")
 
     local str = "^xff00ffLaser Super^! upgrades "
         .. "are some of the most rare upgrades in the universe. "
@@ -29111,6 +29565,7 @@ function p.process_final(args, exceptions)
     ret.damage_dealt = 0
     ret.killed = false
     ret.terminal_hit = true
+    ret.display_hit_to_hud = true
 
     local source_type = ga_ment_get_type(args.source_inst_id)
     local target_type = ga_ment_get_type(args.target_inst_id)
@@ -29118,9 +29573,9 @@ function p.process_final(args, exceptions)
     --Identity string.
     --When the hit results in the target ment being displayed
     --in the identity bar part of the hud.
-    if( ga_ment_static_b_exists_and_true(source_type, "identifies") and
-       ga_ment_type_var_exists(target_type, "identity_str") and
-       ga_ment_get_static_s(target_type, "identity_str") ~= "" )
+    if( ga_ment_b_exists_and_true(args.source_inst_id, "identifies") and
+       ga_ment_var_exists(args.target_inst_id, "identity_str") and
+       ga_ment_get_s(args.target_inst_id, "identity_str") ~= "" )
     then
         game_ment_identify.maybe(args.target_inst_id)
     end
@@ -29138,12 +29593,12 @@ function p.process_final(args, exceptions)
 
     local compute_damage = false
     if( exceptions.compute_damage == true and
-        ga_ment_type_var_exists(source_type, "damage") ) then
+        ga_ment_var_exists(args.source_inst_id, "damage") ) then
         compute_damage = true
     end
     if( game_ment_health.get_ment_has_health(args.target_inst_id) and
         game_ment_health.get_ment_health(args.target_inst_id) and
-        ga_ment_type_var_exists(source_type, "damage") and
+        ga_ment_var_exists(args.source_inst_id, "damage") and
         exceptions.no_damage ~= true )
     then
         compute_damage = true
@@ -29160,7 +29615,7 @@ function p.process_final(args, exceptions)
 
     local damage = 0
     if( compute_damage and
-        ga_ment_type_var_exists(source_type, "damage") )
+        ga_ment_var_exists(args.source_inst_id, "damage") )
     then
         local raw_damage = ga_ment_get_i(args.source_inst_id, "damage")
         local allow_powerus = true
@@ -29263,13 +29718,13 @@ function p.process_final(args, exceptions)
     if( ret.damage_dealt > 0 and
         ret.killed == false and
         exceptions.no_hurt_sound ~= true and
-        ga_ment_type_var_exists(target_type, "sound_hurt" ) and
-        ga_ment_type_var_exists(target_type, "last_sound_hurt") )
+        ga_ment_var_exists(args.target_inst_id, "sound_hurt" ) and
+        ga_ment_var_exists(args.target_inst_id, "last_sound_hurt") )
     then
         local game_time = ga_get_game_time()
         local last_sound_hurt = ga_ment_get_f(args.target_inst_id, "last_sound_hurt")
         local sound_hurt_period = 0.5
-        if( ga_ment_type_var_exists(target_type, "sound_hurt_period") ) then
+        if( ga_ment_var_exists(args.target_inst_id, "sound_hurt_period") ) then
             sound_hurt_period = ga_ment_get_f(args.target_inst_id, "sound_hurt_period")
         end
         if( game_time - last_sound_hurt > sound_hurt_period ) then
@@ -29280,7 +29735,7 @@ function p.process_final(args, exceptions)
     end
 
     --Alternate display icon.
-    if( ga_ment_type_var_exists(source_type, "alt_attack_icon") ) then
+    if( ga_ment_var_exists(args.source_inst_id, "alt_attack_icon") ) then
         local attack_icon = ga_ment_get_s(args.source_inst_id, "alt_attack_icon")
         if( attack_icon ~= "" ) then
             local name = "ment" .. tostring(args.source_inst_id)
@@ -29300,6 +29755,13 @@ function p.process_final(args, exceptions)
                 dir = ga_ment_vec_to_another_ment(args.target_inst_id, parent_inst_id)
             end
             local duration = 1.1
+            --
+            --What to display to the hud.
+            if( ga_ment_var_exists(args.source_inst_id, "display_hit_to_hud") and
+                ga_ment_get_b(args.source_inst_id, "display_hit_to_hud") == false )
+            then
+                ret.display_hit_to_hud = false
+            end
             ga_hud_reg_dir_tex(name, attack_icon, dir, duration)
         end
     end

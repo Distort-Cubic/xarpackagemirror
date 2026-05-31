@@ -11,7 +11,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_deep_ahh")
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.5)
-    ia_ment_new_static_var_s(id, "sound_death", "die_dragoon") --Does not matter.
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow")
     ia_ment_new_static_var_b(id, "emp_immune", true)
     ia_ment_new_var_b(id, "emp_immune_true", false, 60*5)
     ia_ment_new_static_var_b(id, "freeze_immune_true", true)
