@@ -1,0 +1,275 @@
+#Lines in this file that start with "#" are comment lines.
+#(Empty lines are also comment lines).
+
+NOT_LOADED             _ NOT_LOADED.jpg
+
+cursor                      a Cursor/cursor_troll.png
+cursor_clickable            a Cursor/cursor_ogre.png
+cursor_clickable_left_right a Cursor/cursor_menace.png
+cursor_draggable            a Cursor/cursor_goblin.png
+cursor_danger               a Cursor/cursor_demon.png
+cursor_simple               a Cursor/cursor_simple.png
+
+image_too_large         _ image_too_large.jpg
+
+bent_unknown            _ bent_unknown.jpg
+save                    _ ent_save.jpg
+txt                     _ ent_txt.jpg
+respawn_active          _ ent_respawn_active.jpg
+respawn_inactive        _ ent_respawn_inactive.jpg
+waypoint                _ ent_waypoint.jpg
+waypoint_in_only        _ ent_waypoint_in_only.jpg
+waypoint_out_only       _ ent_waypoint_out_only.jpg
+
+ring_shrink             _ ent_ring_shrink.jpg
+ring_grow               _ ent_ring_grow.jpg
+ring_pink               _ ent_ring_pink.jpg
+ring_blue               _ ent_ring_blue.jpg
+
+skull_green             _ skull_green.jpg
+skull_red               _ skull_red.jpg
+
+#Either a .tga or .png is supported for textures with alpha.
+crosshair               a Crosshairs/(homemade)_crosshair.tga
+
+picture_gato4           _ pic_gato4.jpg
+
+monster_gremlin         _ monster_gremlin_(tegan).jpg
+monster_gremlin_proj    _ monster_gremlin_proj.jpg
+
+#These are deprecated!
+#Use the "blocktex" versions instead.
+#The reason for switching over is to be able to use
+#Lua code linters that check that all block names are valid.
+#We don't want any texture names starting with block followed by
+#an underscore because that would confuse the linter.
+block_default           _ block_default.jpg
+block_default_not_set   _ block_default_not_set.jpg
+
+blocktex_default            _ block_default.jpg
+blocktex_default_not_set    _ block_default_not_set.jpg
+
+#------------------------------------------------------------------------------
+#
+#                                      Font
+#
+#------------------------------------------------------------------------------
+#The texture name "font" is special.
+#It is used by the engine for rending fonts.
+
+font a ../Font/tex_font_atlas.png
+
+#------------------------------------------------
+#Texture names that start with "font_char_ascii_"
+#are also special.  They are used by the engine to
+#render individual characters.
+#If an individual character texture name exists,
+#the engine uses that instead of the "font" texture.
+
+font_char_ascii_32 a ../Font/IndividualChars/32.png
+font_char_ascii_33 a ../Font/IndividualChars/33.png
+font_char_ascii_34 a ../Font/IndividualChars/34.png
+font_char_ascii_35 a ../Font/IndividualChars/35.png
+font_char_ascii_36 a ../Font/IndividualChars/36.png
+font_char_ascii_37 a ../Font/IndividualChars/37.png
+font_char_ascii_38 a ../Font/IndividualChars/38.png
+font_char_ascii_39 a ../Font/IndividualChars/39.png
+font_char_ascii_40 a ../Font/IndividualChars/40.png
+font_char_ascii_41 a ../Font/IndividualChars/41.png
+font_char_ascii_42 a ../Font/IndividualChars/42.png
+font_char_ascii_43 a ../Font/IndividualChars/43.png
+font_char_ascii_44 a ../Font/IndividualChars/44.png
+font_char_ascii_45 a ../Font/IndividualChars/45.png
+font_char_ascii_46 a ../Font/IndividualChars/46.png
+font_char_ascii_47 a ../Font/IndividualChars/47.png
+font_char_ascii_48 a ../Font/IndividualChars/48.png
+font_char_ascii_49 a ../Font/IndividualChars/49.png
+font_char_ascii_50 a ../Font/IndividualChars/50.png
+font_char_ascii_51 a ../Font/IndividualChars/51.png
+font_char_ascii_52 a ../Font/IndividualChars/52.png
+font_char_ascii_53 a ../Font/IndividualChars/53.png
+font_char_ascii_54 a ../Font/IndividualChars/54.png
+font_char_ascii_55 a ../Font/IndividualChars/55.png
+font_char_ascii_56 a ../Font/IndividualChars/56.png
+font_char_ascii_57 a ../Font/IndividualChars/57.png
+font_char_ascii_58 a ../Font/IndividualChars/58.png
+font_char_ascii_59 a ../Font/IndividualChars/59.png
+font_char_ascii_60 a ../Font/IndividualChars/60.png
+font_char_ascii_61 a ../Font/IndividualChars/61.png
+font_char_ascii_62 a ../Font/IndividualChars/62.png
+font_char_ascii_63 a ../Font/IndividualChars/63.png
+font_char_ascii_64 a ../Font/IndividualChars/64.png
+font_char_ascii_65 a ../Font/IndividualChars/65.png
+font_char_ascii_66 a ../Font/IndividualChars/66.png
+font_char_ascii_67 a ../Font/IndividualChars/67.png
+font_char_ascii_68 a ../Font/IndividualChars/68.png
+font_char_ascii_69 a ../Font/IndividualChars/69.png
+font_char_ascii_70 a ../Font/IndividualChars/70.png
+font_char_ascii_71 a ../Font/IndividualChars/71.png
+font_char_ascii_72 a ../Font/IndividualChars/72.png
+font_char_ascii_73 a ../Font/IndividualChars/73.png
+font_char_ascii_74 a ../Font/IndividualChars/74.png
+font_char_ascii_75 a ../Font/IndividualChars/75.png
+font_char_ascii_76 a ../Font/IndividualChars/76.png
+font_char_ascii_77 a ../Font/IndividualChars/77.png
+font_char_ascii_78 a ../Font/IndividualChars/78.png
+font_char_ascii_79 a ../Font/IndividualChars/79.png
+font_char_ascii_80 a ../Font/IndividualChars/80.png
+font_char_ascii_81 a ../Font/IndividualChars/81.png
+font_char_ascii_82 a ../Font/IndividualChars/82.png
+font_char_ascii_83 a ../Font/IndividualChars/83.png
+font_char_ascii_84 a ../Font/IndividualChars/84.png
+font_char_ascii_85 a ../Font/IndividualChars/85.png
+font_char_ascii_86 a ../Font/IndividualChars/86.png
+font_char_ascii_87 a ../Font/IndividualChars/87.png
+font_char_ascii_88 a ../Font/IndividualChars/88.png
+font_char_ascii_89 a ../Font/IndividualChars/89.png
+font_char_ascii_90 a ../Font/IndividualChars/90.png
+font_char_ascii_91 a ../Font/IndividualChars/91.png
+font_char_ascii_92 a ../Font/IndividualChars/92.png
+font_char_ascii_93 a ../Font/IndividualChars/93.png
+font_char_ascii_94 a ../Font/IndividualChars/94.png
+font_char_ascii_95 a ../Font/IndividualChars/95.png
+font_char_ascii_96 a ../Font/IndividualChars/96.png
+font_char_ascii_97 a ../Font/IndividualChars/97.png
+font_char_ascii_98 a ../Font/IndividualChars/98.png
+font_char_ascii_99 a ../Font/IndividualChars/99.png
+font_char_ascii_100 a ../Font/IndividualChars/100.png
+font_char_ascii_101 a ../Font/IndividualChars/101.png
+font_char_ascii_102 a ../Font/IndividualChars/102.png
+font_char_ascii_103 a ../Font/IndividualChars/103.png
+font_char_ascii_104 a ../Font/IndividualChars/104.png
+font_char_ascii_105 a ../Font/IndividualChars/105.png
+font_char_ascii_106 a ../Font/IndividualChars/106.png
+font_char_ascii_107 a ../Font/IndividualChars/107.png
+font_char_ascii_108 a ../Font/IndividualChars/108.png
+font_char_ascii_109 a ../Font/IndividualChars/109.png
+font_char_ascii_110 a ../Font/IndividualChars/110.png
+font_char_ascii_111 a ../Font/IndividualChars/111.png
+font_char_ascii_112 a ../Font/IndividualChars/112.png
+font_char_ascii_113 a ../Font/IndividualChars/113.png
+font_char_ascii_114 a ../Font/IndividualChars/114.png
+font_char_ascii_115 a ../Font/IndividualChars/115.png
+font_char_ascii_116 a ../Font/IndividualChars/116.png
+font_char_ascii_117 a ../Font/IndividualChars/117.png
+font_char_ascii_118 a ../Font/IndividualChars/118.png
+font_char_ascii_119 a ../Font/IndividualChars/119.png
+font_char_ascii_120 a ../Font/IndividualChars/120.png
+font_char_ascii_121 a ../Font/IndividualChars/121.png
+font_char_ascii_122 a ../Font/IndividualChars/122.png
+font_char_ascii_123 a ../Font/IndividualChars/123.png
+font_char_ascii_124 a ../Font/IndividualChars/124.png
+font_char_ascii_125 a ../Font/IndividualChars/125.png
+font_char_ascii_126 a ../Font/IndividualChars/126.png
+font_char_ascii_127 a ../Font/IndividualChars/127.png
+
+#------------------------------------------------
+#We need to set clamping to true for each
+#individual character texture.
+
+set font_char_ascii_32 clamp true
+set font_char_ascii_33 clamp true
+set font_char_ascii_34 clamp true
+set font_char_ascii_35 clamp true
+set font_char_ascii_36 clamp true
+set font_char_ascii_37 clamp true
+set font_char_ascii_38 clamp true
+set font_char_ascii_39 clamp true
+set font_char_ascii_40 clamp true
+set font_char_ascii_41 clamp true
+set font_char_ascii_42 clamp true
+set font_char_ascii_43 clamp true
+set font_char_ascii_44 clamp true
+set font_char_ascii_45 clamp true
+set font_char_ascii_46 clamp true
+set font_char_ascii_47 clamp true
+set font_char_ascii_48 clamp true
+set font_char_ascii_49 clamp true
+set font_char_ascii_50 clamp true
+set font_char_ascii_51 clamp true
+set font_char_ascii_52 clamp true
+set font_char_ascii_53 clamp true
+set font_char_ascii_54 clamp true
+set font_char_ascii_55 clamp true
+set font_char_ascii_56 clamp true
+set font_char_ascii_57 clamp true
+set font_char_ascii_58 clamp true
+set font_char_ascii_59 clamp true
+set font_char_ascii_60 clamp true
+set font_char_ascii_61 clamp true
+set font_char_ascii_62 clamp true
+set font_char_ascii_63 clamp true
+set font_char_ascii_64 clamp true
+set font_char_ascii_65 clamp true
+set font_char_ascii_66 clamp true
+set font_char_ascii_67 clamp true
+set font_char_ascii_68 clamp true
+set font_char_ascii_69 clamp true
+set font_char_ascii_70 clamp true
+set font_char_ascii_71 clamp true
+set font_char_ascii_72 clamp true
+set font_char_ascii_73 clamp true
+set font_char_ascii_74 clamp true
+set font_char_ascii_75 clamp true
+set font_char_ascii_76 clamp true
+set font_char_ascii_77 clamp true
+set font_char_ascii_78 clamp true
+set font_char_ascii_79 clamp true
+set font_char_ascii_80 clamp true
+set font_char_ascii_81 clamp true
+set font_char_ascii_82 clamp true
+set font_char_ascii_83 clamp true
+set font_char_ascii_84 clamp true
+set font_char_ascii_85 clamp true
+set font_char_ascii_86 clamp true
+set font_char_ascii_87 clamp true
+set font_char_ascii_88 clamp true
+set font_char_ascii_89 clamp true
+set font_char_ascii_90 clamp true
+set font_char_ascii_91 clamp true
+set font_char_ascii_92 clamp true
+set font_char_ascii_93 clamp true
+set font_char_ascii_94 clamp true
+set font_char_ascii_95 clamp true
+set font_char_ascii_96 clamp true
+set font_char_ascii_97 clamp true
+set font_char_ascii_98 clamp true
+set font_char_ascii_99 clamp true
+set font_char_ascii_100 clamp true
+set font_char_ascii_101 clamp true
+set font_char_ascii_102 clamp true
+set font_char_ascii_103 clamp true
+set font_char_ascii_104 clamp true
+set font_char_ascii_105 clamp true
+set font_char_ascii_106 clamp true
+set font_char_ascii_107 clamp true
+set font_char_ascii_108 clamp true
+set font_char_ascii_109 clamp true
+set font_char_ascii_110 clamp true
+set font_char_ascii_111 clamp true
+set font_char_ascii_112 clamp true
+set font_char_ascii_113 clamp true
+set font_char_ascii_114 clamp true
+set font_char_ascii_115 clamp true
+set font_char_ascii_116 clamp true
+set font_char_ascii_117 clamp true
+set font_char_ascii_118 clamp true
+set font_char_ascii_119 clamp true
+set font_char_ascii_120 clamp true
+set font_char_ascii_121 clamp true
+set font_char_ascii_122 clamp true
+set font_char_ascii_123 clamp true
+set font_char_ascii_124 clamp true
+set font_char_ascii_125 clamp true
+set font_char_ascii_126 clamp true
+set font_char_ascii_127 clamp true
+
+#------------------------------------------------
+#If you are making a mod and want to disable
+#the individual character images, you need to
+#have the following lines (not commented out):
+#undefine font_char_ascii_32
+#undefine font_char_ascii_33
+#undefine font_char_ascii_34
+#undefine font_char_ascii_35
+#...

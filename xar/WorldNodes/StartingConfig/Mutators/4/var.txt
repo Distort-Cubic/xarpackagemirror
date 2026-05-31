@@ -1,0 +1,3 @@
+var b worldgen.state.low_max_ammo false
+
+name "Low max ammo upgrades"

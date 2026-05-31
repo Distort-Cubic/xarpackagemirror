@@ -1,0 +1,3 @@
+var b worldgen.state.low_buy_upgrades false
+
+name "Low upgrade buying"

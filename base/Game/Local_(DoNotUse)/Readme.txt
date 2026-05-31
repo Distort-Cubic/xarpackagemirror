@@ -1,0 +1,3 @@
+-- Do not use "base_local" scripts from other packages.
+-- This is because they are volatile.
+-- Instead, you can copy them and use those copies.

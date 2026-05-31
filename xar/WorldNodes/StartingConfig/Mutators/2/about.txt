@@ -1,0 +1,9 @@
+This game was originally intended to have more "one way" passages
+making it harder to navigate through the world.
+Set this variable to true to enable this one way mode.
+Some areas are not affected much, but I2 and I3 are significantly
+affected. With this mode enabled, it is difficult to enter and exit
+I2 or I3 without passing by White Box Devices (which take all your ammo).
+For example, the only way in and out of Montreal requires going
+by a White Box Device.  This mode also has fewer waypoints
+in certain areas.  Use this at your own risk.

@@ -1,0 +1,16 @@
+#This will show up when the player is
+#creating a new game and must select
+#a starting position:
+description     "Default"
+
+#Which chunk description file is
+#used for the root of the chunk tree.
+root_node       base_root
+
+#Where in the final chunk the player
+#should be placed.  Should be "x y z",
+#where x,y,z are each between 0.0 and 16.0
+player_offset   7.5 7.5 7.5
+
+#The starting path:
+chunk_path EMPTY_PATH

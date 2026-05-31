@@ -1,0 +1,5 @@
+var b worldgen.state.genesis false
+
+name "Genesis"
+
+hide

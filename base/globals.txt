@@ -1,0 +1,8 @@
+######################################
+#            Waypoints
+######################################
+
+#Can cycle through this using a waypoint menu.
+i base.wp.sortby_int 0
+i base.wp.sortby_unhide_int 0
+s base.wp.temp_wp.path ""

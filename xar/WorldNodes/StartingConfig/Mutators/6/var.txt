@@ -1,0 +1,3 @@
+var b worldgen.state.no_stable_sing false
+
+name "No stable singletons room"

@@ -1,0 +1,7 @@
+When the game was originally made it was harder to increase
+your maximum ammo for each weapon.
+Because of player feedback, ammo chunks were sprinkled
+throughout the world and these would generally contain
+max ammo upgrades in them (for most weapons).
+Enable this mode to prevent the game from casually giving
+the player max ammo upgrades.

@@ -1,0 +1,34 @@
+#Lines in this file that start with "#" are comment lines.
+#(Empty lines are also comment lines).
+
+# Format:   mesh_name   texture_name   wavefront_file.obj
+
+bent_base_unknown           bent_unknown           large_box.obj
+bent_base_save              save                   large_box.obj
+bent_base_txt               txt                    large_box.obj
+bent_base_respawn_active    respawn_active         large_box.obj
+bent_base_respawn_inactive  respawn_inactive       large_box.obj
+bent_base_waypoint          waypoint               large_box.obj
+bent_base_waypoint_in_only  waypoint_in_only       large_box.obj
+bent_base_waypoint_out_only waypoint_out_only      large_box.obj
+bent_base_skull_cube_green  skull_green            med_box.obj
+bent_base_skull_cube_red    skull_red              med_box.obj
+
+bent_base_picture_gato4     picture_gato4          picture_box.obj
+
+ring_shrink_large      ring_shrink            ring_large.obj
+ring_shrink_med        ring_shrink            ring_med.obj
+ring_shrink_small      ring_shrink            ring_small.obj
+ring_grow_large        ring_grow              ring_large.obj
+ring_grow_med          ring_grow              ring_med.obj
+ring_grow_small        ring_grow              ring_small.obj
+ring_pink_large        ring_pink              ring_large.obj
+ring_pink_med          ring_pink              ring_med.obj
+ring_pink_small        ring_pink              ring_small.obj
+sphere_pink            ring_pink              sphere_flat.obj
+ring_blue_large        ring_blue              ring_large.obj
+ring_blue_med          ring_blue              ring_med.obj
+ring_blue_small        ring_blue              ring_small.obj
+
+ment_tegan_monster_gremlin       monster_gremlin        sphere_flat.obj
+ment_tegan_monster_gremlin_proj  monster_gremlin_proj   octahedron.obj

@@ -1,0 +1,25 @@
+--File: game_journal_english_space.lua
+
+function p.main()
+    game_journal_english_space_black_hole_big.main()
+    game_journal_english_space_blue_ring_station.main()
+    game_journal_english_space_case.main()
+    game_journal_english_space_galaxy.main()
+    game_journal_english_space_lib.main()
+    game_journal_english_space_mid.main()
+    game_journal_english_space_moon_beta.main()
+    game_journal_english_space_moon_fire_rate.main()
+    game_journal_english_space_moon_gamma.main()
+    game_journal_english_space_moon_ice.main()
+    game_journal_english_space_moon_modules.main()
+    game_journal_english_space_planet_clay.main()
+    game_journal_english_space_planet_minigun_small.main()
+    game_journal_english_space_planet_modules.main()
+    game_journal_english_space_root.main()
+    game_journal_english_space_root_pink_prison.main()
+    game_journal_english_space_sponge_alpha.main()
+    game_journal_english_space_solar_system.main()
+    game_journal_english_space_sun.main()
+    game_journal_english_space_top.main()
+    --more!!!
+end

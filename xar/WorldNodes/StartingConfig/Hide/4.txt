@@ -1,0 +1,13 @@
+description     "Top of World"
+
+# The node __FBW_DEFAULT__ is special
+# because it refers to the root built-in
+# world node root for the Xar universe.
+root_node       __FBW_DEFAULT__
+
+seed 0
+
+player_offset   7.5 3 7.5
+
+# The starting path:
+chunk_path 999
