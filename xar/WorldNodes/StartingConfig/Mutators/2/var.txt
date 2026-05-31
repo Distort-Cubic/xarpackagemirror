@@ -1,0 +1,3 @@
+var b worldgen.state.one_way false
+
+name "One way"

@@ -1,0 +1,20 @@
+--File: game_journal_english_mid.lua
+
+function p.main()
+    game_journal_english_mid_basic_laser_maze.main()
+    game_journal_english_mid_blackberry.main()
+    game_journal_english_mid_blue_bubble.main()
+    game_journal_english_mid_catacombs.main()
+    game_journal_english_mid_hinesburg.main()
+    game_journal_english_mid_huntington.main()
+    game_journal_english_mid_jericho.main()
+    game_journal_english_mid_mossy_air.main()
+    game_journal_english_mid_orange.main()
+    game_journal_english_mid_richmond.main()
+    game_journal_english_mid_richmond_lib.main()
+    game_journal_english_mid_stoney_air.main()
+    game_journal_english_mid_stoney_sanctuary.main()
+    game_journal_english_mid_stoney_sanctuary_lib.main()
+    game_journal_english_mid_tau_caves.main()
+    game_journal_english_mid_tweed.main()
+end

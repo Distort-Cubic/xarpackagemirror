@@ -1,0 +1,5 @@
+At some point, because of player feedback more stations were placed
+in the world where the player could buy upgrades for weapons.
+When this mode is enabled, many of these upgrade buying stations
+are removed, making them quite rare.
+This makes it harder to get certain weapons in the early game.

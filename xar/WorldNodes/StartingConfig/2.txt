@@ -1,0 +1,22 @@
+description     "Genesis"
+
+# The node __FBW_DEFAULT__ is special
+# because it refers to the root built-in
+# world node root for the Xar universe.
+root_node       __FBW_DEFAULT__
+player_offset   7.5 3 7.5
+chunk_path      EMPTY_PATH
+
+# The seed is the default seed used to generate the world.
+# If seed_allow_any is set to true, then the user can
+# choose a non-default seed (either randomly or by typing it in)
+# when creating a new game.
+seed 3
+seed_allow_any true
+
+#Selecting the "genesis" version of the program.
+#DEPRECATE!!!
+#genesis true
+
+#Setting mutators:
+set worldgen.state.genesis true

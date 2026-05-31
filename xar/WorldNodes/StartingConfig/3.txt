@@ -1,0 +1,13 @@
+description     "Cheater Hub"
+
+# The node __FBW_DEFAULT__ is special
+# because it refers to the root built-in
+# world node root for the Xar universe.
+root_node       __FBW_DEFAULT__
+player_offset   7.5 3 7.5
+chunk_path      777_777_777_777_777_88f_88f_0f1_0f0
+
+seed 0
+
+#Setting mutators:
+set worldgen.state.genesis false

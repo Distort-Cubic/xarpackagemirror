@@ -1,0 +1,4 @@
+The main game of Fractal Block World. 
+Collect upgrades for 10 weapons and fight hoards of monsters 
+(or disable monsters if you want to relax). 
+^x00ff00The world is massive^! and you fly through it to explore.

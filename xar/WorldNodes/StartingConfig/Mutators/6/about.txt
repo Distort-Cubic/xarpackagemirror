@@ -1,0 +1,4 @@
+When this mode is enabled, the Stable Singletons Room (next to the Emergency Waypoint) is removed. 
+This is intended to make "inf2" speedruns longer.  In addition, this mode removes
+certain normally unreachable places (which are reachable in inf2 mode) that are only there
+to allow the developer to quickly move through the world.

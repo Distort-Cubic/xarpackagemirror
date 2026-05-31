@@ -1,0 +1,72 @@
+-- Number of Lua scripts = 9
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_enter.lua"
+function p.__on_touch()
+    game_arcade.set_inside_arcade()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_exit.lua"
+function p.__on_touch()
+    game_arcade.set_outside_arcade()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_laser_genesis.lua"
+function p.__on_touch()
+    if( ga_get_f("xar.key_time.laser_genesis") > 0 ) then
+        --The player has the key.
+        return
+    end
+    --The player does not have the key.
+    ga_kill_player()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_universe.lua"
+function p.__on_touch()
+    if( ga_get_f("xar.key_time.universe") > 0 ) then
+        --The player has the key.
+        return
+    end
+    --The player does not have the key.
+    ga_kill_player()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_yellow.lua"
+function p.__on_touch()
+    if( ga_get_f("xar.key_time.yellow") > 0 ) then
+        --The player has the key.
+        return
+    end
+    --The player does not have the key.
+    ga_kill_player()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_lock_difficulty.lua"
+function p.__on_touch()
+    local locked_in = ga_get_b("xar.difficulty.locked_in")
+    if( locked_in ) then return end
+    --
+    ga_set_b("xar.difficulty.locked_in", true)
+    game_msg.add("From now on, the easiest used difficulty...")
+    game_msg.add("will be recorded (press F5) ")
+    ga_play_sound("harp")
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_start_speedrun.lua"
+function p.__on_touch()
+    local var = "xar.difficulty.speedrun_start"
+    local start_time = ga_get_f(var)
+    if( start_time > 0 ) then return end
+    --Initializing the start time.
+    start_time = ga_get_game_time()
+    ga_set_f(var, start_time)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_take_ammo.lua"
+function p.__on_touch()
+    game_remove_ammo.remove_ammo()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_take_keys.lua"
+function p.__on_touch()
+    game_remove_ammo.remove_keys()
+end
+END_FILE

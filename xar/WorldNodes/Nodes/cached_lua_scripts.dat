@@ -1,0 +1,460 @@
+-- Number of Lua scripts = 9
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_bur_city_combo.lua"
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+--The need for this block is annoying.
+--We need it to pass the Burlington City Combo string
+--from C++ worldgen code to the Lua journal.
+
+function p.__type_init(id)
+    --The api name of the text.
+    --It should NOT start with "journal_".
+    ia_block_new_var_s(id, "combo_str", "") --Will be set.
+end
+
+function p.__main()
+    set_default_block("block_e")
+end
+
+function p.__get_can_use(level, bp)
+    local dist = ga_block_dist_to_viewer(level, bp)
+    if( dist < 1.0 ) then return false end
+    return true
+end
+
+function p.__get_use_msg(level, bp)
+    if( not p.__get_can_use(level, bp, dist) ) then return "" end
+    return "Read text"
+end
+
+function p.__on_use(level, bp)
+    ga_play_sound_menu("use")
+    local combo_str = ga_block_get_s(level, bp, "combo_str")
+    --
+    --Passing data to journal system.
+    ga_set_s("xar.bur_city_combo", combo_str)
+    --
+    --String to render in textbox window.
+    local str = "^xff00ffThe combination for the \"Burlington City Lock\" is:\n\n"
+        .. combo_str
+    --
+    game_journal.unlock("bur_city_combo_cb") --Test this.
+    --
+    ga_create_s("temp.base.textbox_text")
+    ga_set_s("temp.base.textbox_text", str)
+    ga_window_push("win_base_txt")
+end
+
+function p.__on_render(level, bp)
+    if( level ~= ga_get_viewer_level() ) then return end
+
+    --Creating the classic "pulsating" look.
+    local cur_time = ga_get_game_time()
+    scale = 1.0 + math.cos(6.0 * cur_time) * 0.1
+    ga_render_matrix_scaled(scale, scale, scale);
+    --
+    local mesh_name = "txt_box"
+    ga_render_mesh(mesh_name)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_ladder_x_neg.lua"
+--See ladder_x_pos for documentation.
+
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__get_inv_tex_x_neg() return "block_side_ladder" end
+
+function p.__main()
+    set_default_block("e")
+
+    create_rect("r_black", 0,0,4,  3,15,4)
+    create_rect("r_black", 0,0,11, 3,15,11)
+
+    create_rect("r_white", 0,4,0,  0,4,15)
+    create_rect("ladder_x_neg", 1,4,0,  1,4,15)
+    --
+    create_rect("r_white", 0,11,0, 0,11,15)
+    create_rect("ladder_x_neg", 1,11,0, 1,11,15)
+end
+
+function p.__on_close(level, bp)
+    --Body dimensions.
+    radius = ga_get_sys_f("game.player.move.ground.radius")
+    bot_to_eye = ga_get_sys_f("game.player.move.ground.bot_to_eye")
+    eye_to_top = ga_get_sys_f("game.player.move.ground.eye_to_top")
+
+    eye = ga_get_sys_v("game.player.camera.offset")
+
+    line = {}
+    line.min = {x = eye.x-radius, y = eye.y, z = eye.z-bot_to_eye}
+    line.max = {x = eye.x-radius, y = eye.y, z = eye.z+eye_to_top}
+
+    thick = 0.1
+    rect = {}
+    rect.min = {x = (bp.x),       y = bp.y, z = bp.z}
+    rect.max = {x = (bp.x+thick), y = bp.y+1, z = bp.z+1}
+
+    if  line.max.x < rect.min.x or
+        line.max.y < rect.min.y or
+        line.max.z < rect.min.z or
+        rect.max.x < line.min.x or
+        rect.max.y < line.min.y or
+        rect.max.z < line.min.z
+    then
+        --Not touching the ladder
+        return
+    end
+
+    --Setting movement state to be on a ladder.
+    ga_set_s("xar.inf2.movement.mod", "ladder_x_neg")
+end
+
+function p.__on_adj_block_changed(
+    level, bp, side, old_bt, new_bt)
+
+    if ga_bt_get_physically_solid(new_bt) then return end
+    if side ~= 1 then return end
+
+    ga_block_change_rl(level, bp, "block_e", 10.0)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_ladder_x_pos.lua"
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__get_inv_tex_x_pos() return "block_side_ladder" end
+
+function p.__main()
+    set_default_block("e")
+
+    create_rect("r_black", 12,0,4,  15,15,4)
+    create_rect("r_black", 12,0,11, 15,15,11)
+
+    create_rect("ladder_x_pos", 14,4,0,  14,4,15)
+    create_rect("r_white", 15,4,0,  15,4,15)
+    --
+    create_rect("ladder_x_pos", 14,11,0, 14,11,15)
+    create_rect("r_white", 15,11,0, 15,11,15)
+end
+
+function p.__on_close(level, bp)
+    --Body dimensions.
+    local radius = ga_get_sys_f("game.player.move.ground.radius")
+    local bot_to_eye = ga_get_sys_f("game.player.move.ground.bot_to_eye")
+    local eye_to_top = ga_get_sys_f("game.player.move.ground.eye_to_top")
+
+    --Need to get the viewer's pos.
+    --(in the local coords of the center metachunk,
+    --which implies it is in level coords).
+    local eye = ga_get_sys_v("game.player.camera.offset")
+
+    local line = {}
+    line.min = {x = eye.x+radius, y = eye.y, z = eye.z-bot_to_eye}
+    line.max = {x = eye.x+radius, y = eye.y, z = eye.z+eye_to_top}
+
+    local thick = 0.1
+    local rect = {}
+    rect.min = {x = (bp.x+1-thick), y = bp.y, z = bp.z}
+    rect.max = {x = (bp.x+1),       y = bp.y+1, z = bp.z+1}
+
+    if  line.max.x < rect.min.x or
+        line.max.y < rect.min.y or
+        line.max.z < rect.min.z or
+        rect.max.x < line.min.x or
+        rect.max.y < line.min.y or
+        rect.max.z < line.min.z
+    then
+        --Not touching the ladder
+        return
+    end
+
+    --Setting movement state to be on a ladder.
+    ga_set_s("xar.inf2.movement.mod", "ladder_x_pos")
+end
+
+function p.__on_adj_block_changed(
+    level, bp, side, old_bt, new_bt)
+
+    if ga_bt_get_physically_solid(new_bt) then return end
+    if side ~= 0 then return end
+
+    --NEED TO THINK ABOUT THE RAMIFICATIONS OF CHANGING
+    --THE CURRENT BLOCK FROM THE BLOCK LUA SCRIPT
+    --
+    --THE REVERT TIME IS NOT RIGHT:
+    --IT SHOULD BE THE SAME AS THE REVERY TIME FOR THIS BLOCK.
+    ga_block_change_rl(level, bp, "block_e", 10.0)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_ladder_y_neg.lua"
+--See ladder_x_pos for documentation.
+
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__get_inv_tex_y_neg() return "block_side_ladder" end
+
+function p.__main()
+    set_default_block("e")
+
+    create_rect("r_black", 0,0,4,  15,3,4)
+    create_rect("r_black", 0,0,11, 15,3,11)
+
+    create_rect("r_white", 4,0,0,  4,0,15)
+    create_rect("ladder_y_neg", 4,1,0,  4,1,15)
+    --
+    create_rect("r_white", 11,0,0, 11,0,15)
+    create_rect("ladder_y_neg", 11,1,0, 11,1,15)
+end
+
+function p.__on_close(level, bp)
+    --Body dimensions.
+    radius = ga_get_sys_f("game.player.move.ground.radius")
+    bot_to_eye = ga_get_sys_f("game.player.move.ground.bot_to_eye")
+    eye_to_top = ga_get_sys_f("game.player.move.ground.eye_to_top")
+
+    eye = ga_get_sys_v("game.player.camera.offset")
+
+    line = {}
+    line.min = {x = eye.x, y = eye.y-radius, z = eye.z-bot_to_eye}
+    line.max = {x = eye.x, y = eye.y-radius, z = eye.z+eye_to_top}
+
+    thick = 0.1
+    rect = {}
+    rect.min = {x = bp.x,   y = (bp.y),       z = bp.z}
+    rect.max = {x = bp.x+1, y = (bp.y+thick), z = bp.z+1}
+
+    if  line.max.x < rect.min.x or
+        line.max.y < rect.min.y or
+        line.max.z < rect.min.z or
+        rect.max.x < line.min.x or
+        rect.max.y < line.min.y or
+        rect.max.z < line.min.z
+    then
+        return
+    end
+
+    --Setting movement state to be on a ladder.
+    ga_set_s("xar.inf2.movement.mod", "ladder_y_neg")
+end
+
+function p.__on_adj_block_changed(
+    level, bp, side, old_bt, new_bt)
+--
+    -- ga_print("ladder_y_neg.on_adj_block_changed")
+    -- ga_print("  old_bt = " .. tostring(old_bt))
+    -- ga_print("  new_bt = " .. tostring(new_bt))
+
+    if ga_bt_get_physically_solid(new_bt) then return end
+    if side ~= 3 then return end
+
+    ga_block_change_rl(level, bp, "block_e", 10.0)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_ladder_y_pos.lua"
+--See ladder_x_pos for documentation.
+
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__get_inv_tex_y_pos() return "block_side_ladder" end
+
+function p.__main()
+    set_default_block("e")
+
+    create_rect("r_black", 0,12,4,  15,15,4)
+    create_rect("r_black", 0,12,11, 15,15,11)
+
+    create_rect("r_white", 4,15,0,  4,15,15)
+    create_rect("ladder_y_pos", 4,14,0,  4,14,15)
+    --
+    create_rect("r_white", 11,15,0, 11,15,15)
+    create_rect("ladder_y_pos", 11,14,0, 11,14,15)
+end
+
+function p.__on_close(level, bp)
+    --Body dimensions.
+    radius = ga_get_sys_f("game.player.move.ground.radius")
+    bot_to_eye = ga_get_sys_f("game.player.move.ground.bot_to_eye")
+    eye_to_top = ga_get_sys_f("game.player.move.ground.eye_to_top")
+
+    eye = ga_get_sys_v("game.player.camera.offset")
+
+    line = {}
+    line.min = {x = eye.x, y = eye.y+radius, z = eye.z-bot_to_eye}
+    line.max = {x = eye.x, y = eye.y+radius, z = eye.z+eye_to_top}
+
+    thick = 0.1
+    rect = {}
+    rect.min = {x = bp.x,   y = (bp.y+1-thick), z = bp.z}
+    rect.max = {x = bp.x+1, y = (bp.y+1),       z = bp.z+1}
+
+    if  line.max.x < rect.min.x or
+        line.max.y < rect.min.y or
+        line.max.z < rect.min.z or
+        rect.max.x < line.min.x or
+        rect.max.y < line.min.y or
+        rect.max.z < line.min.z
+    then
+        --Not touching the ladder
+        return
+    end
+
+    --Setting movement state to be on a ladder.
+    ga_set_s("xar.inf2.movement.mod", "ladder_y_pos")
+end
+
+function p.__on_adj_block_changed(
+    level, bp, side, old_bt, new_bt)
+
+    if ga_bt_get_physically_solid(new_bt) then return end
+    if side ~= 2 then return end
+
+    ga_block_change_rl(level, bp, "block_e", 10.0)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_r_black.lua"
+function p.__get_is_solid() return true end
+function p.__get_tex() return "block_dark_concrete_blue_border" end
+
+function p.__main()
+    set_default_block("r_black")
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_r_white.lua"
+function p.__get_is_solid() return true end
+function p.__get_tex() return "block_concrete_white_border" end
+
+function p.__main()
+    set_default_block("r_white")
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_xar_journal.lua"
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__type_init(id)
+    --The api name of the text.
+    --It should NOT start with "journal_".
+    ia_block_new_var_s(id, "api_name", "")
+end
+
+function p.__main()
+    set_default_block("block_e")
+end
+
+function p.__get_can_use(level, bp)
+    local dist = ga_block_dist_to_viewer(level, bp)
+    if( dist < 1.0 ) then return false end
+    return true
+end
+
+function p.__get_use_msg(level, bp)
+    if( not p.__get_can_use(level, bp, dist) ) then return "" end
+    return "Read text" --Could say "read new text" if not in journal.
+end
+
+function p.__on_use(level, bp)
+    ga_play_sound_menu("use")
+    local api_name = ga_block_get_s(level, bp, "api_name")
+    -- ga_print("block_xar_journal: api_name = " .. api_name)
+    --
+    game_journal.unlock(api_name) --Test this.
+    --
+    local chunk_id = ga_bp_to_parent_chunk_id(level, bp)
+    local str = game_journal.get_txt(api_name, chunk_id)
+    ga_create_s("temp.base.textbox_text")
+    ga_set_s("temp.base.textbox_text", str)
+    ga_window_push("win_base_txt")
+end
+
+function p.__on_render(level, bp)
+    if( level ~= ga_get_viewer_level() ) then return end
+
+    --Creating the classic "pulsating" look.
+    local cur_time = ga_get_game_time()
+    scale = 1.0 + math.cos(6.0 * cur_time) * 0.1
+    ga_render_matrix_scaled(scale, scale, scale);
+    --
+    -- local mesh_name = "txt_not_yet_added"
+    local mesh_name = "txt_box"
+    ga_render_mesh(mesh_name)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/WorldNodes/Nodes/block_xar_trophy.lua"
+function p.__get_is_solid() return false end
+function p.__get_tex() return "" end
+
+function p.__type_init(id)
+    --The api name of the trophy.
+    --It should NOT start with "trophy_".
+    ia_block_new_var_s(id, "api_name", "")
+    ia_block_new_var_i(id, "reg_countdown", 0) --Get rid of eventually.
+end
+
+function p.__main()
+    set_default_block("block_e")
+end
+
+function p.__get_can_use(level, bp)
+    return true
+end
+
+function p.__get_use_msg(level, bp)
+    return "Trophy"
+end
+
+function p.__on_use(level, bp)
+    p.payload(level, bp)
+end
+
+function p.__on_close(level, bp)
+    p.payload(level, bp)
+end
+
+function p.on_telekinesis(level, bp)
+    p.payload(level, bp)
+end
+
+function p.payload(level, bp)
+    --Gaining the trophy.
+    local api_name = ga_block_get_s(level, bp, "api_name")
+    if( api_name == "" ) then
+        ga_print("*** Error: api_name is empty in block_xar_trophy")
+        return
+    end
+    game_trophy.pickup(api_name)
+    --Removing the block.
+    -- local five_minutes = 5 * 60 --So can pick up again in case of an issue.
+    -- ga_block_change_rl(level, bp, "block_e", five_minutes)
+    ga_block_change_perm(level, bp, "block_e")
+end
+
+--Get rid of eventually!!!
+function p.__on_block_update(level, bp)
+    --We use the countdown var so we call
+    --game_telekinesis.reg_block_target only about twice a second.
+    local countdown = ga_block_get_i(level, bp, "reg_countdown")
+    countdown = countdown - 1
+    ga_block_set_i(level, bp, "reg_countdown", countdown)
+    if( countdown > 0 ) then return end
+    --Countdown must be <= 0.
+    --Resetting the countdown and registering the block.
+    ga_block_set_i(level, bp, "reg_countdown", 12)
+    game_telekinesis.reg_block_target(level, bp)
+end
+
+function p.__on_render(level, bp)
+    if( level ~= ga_get_viewer_level() ) then return end
+
+    --Creating the classic "pulsating" look.
+    local cur_time = ga_get_game_time()
+    scale = 1.0 + math.cos(6.0 * cur_time) * 0.1
+    ga_render_matrix_scaled(scale, scale, scale);
+    --
+    local mesh_name = "trophy"
+    ga_render_mesh(mesh_name)
+end
+END_FILE

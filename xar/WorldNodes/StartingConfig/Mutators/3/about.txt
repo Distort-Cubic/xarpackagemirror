@@ -1,0 +1,5 @@
+When the game was originally made there was less ammo in the world.
+As a reaction to player feedback, chunks containing lots of ammo (of all types)
+were sprinkled throughout the world.
+Enable this mode to decrease the amount of ammo in the world, especially
+ammo for the super weapons: railgun, EMP, and nuke.

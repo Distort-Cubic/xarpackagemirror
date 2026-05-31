@@ -1,0 +1,32 @@
+#Lines in this file that start with "#" are comment lines.
+#(Empty lines are also comment lines).
+
+#Every non-comment line must be of the following form:
+#sound_name file_name
+#Note: Ogg Vorbis is the best file format to use here.
+
+welcome         (homemade)_welcome.ogg
+cheater         (tegan)_cheater.ogg
+
+menu_move       (homemade)_menu_move.ogg
+menu_select     (homemade)_menu_select.ogg
+menu_back       (homemade)_menu_back.ogg
+
+enter_game      (homemade)_enter_game.ogg
+save_game       (homemade)_save_game.ogg
+
+shrink          (homemade)_shrink_v2.ogg
+
+grow            (homemade)_grow.ogg
+pink_ring       (homemade)_pink_ring.ogg
+blue_ring       (homemade)_blue_ring.ogg
+waypoint_travel (homemade)_waypoint_travel.ogg
+
+volume_change   (homemade)_volume_change.ogg
+
+use             (homemade)_use.ogg
+
+error           (homemade)_error.ogg
+
+telefrag        (homemade)_telefrag.ogg
+telefrag_denied (homemade)_telefrag_denied.ogg
