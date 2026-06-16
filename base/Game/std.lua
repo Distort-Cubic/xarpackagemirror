@@ -204,6 +204,10 @@ function p.length(v)
     return math.sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
 end
 
+function p.length_sq(v)
+    return v.x*v.x + v.y*v.y + v.z*v.z
+end
+
 function p.length_linf(v)
     local x_abs = math.abs(v.x)
     local y_abs = math.abs(v.y)
@@ -236,6 +240,11 @@ end
 function p.dist(v1, v2)
     local diff = p.vec_sub(v1, v2)
     return p.length(diff)
+end
+
+function p.dist_sq(v1, v2)
+    local diff = p.vec_sub(v1, v2)
+    return p.length_sq(diff)
 end
 
 function p.dist_linf(v1, v2)

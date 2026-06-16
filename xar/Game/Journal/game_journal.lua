@@ -67,7 +67,9 @@ function p.set_lang2(new_lang)
     local old_lang = ga_package_get_s(var)
     ga_package_set_s(var, new_lang)
     --
-    if( new_lang ~= old_lang ) then
+    if( sys2_loaded and
+        new_lang ~= old_lang )
+    then
         --Reloading system 2.
         p.clear_sys2()
         p.load_sys2()
