@@ -301,6 +301,7 @@ buy_blue_key                    _ BEnts/ent_buy_blue_key.jpg
 pay_toll                        _ BEnts/ent_pay_toll.jpg
 bent_env_var_open_door          _ BEnts/ent_open_door.jpg
 bent_open_door_green            _ BEnts/ent_open_green_door.jpg
+bent_open_door_universe         _ BEnts/ent_open_universe_door.jpg
 sleep                           _ BEnts/ent_sleep.jpg
 buy_nuke_400                    _ BEnts/buy_nuke_400.jpg
 buy_nuke_300                    _ BEnts/buy_nuke_300.jpg
@@ -800,7 +801,7 @@ MonsterMarineDissident             _ MEnts/Monster/Marine/monster_marine_disside
 MonsterMarineHiredGun              _ MEnts/Monster/Marine/monster_marine_hired_gun.jpg
 MonsterMarineGuerilla              _ MEnts/Monster/Marine/monster_marine_guerilla.jpg
 MonsterMarineHitMan                _ MEnts/Monster/Marine/monster_marine_hit_man.jpg
-MonsterMarineMercinary             _ MEnts/Monster/Marine/monster_marine_mercinary.jpg
+MonsterMarineMercenary             _ MEnts/Monster/Marine/monster_marine_mercenary.jpg
 MonsterMarineCommando              _ MEnts/Monster/Marine/monster_marine_commando.jpg
 MonsterMenace                      _ MEnts/Monster/Menace/monster_menace.jpg
 MonsterArchMenaceMale              _ MEnts/Monster/Menace/monster_menace_green.jpg

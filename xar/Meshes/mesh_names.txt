@@ -107,6 +107,7 @@ bent_arcade_exit                arcade_exit                     large_box.obj
 bent_arcade_reset_door          arcade_reset_door               large_box.obj
 bent_cheap_common_markers       cheap_common_markers            large_box.obj
 bent_open_green_door            bent_open_door_green            large_box.obj
+bent_open_universe_door         bent_open_door_universe         large_box.obj
 bent_black_hole_control_panel   bent_black_hole_control_panel   large_box.obj
 bent_quasar_control_panel       bent_quasar_control_panel       large_box.obj
 
@@ -186,7 +187,7 @@ MonsterMarineDissident     MonsterMarineDissident     sphere.obj
 MonsterMarineHiredGun      MonsterMarineHiredGun      sphere.obj
 MonsterMarineGuerilla      MonsterMarineGuerilla      sphere.obj
 MonsterMarineHitMan        MonsterMarineHitMan        sphere.obj
-MonsterMarineMercinary     MonsterMarineMercinary     sphere.obj
+MonsterMarineMercenary     MonsterMarineMercenary     sphere.obj
 MonsterMarineCommando      MonsterMarineCommando      sphere.obj
 MonsterMenace              MonsterMenace              sphere.obj
 MonsterArchMenaceMale      MonsterArchMenaceMale      sphere.obj

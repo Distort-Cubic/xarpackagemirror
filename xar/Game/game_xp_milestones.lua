@@ -13,7 +13,7 @@ function p.milestone_str(level)
     --
     if( level == 110 ) then return "20 Rail Damage Upgrades" end
     if( level == 120 ) then return "Laser Super Damage Upgrade" end
-    if( level == 130 ) then return "5 EMP Radius + 5 EMP Free Time Upgrades" end
+    if( level == 130 ) then return "5 EMP Radius + 5 EMP Freeze Time Upgrades" end
     if( level == 140 ) then return "20 Nuke Projectile Speed Upgrades" end
     if( level == 150 ) then return "Laser Max Ammo Upgrade" end
     if( level == 160 ) then return "Laser Super Damage Upgrade" end
@@ -42,7 +42,7 @@ function p.milestone_str(level)
     if( level == 370 ) then return "20 Cannon Damage Upgrades" end
     if( level == 380 ) then return "20 Rocket Damage Upgrades" end
     if( level == 390 ) then return "20 Homing Rocket Damage Upgrades" end
-    if( level == 400 ) then return "Minigun Super Damage + Laser Super Damage Upgrades" end
+    if( level == 400 ) then return "Minigun Super Damage + Laser Super Damage Upgrade" end
     --
     if( level == 410 ) then return "5 EMP Radius + 5 EMP Freeze Time Upgrades" end
     if( level == 420 ) then return "20 Homing Max Ammo Upgrades" end
