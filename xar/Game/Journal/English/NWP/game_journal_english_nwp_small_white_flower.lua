@@ -27,7 +27,7 @@ function p.recordable()
         .. "^x00ff00Evidence for an affirmative answer to this is that "
         .. "universes created in labs are always eventually confirmed "
         .. "to contain Inner Cores: a painstaking verification "
-        .. "caried out by generations of Inner Botanists."
+        .. "carried out by generations of Inner Botanists."
     game_journal.add_txt(lang, "SMALL_WHITE_FLOWER_TREASURE_k_part2", str)
     game_journal.add_path("@lore;@lore_ib;{20}What is inner botany theory?;{20}Part 2")
 end

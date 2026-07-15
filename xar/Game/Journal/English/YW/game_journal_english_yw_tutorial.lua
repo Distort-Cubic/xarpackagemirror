@@ -376,7 +376,7 @@ function p.TUTORIAL_DIFF_1_is_this_genesis(chunk_id)
             .. "start a new game using the ^x00ff00Classic^! starting configuration."
     else
         return "This is the ^x0000ffClassic^! version of the program. "
-            .. "^xff00ffThis the how the game was meant to be played.^! "
+            .. "^xff00ffThis is how the game was meant to be played.^! "
             .. "There are weapons and monsters.\n\n"
             .. "If perhaps you do not like "
             .. "fighting monsters at all, you can start a new game "

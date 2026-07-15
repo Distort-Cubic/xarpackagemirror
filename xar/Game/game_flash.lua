@@ -2,8 +2,13 @@
 local epilepsy_delay = 1.0
 
 function p.flashes_enabled()
+    -- ga_print("game_flash.flashes_enabled a")
+    -- local exists = ga_package_var_exists("flashes.enable")
+    -- ga_print("game_flash.flashes_enabled exists = " .. tostring(exists))
     ga_package_init_b("flashes.enable", true)
-    return ga_package_get_b("flashes.enable")
+    local value = ga_package_get_b("flashes.enable")
+    -- ga_print("game_flash.flashes_enabled b " .. tostring(value))
+    return value
 end
 
 function p.add_flash_now(color, alpha, duration)

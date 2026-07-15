@@ -200,7 +200,7 @@ function p.YW_TOTEM_CANNON(chunk_id)
         .. "within the Ying World. "
         .. "You can see a Small Cannon "
         .. "Pyramid from the distance: "
-        .. "each one looks like orange block. "
+        .. "each one looks like an orange block. "
     return str
 end
 

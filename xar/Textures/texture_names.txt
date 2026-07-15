@@ -687,6 +687,7 @@ block_sponge_beta                  _ Blocks/block_sponge_beta.jpg
 block_sponge_deep                  _ Blocks/block_sponge_deep.jpg
 block_spiral                       _ Blocks/block_spiral.jpg
 block_omega                        _ Blocks/block_omega.jpg
+block_omega2                       _ Blocks/block_omega2.jpg
 block_fake_omega                   _ Blocks/block_fake_omega.jpg
 block_exit                         _ Blocks/block_exit.jpg
 block_ice_cube                     _ Blocks/block_ice_cube.jpg
@@ -723,6 +724,8 @@ block_arcade_shut                  _ Blocks/block_arcade_shut.jpg
 block_red_heart_black_back         _ Blocks/block_red_heart_black_background.jpg
 block_iccc                         _ Blocks/block_iccc.jpg
 block_vessel                       _ Blocks/block_vessel.jpg
+block_carrier                      _ Blocks/block_carrier.jpg
+block_phage_factory                _ Blocks/block_phage_factory.jpg
 
 block_sponge                       _ Blocks/block_sponge.jpg
 
@@ -790,6 +793,7 @@ MonsterGnoll                       _ MEnts/Monster/Gold/monster_gnoll.jpg
 MonsterDemon                       _ MEnts/Monster/Gold/monster_demon.jpg
 MonsterOrc                         _ MEnts/Monster/Gold/monster_orc.jpg
 MonsterTroll                       _ MEnts/Monster/Gold/monster_troll.jpg
+MonsterTrollReCreated              _ MEnts/Monster/Gold/monster_troll_recreated.jpg
 MonsterHobgoblin                   _ MEnts/Monster/Gold/monster_hobgoblin.jpg
 MonsterOgre                        _ MEnts/Monster/Gold/monster_ogre.jpg
 MonsterMarineLight                 _ MEnts/Monster/Marine/monster_marine_light.jpg

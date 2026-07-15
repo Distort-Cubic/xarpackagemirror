@@ -11,6 +11,10 @@ function p.render_flash(wid)
         local start_alpha = ga_get_f("xar.hud.flash.alpha")
         local flash_alpha = (1.0 - frac) * start_alpha
         local flash_col = std.vec(1.0, 1.0, 1.0)
+        --
+        local old_mode = ga_win_get_screen_coord_mode(wid)
+        ga_win_set_screen_coord_mode(wid, "screen")
         ga_win_quad_color_alpha(wid, 0.0, 0.0, 1.0, 1.0, flash_col, flash_alpha)
+        ga_win_set_screen_coord_mode(wid, old_mode)
     end
 end

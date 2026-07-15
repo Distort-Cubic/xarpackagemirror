@@ -9,6 +9,7 @@ function p.curve_enemy_health(uncurved_health)
     end
 end
 
+--Curving damage from the player to monsters.
 function p.curve_player_damage(uncurved_damage)
     if( ga_get_b("xar.difficulty.curve.enabled") ) then
         local power = 0.5

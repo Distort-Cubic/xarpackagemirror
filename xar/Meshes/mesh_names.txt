@@ -176,6 +176,7 @@ MonsterGnoll               MonsterGnoll               sphere.obj
 MonsterDemon               MonsterDemon               sphere.obj
 MonsterOrc                 MonsterOrc                 sphere.obj
 MonsterTroll               MonsterTroll               sphere.obj
+MonsterTrollReCreated      MonsterTrollReCreated      sphere.obj
 MonsterHobgoblin           MonsterHobgoblin           sphere.obj
 MonsterOgre                MonsterOgre                sphere.obj
 MonsterMarineLight         MonsterMarineLight         sphere.obj

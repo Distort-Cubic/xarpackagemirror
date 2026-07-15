@@ -9,7 +9,8 @@ end
 function p.__process_input(wid)
     if( ga_win_key_pressed(wid, "ESC") or
         ga_win_key_pressed(wid, "F") or
-        ga_win_mouse_pressed(wid, true) )
+        ga_win_mouse_pressed(wid, true) or
+        ga_win_mouse_pressed(wid, false) ) --Ok?
     then
         ga_window_pop()
     end

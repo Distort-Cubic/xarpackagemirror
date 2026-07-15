@@ -12,7 +12,7 @@ function p.recordable()
         .. "The island in the picture contains a "
         .. "^xff00ffFanatic^x00ff00 monster, which is "
         .. "purple with black dots.\n\n"
-        .. "This monster hurts you whenever you less than a certain "
+        .. "This monster hurts you whenever it is less than a certain "
         .. "distance away from you (unless you are more than 5 levels "
         .. "deeper than the monster).\n\n"
         .. "^xff0000What makes this monster so nefarious is that it "
