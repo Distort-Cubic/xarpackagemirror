@@ -400,7 +400,7 @@ v xar.player.tracking_marker_dir
 f xar.player.tracking_marker_dist
 s xar.player.tracking_marker_path
 
-b xar.player.cheat_comon_markers false
+b xar.player.cheat_common_markers false
 
 #######################################
 #           Moving Entities

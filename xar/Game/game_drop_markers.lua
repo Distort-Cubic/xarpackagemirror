@@ -78,7 +78,7 @@ function p.drop_marker_short()
         else
             local gold = ga_get_i("xar.player.gold.amount")
             local cheap_cost = 10
-            if ga_get_b("xar.player.cheat_comon_markers") then
+            if ga_get_b("xar.player.cheat_common_markers") then
                 cheap_cost = 5
             end
             if (gold < cheap_cost) then return end
@@ -137,7 +137,7 @@ function p.drop_marker_long()
 end
 
 function p.enabled_cheap_common_markers()
-    if ga_get_b("xar.player.cheat_comon_markers") then return end
+    if ga_get_b("xar.player.cheat_common_markers") then return end
     ga_play_sound("buy")
-    ga_set_b("xar.player.cheat_comon_markers", true)
+    ga_set_b("xar.player.cheat_common_markers", true)
 end

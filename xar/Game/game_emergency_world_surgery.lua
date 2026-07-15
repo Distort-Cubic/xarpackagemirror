@@ -8,7 +8,8 @@ function p.main()
     p.fix_chunk(chunk_id_1)
 
     local viewer_level_2 = viewer_level_1 - 1
-    if( viewer_level_2 >= 0 ) then
+    local min_level = ga_get_min_level()
+    if( viewer_level_2 >= min_level ) then
         local chunk_id_2 = ga_get_viewer_ancestor_chunk_id(viewer_level_2)
         p.fix_chunk(chunk_id_2)
     end

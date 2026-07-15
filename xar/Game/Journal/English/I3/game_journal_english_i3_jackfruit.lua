@@ -41,11 +41,11 @@ function p.JACKFRUIT(chunk_id)
         .. "Inside you can find\n"
         .. "1) ^xffffffSmall White Flowers^!\n"
         .. "2) ^xffffffLarge White Flowers^!\n"
-        .. "2) ^x00ff00Small Black Flowers^!\n"
-        .. "3) ^x00ff00I3 WIG Flowers^!"
+        .. "3) ^x00ff00Small Black Flowers^!\n"
+        .. "4) ^x00ff00I3 WIG Flowers^!"
     if( not game_genesis.enabled() ) then
-        str = str .. "\n4) Rocket ammo\n"
-            .. "5) Plasma Damage upgrades";
+        str = str .. "\n5) Rocket ammo\n"
+            .. "6) Plasma Damage upgrades";
     end
     return str
 end

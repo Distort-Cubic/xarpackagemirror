@@ -93,7 +93,7 @@ function p.__render(wid)
                 .. "But this adventure really hit the spot, and I am so grateful to "
                 .. "you for saving me.  It's kinda romantic. "
                 .. "Maybe we could explore the fractal block world some more. "
-                .. "I PROMISE I won't loose my sanity and fall into a downward spiral. "
+                .. "I PROMISE I won't lose my sanity and fall into a downward spiral. "
                 .. "I have never been deep into the HELL area of the fractal block world. "
                 .. "Should we explore that together? " --More to come in a later version of the game.
         end
@@ -151,7 +151,7 @@ function p.__render(wid)
                 .. "There once was a gamer named insert name here\n"
                 .. "who beat fractal block world without too much fear\n"
                 .. "they thought normal mode was a bore\n"
-                .. "and they prefered madness mode hardcore\n"
+                .. "and they preferred madness mode hardcore\n"
                 .. "and if it was me who did it I would shed a tear. "
                 --.. "and if it was me who did it I would have a beer. "
         else
@@ -175,9 +175,11 @@ end
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
         ga_window_pop()
+        return
     end
     if ga_win_key_pressed(wid, "ENTER") then
         ga_window_pop()
         ga_window_push("win_credits")
+        return
     end
 end

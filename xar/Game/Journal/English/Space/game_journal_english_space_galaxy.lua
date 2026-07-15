@@ -7,7 +7,7 @@ function p.main()
 end
 
 function p.recordable()
-    local str = "You are outside the star disc of this galaxy cube.\n\n"
+    local str = "You are outside the star disc of this Galaxy Cube.\n\n"
         .. "In order to shrink and explore the solar systems "
         .. "of this galaxy more, you must "
         .. "go to one of the 4 vertical edges of this galaxy cube and shrink.\n\n"

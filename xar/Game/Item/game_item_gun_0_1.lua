@@ -19,6 +19,11 @@ function p.use_start()
     end
 end
 
+--Could add logic to the p.use function so that
+--when you hold down primary fire,
+--it will wait then start charging up.
+--Right now, if you hold down primary fire too early,
+--it will NOT start charging.
 function p.use()
     --Nothing to do.
 end
@@ -80,6 +85,10 @@ function p.get_use_period()
     return game_wep_modes.get_fire_period(0,1)
 end
 
+function p.get_is_rapid_fire()
+    return false --Added July 13, 2026.
+end
+
 --Called if this item is one of the 20 items equipped.
 function p.update()
     local safety_str = game_inv_exec.get_cur_starting_shoot_item()
@@ -120,7 +129,7 @@ function p.update()
     then
         charge = charge + 1
         ammo = ammo -1
-        ga_print("  LOSING AN AMMO!!!")
+        -- ga_print("  LOSING AN AMMO!!!")
         raw = true
         game_top2.damage_player(raw, charge * 25)
         ga_set_i("xar.player.gun0.charge", charge)

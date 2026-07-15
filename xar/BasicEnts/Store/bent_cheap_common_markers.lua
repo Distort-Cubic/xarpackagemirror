@@ -1,5 +1,5 @@
 function p.already_using()
-    return ga_get_b("xar.player.cheat_comon_markers") 
+    return ga_get_b("xar.player.cheat_common_markers") 
 end
 
 function p.__get_can_use(level, bp)

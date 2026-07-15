@@ -59,6 +59,7 @@ function p.__process_input(wid)
     local sel = ga_win_widget_small_list_process_input(wid)
     local sel_str = ga_win_widget_small_list_get_entry(wid, sel)
     if( sel_str:find("^FLASHING LIGHTS") ) then
+        ga_package_init_b("flashes.enable", true) --Only sets if does not exist.
         local value = ga_package_get_b("flashes.enable")
         ga_package_set_b("flashes.enable", not value)
         p.refresh_list(wid)

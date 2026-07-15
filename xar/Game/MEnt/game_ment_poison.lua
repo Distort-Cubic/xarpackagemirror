@@ -95,11 +95,17 @@ function p.poison_hit(inst_id)
 
     --Dealing damage.
     --(should happen once per second).
-    poison_dps = ga_ment_get_f(inst_id, "poison_dps")
-    poison_damage = math.floor(poison_dps)
+    local poison_dps = ga_ment_get_f(inst_id, "poison_dps")
+    local poison_damage = math.floor(poison_dps)
+    --
+    --Added Jun 27, 2026.
+    local allow_powerups = false
+    local poison_damage_adjusted = game_damage.calc_damage_from_player(poison_damage, allow_powerups)
+    local poison_damage_curved = game_difficulty_curve.curve_player_damage(poison_damage_adjusted)
+    --
     if( game_ment_health.get_ment_has_health(inst_id) ) then
         local old_health = game_ment_health.get_ment_health(inst_id)
-        game_ment_health.set_ment_health(inst_id, old_health - poison_damage)
+        game_ment_health.set_ment_health(inst_id, old_health - poison_damage_adjusted)
     end
     ga_ment_set_f(inst_id, "poison_lasthit", game_time)
 

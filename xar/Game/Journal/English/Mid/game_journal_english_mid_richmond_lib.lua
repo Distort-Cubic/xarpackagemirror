@@ -63,7 +63,7 @@ function p.recordable()
 
     local str = "In addition to the \"path\" command that you can enter "
         .. "into the console, there is also the \"pathpink\" command.\n\n"
-        .. "This is like path except it tells you were pink rings will "
+        .. "This is like path except it tells you where pink rings will "
         .. "take you (if you were to use pink rings in your current chunk).\n\n"
         .. "It also tells you the coarsest place blue rings will take you "
         .. "before shrinking again."

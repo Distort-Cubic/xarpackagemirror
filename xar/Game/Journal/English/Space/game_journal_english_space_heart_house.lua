@@ -83,7 +83,7 @@ function p.recordable()
     
     local str = "^x00ff00"
         .. "Imagine us living in a place like this together. "
-        .. "Of course, it should not be make of blocks, "
+        .. "Of course, it should not be made of blocks, "
         .. "and it should be smaller.  Maybe it could be an apartment at first."
     game_journal.add_txt(lang, "DAN_HOUSE_JUNGLE_LIBRARY_3_1_part2", str)
     game_journal.add_path("@yang;@yang_back;@yang_back_trainwest;@yang_back_trainwest_part3;{20}Part 2")

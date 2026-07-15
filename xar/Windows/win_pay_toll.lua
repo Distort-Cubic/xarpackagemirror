@@ -32,6 +32,7 @@ function p.__process_input(wid)
     then
         ga_play_sound("menu_back")
         ga_window_pop()
+        return
     end
 
     local which_button = ga_win_widget_button_process_input(wid)
@@ -42,5 +43,6 @@ function p.__process_input(wid)
         --Removing the door.
         game_toll_door.remove_toll_door()
         ga_window_pop()
+        return
     end
 end
