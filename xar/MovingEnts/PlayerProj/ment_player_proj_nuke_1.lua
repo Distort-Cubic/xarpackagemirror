@@ -1,3 +1,5 @@
+--File: ment_player_proj_nuke_1.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -105,6 +107,7 @@ function p.explode(inst_id, level, lp)
 
     local radius = game_wep_modes.get_radius(9,1)
     local damage = game_wep_modes.get_curved_expl_damage(9,1)
+    if( damage < 1 ) then return end
 
     --ga_print("player_proj_nuke_1 radius = " .. tostring(radius))
     --ga_print("  damage = " .. tostring(damage))

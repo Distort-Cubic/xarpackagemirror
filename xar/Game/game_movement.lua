@@ -29,6 +29,17 @@ function p.add_impulse(x,y,z)
 end
 
 function p.update_discrete()
+    --Debugging.
+    --Xar movement works by having a function called for a key DOWN event,
+    --and another function called for a key UP event.
+    --However, the brute force way of doing movement would be to simply
+    --query if the appropriate key is up/down each update.
+    -- if( ga_get_is_action_down("PACKAGE_MOVE_FORWARD") ) then
+    --     ga_print("PACKAGE_MOVE_FORWARD is down")
+    -- else
+    --     ga_print("PACKAGE_MOVE_FORWARD is up")
+    -- end
+
     if( not game_create_start_pos.found_starting_pos() ) then
         --We could not find a valid starting position for the player.
         --We don't want the player walking around causing trouble.

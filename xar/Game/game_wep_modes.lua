@@ -779,6 +779,7 @@ function p.get_curved_shot_damage_helper(wep,mode)
     ga_exit()
 end
 
+--Damage per shot (not per gun fire).  A gun fire can shoot multiple shots.
 function p.get_curved_shot_damage(wep,mode)
     return math.floor( p.get_curved_shot_damage_helper(wep,mode) )
 end

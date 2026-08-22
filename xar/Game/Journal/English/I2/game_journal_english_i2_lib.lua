@@ -651,7 +651,7 @@ function p.trophy_room_locations()
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{10}Location room location")
 
     local str = "The trophy list room for ^x00ff00I1^! (of the Infinity Flower) trophies "
-        .. "is in the treasure area of ^x00ff00Willison Caves^!. "
+        .. "is in the treasure area of ^x00ff00Williston Caves^!. "
         .. "You can read more about these caves in the center of Williston Cities."
     game_journal.add_txt(lang, "I2_LIBRARY_TROPHY_ROOM_i1", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{10}Location room location")

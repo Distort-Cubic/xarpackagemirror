@@ -339,6 +339,7 @@ function p.__type_init(id)
     --The api name of the text.
     --It should NOT start with "journal_".
     ia_block_new_var_s(id, "api_name", "")
+    ia_block_set_builtin_var_i(id, "__render_max_vcp_length", 3);
 end
 
 function p.__main()

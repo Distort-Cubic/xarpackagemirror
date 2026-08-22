@@ -8,6 +8,8 @@ end
 function p.handler(str)
     ga_print("In game_cmd_debug1.lua:")
 
+    -- ga_debug1() --May not be implemented by the engine.
+
     -- local var = "dyn.foo"
     -- ga_dyn_init_v(var, std.vec(0.1, 0.2, 0.3))
     -- local x1 = ga_dyn_get_v(var)

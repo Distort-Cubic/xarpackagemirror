@@ -8,6 +8,8 @@
 welcome         (homemade)_welcome.ogg
 cheater         (tegan)_cheater.ogg
 
+harp            (homemade)_zither.ogg
+
 menu_move       (homemade)_menu_move.ogg
 menu_select     (homemade)_menu_select.ogg
 menu_back       (homemade)_menu_back.ogg

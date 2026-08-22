@@ -154,7 +154,7 @@ function p.recordable()
 
     local str = "(Room 8/15) Message from Sagittarius A*:\n\n"
         .. "^x0000ffIn the underground caves of Mylantis, you can sometimes find "
-        .. "\"Nuclear Arsenal\" that house many nukes. "
+        .. "\"Nuclear Arsenals\" that house many nukes. "
         .. "You enter one through a one way door, then you are in an ammo room, "
         .. "then there is an out-only waypoint.\n\n"
         .. "The challenge of using these structures is finding a waypoint nearby "
@@ -272,7 +272,7 @@ function p.MYLANTIS_CITY_BUILDING_RANDOM_TOP_room7(chunk_id)
     end
     str = str .. "The deeper you go into the Mylantis planet, the more you will find these "
         .. "RejuvenX refineries. "
-        .. "That is, as your go lower from Layer 1 to Layer 2 to Layer 3 etc of Mylantis, "
+        .. "That is, as you go lower from Layer 1 to Layer 2 to Layer 3 etc of Mylantis, "
         .. "you will find more RejuvenX refineries."
     return str
 end

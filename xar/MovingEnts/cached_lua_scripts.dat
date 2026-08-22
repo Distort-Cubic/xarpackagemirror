@@ -5124,7 +5124,7 @@ BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/MonsterMoney/ment_monster_troll_
 function p.__type_init(id)
     ia_ment_set_builtin_var_f(id, "__radius", 5.0)
     ia_ment_set_builtin_var_s(id, "__mesh", "MonsterTroll")
-    ia_ment_new_static_var_s(id, "identity_str", "Troll Dummy")
+    ia_ment_new_static_var_s(id, "identity_str", "Dummy Troll")
 end
 
 -------------------------------------------------
@@ -9719,7 +9719,7 @@ function p.laser_explosion(level, lp, target_inst_id)
         level, level, level,
         lp, radius)
     local gun = 3
-    local mode = 1 --MAY NEED TO CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    local mode = 1 --Might want to change.
     local damage = game_wep_modes.get_curved_shot_damage(gun, mode)
     local count = 0
     for k,v in pairs(ents) do
@@ -10042,6 +10042,8 @@ function p.ring_effect(level, lp, normal)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/PlayerProj/ment_player_proj_nuke_1.lua"
+--File: ment_player_proj_nuke_1.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -10149,6 +10151,7 @@ function p.explode(inst_id, level, lp)
 
     local radius = game_wep_modes.get_radius(9,1)
     local damage = game_wep_modes.get_curved_expl_damage(9,1)
+    if( damage < 1 ) then return end
 
     --ga_print("player_proj_nuke_1 radius = " .. tostring(radius))
     --ga_print("  damage = " .. tostring(damage))
@@ -10285,6 +10288,7 @@ function p.explode(inst_id, level, lp)
 
     local radius = game_wep_modes.get_radius(9,2)
     local damage = game_wep_modes.get_curved_expl_damage(9,2)
+    if( damage < 1 ) then return end
 
     --ga_print("player_proj_nuke_1 radius = " .. tostring(radius))
     --ga_print("  damage = " .. tostring(damage))

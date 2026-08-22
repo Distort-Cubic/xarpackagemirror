@@ -2246,6 +2246,8 @@ function p.speed_run(wid, scroll)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_damage.lua"
+--File: game_damage.lua
+
 function p.calc_damage_from_player(raw_amount, allow_powerups)
     local amount = math.floor( raw_amount * 1.5 )
     if ga_get_b("xar.difficulty.easy_2") then
@@ -4687,6 +4689,17 @@ function p.add_impulse(x,y,z)
 end
 
 function p.update_discrete()
+    --Debugging.
+    --Xar movement works by having a function called for a key DOWN event,
+    --and another function called for a key UP event.
+    --However, the brute force way of doing movement would be to simply
+    --query if the appropriate key is up/down each update.
+    -- if( ga_get_is_action_down("PACKAGE_MOVE_FORWARD") ) then
+    --     ga_print("PACKAGE_MOVE_FORWARD is down")
+    -- else
+    --     ga_print("PACKAGE_MOVE_FORWARD is up")
+    -- end
+
     if( not game_create_start_pos.found_starting_pos() ) then
         --We could not find a valid starting position for the player.
         --We don't want the player walking around causing trouble.
@@ -8929,6 +8942,7 @@ function p.get_curved_shot_damage_helper(wep,mode)
     ga_exit()
 end
 
+--Damage per shot (not per gun fire).  A gun fire can shoot multiple shots.
 function p.get_curved_shot_damage(wep,mode)
     return math.floor( p.get_curved_shot_damage_helper(wep,mode) )
 end
@@ -10219,6 +10233,8 @@ end
 
 function p.handler(str)
     ga_print("In game_cmd_debug1.lua:")
+
+    -- ga_debug1() --May not be implemented by the engine.
 
     -- local var = "dyn.foo"
     -- ga_dyn_init_v(var, std.vec(0.1, 0.2, 0.3))
@@ -14831,9 +14847,7 @@ function p.BURLINGTON_COLS_AIR_MAP_part1(chunk_id)
         .. "In the giant white columns there are blue holes which lead to "
         .. "^x00ff00Rail Showdown Caves^!. "
     if( not game_genesis.enabled() ) then
-        str = str .. "There you can get significant Railgun upgrades.\n\n"
-            .. "Note that you are given infinite weapon ammo when you enter, "
-            .. "but all this ammo is removed (by a White Box Device) when you leave."
+        str = str .. "There you can get significant Railgun upgrades."
     end
     return str
 end
@@ -17308,7 +17322,7 @@ function p.recordable()
     local str = "You can find ^x00ff00EMP Max Ammo^! upgrades in many places. "
         .. "Here are some places to find these upgrades:\n\n"
         .. "1) Huntington Towns\n\n"
-        .. "2) ^xff00ffWillison (EMP) Castles^!\n\n"
+        .. "2) ^xff00ffWilliston (EMP) Castles^!\n\n"
         .. "3) ^xff00ffEMP Cities^!\n\n"
         .. "4) Desert Flowers (in I3)\n\n"
         .. "5) ^xff00ffRed Maze Flowers^!\n\n"
@@ -17320,7 +17334,7 @@ function p.recordable()
     local str = "You can find ^x00ff00EMP Radius^! upgrades in several places. "
         .. "Here are some places to find these upgrades:\n\n"
         .. "1) ^xff00ffBlack Cubes in Mossy Air^!\n\n"
-        .. "2) ^xff00ffWillison (EMP) Castles^!\n\n"
+        .. "2) ^xff00ffWilliston (EMP) Castles^!\n\n"
         .. "3) Alpha Cubes\n\n"
         .. "4) Green Apples in Apple Trees\n\n"
         .. "5) Catacombs\n\n"
@@ -17351,7 +17365,7 @@ function p.recordable()
         .. "Here are some places to find these upgrades:\n\n"
         .. "1) ^xff00ffBlack Cubes in Mossy Air^!\n\n"
         .. "2) Botany Labs\n\n"
-        .. "3) ^xff00ffWillison (EMP) Castles^!\n\n"
+        .. "3) ^xff00ffWilliston (EMP) Castles^!\n\n"
         .. "4) Green Apples in Apple Trees\n\n"
         .. "5) ^xff00ffBlackberries^!\n\n"
         .. "6) Damp, Woody, Earthy, ^xff00ffMoldy^!, and Mahogany Basements\n\n"
@@ -18334,7 +18348,7 @@ function p.trophy_room_locations()
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{10}Location room location")
 
     local str = "The trophy list room for ^x00ff00I1^! (of the Infinity Flower) trophies "
-        .. "is in the treasure area of ^x00ff00Willison Caves^!. "
+        .. "is in the treasure area of ^x00ff00Williston Caves^!. "
         .. "You can read more about these caves in the center of Williston Cities."
     game_journal.add_txt(lang, "I2_LIBRARY_TROPHY_ROOM_i1", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{10}Location room location")
@@ -20284,7 +20298,7 @@ function p.recordable()
         .. "theory outpaces our Inner Botany Theory, "
         .. "the rebooting process loses resources.\n\n"
         .. "That is, if we cannot construct the full canonical core "
-        .. "of the advisory's universe but instead we can only construct "
+        .. "of the adversary's universe but instead we can only construct "
         .. "a fragment of the core, we lose data.\n\n"
         .. "The data we lose is not exactly finite in nature "
         .. "but more transfinite."
@@ -20967,7 +20981,7 @@ function p.recordable()
     game_journal.add_path("@area;@area_bur;@area_bur_tegen;{30}Where to find trophy")
 
     str = "^x00ff00Message from your friend K:\n\n"
-        .. "In Willison fields (in I1), you can find Purple Wells.\n\n"
+        .. "In Williston fields (in I1), you can find Purple Wells.\n\n"
         .. "With a 2/5 chance, there will be no Pink Sphere on the surface, "
         .. "which means that if you enter it and go the bottom, "
         .. "you will find the ^xff00ffSecret Cave of Jerichos^x00ff00."
@@ -24244,7 +24258,7 @@ function p.recordable()
 
     local str = "(Room 8/15) Message from Sagittarius A*:\n\n"
         .. "^x0000ffIn the underground caves of Mylantis, you can sometimes find "
-        .. "\"Nuclear Arsenal\" that house many nukes. "
+        .. "\"Nuclear Arsenals\" that house many nukes. "
         .. "You enter one through a one way door, then you are in an ammo room, "
         .. "then there is an out-only waypoint.\n\n"
         .. "The challenge of using these structures is finding a waypoint nearby "
@@ -24362,7 +24376,7 @@ function p.MYLANTIS_CITY_BUILDING_RANDOM_TOP_room7(chunk_id)
     end
     str = str .. "The deeper you go into the Mylantis planet, the more you will find these "
         .. "RejuvenX refineries. "
-        .. "That is, as your go lower from Layer 1 to Layer 2 to Layer 3 etc of Mylantis, "
+        .. "That is, as you go lower from Layer 1 to Layer 2 to Layer 3 etc of Mylantis, "
         .. "you will find more RejuvenX refineries."
     return str
 end
@@ -25989,7 +26003,7 @@ function p.SPACE_TOP_2_FORBIDDEN_PLANET_CASE(chunk_id)
             .. "1) Plasma Fire Rate\n\n"
             .. "2) Rocket Fire Rate."
     end
-    str = str .. "\n\n^xff0000Once you shrink here, the only back here is by using the Pink Rings "
+    str = str .. "\n\n^xff0000Once you shrink here, the only way back here is by using the Pink Rings "
         .. "in the center of the moon. "
         .. "Also, there are white box devices surrounding this white case."
     return str

@@ -1,3 +1,5 @@
+--File: game_damage.lua
+
 function p.calc_damage_from_player(raw_amount, allow_powerups)
     local amount = math.floor( raw_amount * 1.5 )
     if ga_get_b("xar.difficulty.easy_2") then

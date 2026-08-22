@@ -20,7 +20,7 @@ function p.SPACE_TOP_2_FORBIDDEN_PLANET_CASE(chunk_id)
             .. "1) Plasma Fire Rate\n\n"
             .. "2) Rocket Fire Rate."
     end
-    str = str .. "\n\n^xff0000Once you shrink here, the only back here is by using the Pink Rings "
+    str = str .. "\n\n^xff0000Once you shrink here, the only way back here is by using the Pink Rings "
         .. "in the center of the moon. "
         .. "Also, there are white box devices surrounding this white case."
     return str

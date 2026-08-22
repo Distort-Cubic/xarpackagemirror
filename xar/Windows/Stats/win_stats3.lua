@@ -145,13 +145,13 @@ function p.__render(wid)
         ga_win_txt(wid, min_x,cur_y, "REGENERATION: " ..
             p.round(1.0 / game_wep_modes.get_ammo_regen_period(1), 2) .. " per sec" )        
 
-        cur_y = cur_y - step_y
-        local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,1)
-        local mcolor = p.max_color(
-            "xar.player.gun1.fire_period_level",
-            game_wep_modes.get_fire_period_level_max(1))
-        ga_win_txt(wid, min_x,cur_y, mcolor .. "FIRE RATE: " ..
-            p.round(fire_rate,2) .. " per sec" ) 
+        -- cur_y = cur_y - step_y
+        -- local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,1)
+        -- local mcolor = p.max_color(
+        --     "xar.player.gun1.fire_period_level",
+        --     game_wep_modes.get_fire_period_level_max(1))
+        -- ga_win_txt(wid, min_x,cur_y, mcolor .. "FIRE RATE: " ..
+        --     p.round(fire_rate,2) .. " per sec" ) 
 
         --Mode 1 (Primary).
         if game_wep_modes.get_equipped(1,1) then
@@ -169,6 +169,14 @@ function p.__render(wid)
             cur_y = cur_y - step_y
             ga_win_txt(wid, min_x,cur_y, "DPA (Basic High DPA): " ..
                 game_str.add_commas( math.floor( game_wep_modes.get_dpa(1,1) ) ) )
+
+            cur_y = cur_y - step_y
+            local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,1)
+            local mcolor = p.max_color(
+                "xar.player.gun1.fire_period_level",
+                game_wep_modes.get_fire_period_level_max(1))
+            ga_win_txt(wid, min_x,cur_y, mcolor .. "FIRE RATE: " ..
+                p.round(fire_rate,2) .. " per sec" )
 
             cur_y = cur_y - step_y
             local mcolor = p.max_color(
@@ -196,6 +204,14 @@ function p.__render(wid)
                 game_str.add_commas( math.floor( game_wep_modes.get_dpa(1,2)) ) )
 
             cur_y = cur_y - step_y
+            local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,2)
+            local mcolor = p.max_color(
+                "xar.player.gun1.fire_period_level",
+                game_wep_modes.get_fire_period_level_max(1))
+            ga_win_txt(wid, min_x,cur_y, mcolor .. "FIRE RATE: " ..
+                p.round(fire_rate,2) .. " per sec" )
+
+            cur_y = cur_y - step_y
             local mcolor = p.max_color(
                 "xar.player.gun1.speed_level",
                 game_wep_modes.get_vel_level_max(1))
@@ -219,6 +235,11 @@ function p.__render(wid)
             cur_y = cur_y - step_y
             ga_win_txt(wid, min_x,cur_y, "DPA (Plasma Shotgun): " ..
                 game_str.add_commas( math.floor( game_wep_modes.get_dpa(1,3)) ) )
+
+            cur_y = cur_y - step_y
+            local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,3) --Leveling doesn't change.
+            ga_win_txt(wid, min_x,cur_y, "FIRE RATE: " ..
+                p.round(fire_rate,2) .. " per sec" )
 
             cur_y = cur_y - step_y
             local mcolor = p.max_color(
@@ -246,6 +267,14 @@ function p.__render(wid)
                 game_str.add_commas( math.floor( game_wep_modes.get_dpa(1,4)) ) )
 
             cur_y = cur_y - step_y
+            local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,4)
+            local mcolor = p.max_color(
+                "xar.player.gun1.fire_period_level",
+                game_wep_modes.get_fire_period_level_max(1))
+            ga_win_txt(wid, min_x,cur_y, mcolor .. "FIRE RATE: " ..
+                p.round(fire_rate,2) .. " per sec" )
+
+            cur_y = cur_y - step_y
             local mcolor = p.max_color(
                 "xar.player.gun1.speed_level",
                 game_wep_modes.get_vel_level_max(1))
@@ -269,6 +298,11 @@ function p.__render(wid)
             cur_y = cur_y - step_y
             ga_win_txt(wid, min_x,cur_y, "DPA (Lightning Rifle): " ..
                 game_str.add_commas( math.floor( game_wep_modes.get_dpa(1,5)) ) )
+
+            cur_y = cur_y - step_y
+            local fire_rate = 1.0 / game_wep_modes.get_fire_period(1,5) --Leveling doesn't change.
+            ga_win_txt(wid, min_x,cur_y, "FIRE RATE: " ..
+                p.round(fire_rate,2) .. " per sec" )
         end
     end
 

@@ -84,9 +84,7 @@ function p.BURLINGTON_COLS_AIR_MAP_part1(chunk_id)
         .. "In the giant white columns there are blue holes which lead to "
         .. "^x00ff00Rail Showdown Caves^!. "
     if( not game_genesis.enabled() ) then
-        str = str .. "There you can get significant Railgun upgrades.\n\n"
-            .. "Note that you are given infinite weapon ammo when you enter, "
-            .. "but all this ammo is removed (by a White Box Device) when you leave."
+        str = str .. "There you can get significant Railgun upgrades."
     end
     return str
 end

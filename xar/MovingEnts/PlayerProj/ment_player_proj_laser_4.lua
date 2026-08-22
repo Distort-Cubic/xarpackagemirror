@@ -54,7 +54,7 @@ function p.laser_explosion(level, lp, target_inst_id)
         level, level, level,
         lp, radius)
     local gun = 3
-    local mode = 1 --MAY NEED TO CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    local mode = 1 --Might want to change.
     local damage = game_wep_modes.get_curved_shot_damage(gun, mode)
     local count = 0
     for k,v in pairs(ents) do

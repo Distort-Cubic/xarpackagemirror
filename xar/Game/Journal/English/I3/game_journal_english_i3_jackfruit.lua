@@ -26,7 +26,7 @@ function p.recordable()
         .. "theory outpaces our Inner Botany Theory, "
         .. "the rebooting process loses resources.\n\n"
         .. "That is, if we cannot construct the full canonical core "
-        .. "of the advisory's universe but instead we can only construct "
+        .. "of the adversary's universe but instead we can only construct "
         .. "a fragment of the core, we lose data.\n\n"
         .. "The data we lose is not exactly finite in nature "
         .. "but more transfinite."
