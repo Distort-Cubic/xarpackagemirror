@@ -15,11 +15,11 @@ function p.__render(wid, min_x, min_y, max_x, max_y)
 
     local new_elapsed = ga_get_sys_f("game.time.elapsed")
 
-    --The number of second to record.
-    --May want to make this customizable.
+    --The number of seconds to record.
+    --Might want to make this customizable.
     local time_window = 5.0
 
-    --May want to make this customizable.
+    --Might want to make this customizable.
     local max_elapsed = 0.05
 
     --Converting elapsed_time to an x delta.
@@ -49,9 +49,7 @@ function p.__render(wid, min_x, min_y, max_x, max_y)
     --Adding new value.
     local new_table = {}
     new_table.x = max_x
-    new_table.y =
-        min_y +
-        (new_elapsed / max_elapsed) * (max_y - min_y)
+    new_table.y = (new_elapsed / max_elapsed) * (max_y - min_y)
     data1[1] = new_table
 
     --Drawing the black rectangle.
@@ -62,9 +60,9 @@ function p.__render(wid, min_x, min_y, max_x, max_y)
     local len = #data1 - 1
     for i = 1,len do
         local x1 = data1[i].x
-        local y1 = data1[i].y
+        local y1 = min_y + data1[i].y
         local x2 = data1[i+1].x
-        local y2 = data1[i+1].y
+        local y2 = min_y + data1[i+1].y
         ga_win_line(wid, x1, y1, x2, y2, green)
     end
 end

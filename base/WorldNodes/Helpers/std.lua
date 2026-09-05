@@ -178,6 +178,11 @@ function p.block_center(bp)
     return std.vec(bp.x + 0.5, bp.y + 0.5, bp.z + 0.5)
 end
 
+--Converting a block position to a string.
+function p.bp_to_str(v)
+    return v.x .. " " .. v.y .. " " .. v.z
+end
+
 --Might want to add "block side" functions from base/Game/std.lua here.
 --Could then also include "std.get_adj_bp" from that file as well.
 
@@ -265,4 +270,9 @@ function p.angle_between_vec(a, b)
     if( arg > screw_acos ) then arg = screw_acos end
     return math.acos(arg)
     --Note: acos(1) is essentially undefined.
+end
+
+--Converting a vector to a string.
+function p.vec_to_str(v)
+    return v.x .. " " .. v.y .. " " .. v.z
 end
