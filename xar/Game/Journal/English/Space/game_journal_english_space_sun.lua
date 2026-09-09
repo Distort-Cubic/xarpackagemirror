@@ -13,7 +13,7 @@ end
 function p.rocket_locations()
     local str = "You can find ^x00ff00Rocket Damage^! upgrades in many places. "
         .. "Here are some such locations:\n\n"
-        .. "1) Yellow Bee Cubes inside Mossy Air (3 damage)\n\n"
+        .. "1) Yellow Bee Cubes inside Mossy Air\n\n"
         .. "2) Stoney Sanctuaries\n\n"
         .. "3) Jericho Towns\n\n"
         .. "4) Orange Crust\n\n"
@@ -24,25 +24,27 @@ function p.rocket_locations()
 
     local str = "You can find ^x00ff00Rocket Max Ammo^! upgrades in several places. "
         .. "Here are some such locations:\n\n"
-        .. "1) Stoney Sanctuaries\n\n"
-        .. "2) top of Apple Trees, or their Yellow Apples\n\n"
-        .. "3) Red Caves in Richmond Towns\n\n"
-        .. "4) Yellow Rooms in Blue Bubbles\n\n"
-        .. "5) Danville Towns."
+        .. "1) Yellow Bee Cubes inside Mossy Air\n\n"
+        .. "2) Stoney Sanctuaries\n\n"
+        .. "3) top of Apple Trees, or their Yellow Apples\n\n"
+        .. "4) Red Caves in Richmond Towns\n\n"
+        .. "5) Yellow Rooms in Blue Bubbles\n\n"
+        .. "6) Danville Towns."
     game_journal.add_txt(lang, "SPACE_SUN_INFO_LOCATIONS_max_ammo", str)
     game_journal.add_path("@wep;@wep_rocket;@wep_rocket_loc;{40}Max ammo upgrades")
 
     local str = "^x00ff00Rocket Velocity^! "
         .. "upgrades can be found in many places. "
         .. "Here are some such locations:\n\n"
-        .. "1) Stoney Sanctuaries\n\n"
-        .. "2) Yellow Rooms in Blue Bubbles.\n\n"
-        .. "3) Jericho Towns\n\n"
-        .. "4) Yellow Caves in Outer Mantle of Oranges\n\n"
-        .. "5) top of buildings in Williston Cities\n\n"
-        .. "6) Beholder Caves in Botany Labs\n\n"
-        .. "7) Spruce Trees (in I2)\n\n"
-        .. "8) ^xff00ffI3 Main Forest^!."
+        .. "1) Yellow Bee Cubes inside Mossy Air\n\n"
+        .. "2) Stoney Sanctuaries\n\n"
+        .. "3) Yellow Rooms in Blue Bubbles.\n\n"
+        .. "4) Jericho Towns\n\n"
+        .. "5) Yellow Caves in Outer Mantle of Oranges\n\n"
+        .. "6) top of buildings in Williston Cities\n\n"
+        .. "7) Beholder Caves in Botany Labs\n\n"
+        .. "8) Spruce Trees (in I2)\n\n"
+        .. "9) ^xff00ffI3 Main Forest^!."
     game_journal.add_txt(lang, "SPACE_SUN_INFO_LOCATIONS_vel", str)
     game_journal.add_path("@wep;@wep_rocket;@wep_rocket_loc;{50}Velocity upgrades")
 
@@ -52,12 +54,13 @@ function p.rocket_locations()
         .. "it will randomly give you a Rocket Damage, Max Ammo, "
         .. "or Velocity upgrade. "
         .. "Here are some such locations of these radius upgrades:\n\n"
-        .. "1) Stoney Churches\n\n"
-        .. "2) Yellow Rooms in Blue Bubbles.\n\n"
-        .. "3) Jericho Towns\n\n"
-        .. "4) Spruce Trees (in I2)\n\n"
-        .. "4) ^xff00ffBlackberries^!\n\n"
-        .. "5) ^xff00ffSuns (you are in one now)."
+        .. "1) Yellow Bee Cubes inside Mossy Air\n\n"
+        .. "2) Stoney Churches\n\n"
+        .. "3) Yellow Rooms in Blue Bubbles.\n\n"
+        .. "4) Jericho Towns\n\n"
+        .. "5) Spruce Trees (in I2)\n\n"
+        .. "6) ^xff00ffBlackberries^!\n\n"
+        .. "7) ^xff00ffSuns (you are in one now)."
     game_journal.add_txt(lang, "SPACE_SUN_INFO_LOCATIONS_radius", str)
     game_journal.add_path("@wep;@wep_rocket;@wep_rocket_loc;{60}Radius upgrades")
 
