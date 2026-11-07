@@ -73,7 +73,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -82,7 +82,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -114,10 +114,10 @@ function p.try_buy(wid, letter)
     end
     local option_price = p.price[letter]
     if( option_price == nil ) then return end
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if (gold >= option_price) then
         --Losing gold.
-        std.set_bydelta_i("xar.player.gold.amount", -option_price)
+        game_gold.add( -option_price )
         --Getting the upgrde.
         local var = ""
         if( letter == "H" ) then
@@ -129,7 +129,7 @@ function p.try_buy(wid, letter)
             var = "xar.player.gun" .. letter .. ".damage_level"
         end
         std.set_bydelta_i(var, 1)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound_menu("pickup_upgrade")
         --The widget.
         p.refresh_options(wid)
     end

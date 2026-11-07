@@ -254,7 +254,7 @@ function p.recordable()
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part1", str)
     game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{10}Part 1")
 
-    local str = "There are green vines that hand down from the light blue structures. "
+    local str = "There are green vines that hang down from the light blue structures. "
         .. "These are called ^x00ff00Laboratory Vines^!, and\n\n"
         .. "1) they have ^xff00ffIMPORTANT^! things growing on their sides and\n\n"
         .. "2) they have ^xff00ffScorpius Portals^! on their inside."

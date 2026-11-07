@@ -40,7 +40,7 @@ end
 function p.payload(level, bp)
     if not p.door_is_shut(level, bp) then return end
 
-    ga_play_sound("use")
+    game_sound.play_sound("use")
     
     local vcp = ga_bp_to_parent_vcp(bp)
     for xi = 0,15 do

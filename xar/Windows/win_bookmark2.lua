@@ -38,7 +38,7 @@ end
 
 function p.__process_input(wid)
     if( ga_win_key_pressed(wid, "ESC") ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -52,9 +52,9 @@ function p.__process_input(wid)
     elseif( entered_str == "iwanttolosemycurrentbookmark" ) then
         --Turning off the current bookmark.
         game_bookmark_tele.set_bookmark_off()
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound_menu("explosion_tube_long")
         ga_window_pop()
     else
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
     end
 end

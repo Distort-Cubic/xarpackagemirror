@@ -39,7 +39,7 @@ function p.SPACE_PLANET_CLAY_MOD_WP3(chunk_id)
     else
         str = str .. "There are also smaller cavities with Minigun Damage upgrades.\n\n"
     end
-    str = str .. "^xff0000Reaching the the giant cavern takes a long time.^!"
+    str = str .. "^xff0000Reaching the giant cavern takes a long time.^!"
     return str
 end
 

@@ -88,7 +88,7 @@ end
 
 --sllp = starting level level position.
 function p.explode(inst_id, level, lp)
-    ga_play_sound("rocket_explode")
+    game_sound.play_sound("rocket_explode")
 
     --Cannot get the sllp the usual way because
     --this could be during a ment move operation.

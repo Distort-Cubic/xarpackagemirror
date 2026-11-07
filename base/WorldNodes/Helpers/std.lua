@@ -276,3 +276,78 @@ end
 function p.vec_to_str(v)
     return v.x .. " " .. v.y .. " " .. v.z
 end
+
+-------------------------------------------------------------------------------
+--                            "Lenient" functions
+-------------------------------------------------------------------------------
+
+--These functions allow the arguments to come in several orders.
+--Instead of using these functions from here, you should copy the code
+--into a helper file in your project.  You might want to have a file
+--called "WorldNodes/Helpers/h.lua" where you put your own common functions.
+
+--The block type str can either by the first or the last argument.
+--The other args should be x,y,z.
+function p.set_pos(a1, a2, a3, a4)
+    if( type(a4) == "string" ) then
+        gen_set_pos(a1, a2, a3, a4) --The API way.
+    else
+        gen_set_pos(a2, a3, a4, a1) --We assume a1 is the bt string.
+    end
+end
+
+--The bt str can be either the first or last arg.
+--The other args are min_x, min_y, min_z, max_x, max_y, max_z.
+--You could make your own version which automatically computes
+--the min and max x from the two x values, etc.
+function p.create_rect(a1, a2, a3, a4, a5, a6, a7)
+    if( type(a7) == "string" ) then
+        gen_create_rect(a7, a1, a2, a3, a4, a5, a6)
+    else
+        gen_create_rect(a1, a2, a3, a4, a5, a6, a7) --We assume a1 is the bt string.
+    end
+end
+
+--The bt str can be either the first or last arg.
+--The other arg is a bp (block position).
+--Note: "p" means block position, just like "i" means integer.
+function p.set_pos_p(a1, a2)
+    if( type(a2) == "string" ) then
+        gen_set_pos(a1.x, a1.y, a1.z, a2)
+    else
+        gen_set_pos(a2.x, a2.y, a2.z, a1) --We assume a1 is the bt string.
+    end
+end
+
+--The bt str can be either the first or last arg.
+--The other args are bp_min and bp_max.
+function p.create_rect_p(a1, a2, a3)
+    if( type(a3) == "string" ) then
+        gen_create_rect(a3, a1.x, a1.y, a1.z, a2.x, a2.y, a2.z)
+    else
+        --We assume a1 is the bt string.
+        gen_create_rect(a1, a2.x, a2.y, a2.z, a3.x, a3.y, a3.z)
+    end
+end
+
+--This is like set_pos_p, except the block type is given by an integer code.
+function p.set_pos_p_c(a1, a2)
+    if( type(a2) == "number" ) then
+        gen_set_pos_c(a1.x, a1.y, a1.z, a2)
+    else
+        gen_set_pos_c(a2.x, a2.y, a2.z, a1) --We assume a1 is the bt string.
+    end
+end
+
+--This is like create_rect_p, except the block type is given by an integer code.
+function p.create_rect_p_c(a1, a2, a3)
+    if( type(a3) == "number" ) then
+        gen_create_rect_c(a3, a1.x, a1.y, a1.z, a2.x, a2.y, a2.z)
+    else
+        --We assume a1 is the bt string.
+        gen_create_rect_c(a1, a2.x, a2.y, a2.z, a3.x, a3.y, a3.z)
+    end
+end
+
+--We cannot make a similar set_pos_c or create_rect_c
+--because that would be impossible.

@@ -96,9 +96,10 @@ dark_hole_hit           WeaponOther/(homemade)_dark_hole_hit_down5db.ogg
 dark_hole_die           WeaponOther/(homemade)_dark_hole_die_down20db.ogg
 
 explosion_tube_dud      WeaponOther/(homemade)_explosion_tube_dud_low.ogg
-explosion_tube_short    WeaponOther/(homemade)_explosion_tube_short_low.ogg
-explosion_tube_long     WeaponOther/(homemade)_explosion_tube_long_low.ogg
+explosion_tube_short    WeaponOther/(homemade)_explosion_tube_short_low_down20db.ogg
+explosion_tube_long     WeaponOther/(homemade)_explosion_tube_long_low_down15db.ogg
 
+#This sound is good for doors, but too loud for repetitive monster explosions.
 toll_door       WeaponOther/(homemade)_explosion_tube_long_low.ogg
 arcade_enter    WeaponOther/(homemade)_explosion_tube_long_low.ogg
 arcade_exit     WeaponOther/(homemade)_explosion_tube_long_low.ogg
@@ -115,20 +116,20 @@ player_death       PlayerHurt/(homemade)_player_hurt_7_down20db.ogg
 
 hurt_woop             Hurt/(homemade)_hurt_woop.ogg
 hurt_access_denied    Hurt/(homemade)_hurt_access_denied_1_down15db.ogg
-hurt_deep_rumble      Hurt/(homemade)_hurt_deep_rumble.ogg
+hurt_deep_rumble      Hurt/(homemade)_hurt_deep_rumble_down15db.ogg
 hurt_very_deep_ahh    Hurt/(homemade)_hurt_very_deep_ahh.ogg
 hurt_machine_on       Hurt/(homemade)_hurt_home_dryer_turn_on_down20db.ogg
 hurt_machine_on_low   Hurt/(homemade)_hurt_home_dryer_turn_on_low.ogg
-hurt_natural_deep_ahh Hurt/(homemade)_hurt_natural_deep_ahh.ogg
-hurt_deep_ahh         Hurt/(homemade)_hurt_deep_ahh.ogg
+hurt_natural_deep_ahh Hurt/(homemade)_hurt_deep_ahh_down20db.ogg
+hurt_deep_ahh         Hurt/(homemade)_hurt_deep_ahh_down20db.ogg
 hurt_mystic           Hurt/(homemade)_hurt_mystic_oh_dear_down10db.ogg
-hurt_spider           Hurt/(tegan)_hurt_spider_Aiiop!.ogg
-hurt_jug              Hurt/(tegan)_hurt_jug_Huh.ogg
-hurt_vulcan           Hurt/(tegan)_hurt_vulcan_Choo.ogg
-hurt_marine           Hurt/(tegan)_hurt_marine_Mopf_low.ogg
-hurt_goon             Hurt/(tegan)_hurt_goon_Herarrg.ogg
-hurt_lamprey          Hurt/(tegan)_hurt_lamprey_Hgrrrrhh.ogg
-hurt_menace           Hurt/(tegan)_hurt_menace_Ohno!.ogg
+hurt_spider           Hurt/(tegan)_hurt_spider_Aiiop!_down15bd.ogg
+hurt_jug              Hurt/(tegan)_hurt_jug_Huh_down20db.ogg
+hurt_vulcan           Hurt/(tegan)_hurt_vulcan_Choo_down20db.ogg
+hurt_marine           Hurt/(tegan)_hurt_marine_Mopf_low_down10db.ogg
+hurt_goon             Hurt/(tegan)_hurt_goon_Herarrg_down15db.ogg
+hurt_lamprey          Hurt/(tegan)_hurt_lamprey_Hgrrrrhh_down15db.ogg
+hurt_menace           Hurt/(tegan)_hurt_menace_Ohno!_down10db.ogg
 hurt_arr              Hurt/(homemade)_hurt_arr.ogg
 hurt_overlord         Hurt/(tegan)_hurt_overlord_low.ogg
 hurt_goblin           Hurt/(tegan)_Neow_clip.ogg
@@ -137,24 +138,24 @@ hurt_troll            Hurt/(tegan)_Murgh_low.ogg
 hurt_wobble1          Hurt/(homemade)_hurt_wobble1_down15db.ogg
 hurt_goliath          Hurt/(homemade)_hurt_ticking_down10db.ogg
 hurt_dragoon          Hurt/(homemade)_hurt_dragoon.ogg
-hurt_beholder         Hurt/(homemade)_hurt_beholder.ogg
-hurt_abomination_blue Hurt/(homemade)_hurt_abomination_blue.ogg
+hurt_beholder         Hurt/(homemade)_hurt_beholder_down15db.ogg
+hurt_abomination_blue Hurt/(homemade)_hurt_abomination_blue_down15db.ogg
 hurt_abomination_anti_blue Hurt/(homemade)_hurt_abomination_anti_blue.ogg
 hurt_rat              Hurt/(homemade)_hurt_rat.ogg
-hurt_sliver           Hurt/(homemade)_hurt_sliver.ogg
+hurt_sliver           Hurt/(homemade)_hurt_sliver_down15db.ogg
 
 #Monster death.
 monster_death            Die/(homemade)_monster_death.ogg
 die_menace               Die/(tegan)_monster_menace_death.ogg
-die_i_am_no_more         Die/(homemade)_die_i_am_no_more.ogg
+die_i_am_no_more         Die/(homemade)_die_i_am_no_more_down10db.ogg
 die_i_am_eternal         Die/(homemade)_die_i_am_eternal.ogg
 die_club_dryer_long      Die/(homemade)_die_club_dryer_long_down15db.ogg
 die_club_dryer_short     Die/(homemade)_die_club_dryer_short_down5db.ogg
 die_home_dryer_long      Die/(homemade)_die_home_dryer_long.ogg
-die_trespasser           Die/(homemade)_die_trespasser.ogg
+die_trespasser           Die/(homemade)_die_trespasser_down15db.ogg
 die_fly                  Die/(homemade)_die_fly.ogg
-die_spider               Die/(tegan)_die_spider_Uhhraha.ogg
-die_jug                  Die/(tegan)_die_jug_Blurgh!.ogg
+die_spider               Die/(tegan)_die_spider_Uhhraha_down15db.ogg
+die_jug                  Die/(tegan)_die_jug_Blurgh!_down10db.ogg
 die_watchman             Die/(homemade)_you_will_not_succeed_deep.ogg
 die_overseer             Die/(tegan)_Blop_blop_blop_low.ogg
 die_overlord             Die/(tegan)_Blop_blop_blop_lower.ogg
@@ -173,14 +174,14 @@ die_rat                  Die/(homemade)_die_rat.ogg
 die_sliver               Die/(homemade)_die_sliver.ogg
 die_singularity          Die/(homemade)_i_will_return.ogg
 die_mystic               Die/(homemade)_mystic_no_down15db.ogg
-die_vulcan               Die/(tegan)_die_vulcan_Eewrburt.ogg
+die_vulcan               Die/(tegan)_die_vulcan_Eewrburt_down15db.ogg
 die_bee                  Die/(tegan)_die_bee_Donk.ogg
 die_bee_queen            Die/(tegan)_die_bee_queen_Berow.ogg
 die_marine               Die/(tegan)_die_marine_Bonkch_low.ogg
-die_goon                 Die/(tegan)_die_goon_Blurbugaft.ogg
-die_lamprey              Die/(tegan)_die_lamprey_Hergaft.ogg
+die_goon                 Die/(tegan)_die_goon_Blurbugaft_down10db.ogg
+die_lamprey              Die/(tegan)_die_lamprey_Hergaft_down10db.ogg
 die_dragoon              Die/(homemade)_die_dragoon.ogg
-die_beholder             Die/(homemade)_die_beholder.ogg
+die_beholder             Die/(homemade)_die_beholder_down10db.ogg
 die_abomination_blue     Die/(homemade)_die_abomination_blue.ogg
 die_abomination_anti_blue     Die/(homemade)_die_abomination_anti_blue.ogg
 

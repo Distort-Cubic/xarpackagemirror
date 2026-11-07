@@ -65,7 +65,7 @@ function p.__process_input(wid)
         (not p.get_hardcore())
     then
         p.set_hardcore()
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
@@ -73,7 +73,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

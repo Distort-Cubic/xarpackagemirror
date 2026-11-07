@@ -1,4 +1,7 @@
 function p.__new_game()
+    --Setting the world seed to zero.
+    game_worldseed.emergency_surgery() --Important.
+
     --Setting camera mode.
     game_body.set_default_fly_mode()
 
@@ -34,6 +37,9 @@ end
 
 function p.__load_game()
     ga_debug_push("top.__load_game")
+
+    --Setting the world seed to zero.
+    game_worldseed.emergency_surgery() --Important.
 
     --Setting dependent variables.
     game_var_helpers.set_dep_vars()
@@ -203,7 +209,7 @@ end
 --Called when the engine actually "kills" the player.
 function p.__killed_player()
     ga_debug_push("top.__killed_player")
-    ga_play_sound_menu("player_death")
+    game_sound.play_sound_menu("player_death")
     ga_win_release_keys_that_are_down() --Otherwise keys may be "stuck".
     ga_debug_pop("top.__killed_player")
 end

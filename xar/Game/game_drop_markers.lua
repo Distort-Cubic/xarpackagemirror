@@ -1,14 +1,14 @@
 function p.drop_genesis_marker_short()
     --Dealing with cost.
-    local long_marker_cost = 20
+    local marker_cost = 20
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     --Sound.
-    ga_play_sound("marker_short");
+    game_sound.play_sound("marker_short");
 
     local game_time = ga_get_sys_f("game.time.total")
     local remove_time = game_time + (60.0 * 60.0 * 3.0) --3 hours.
@@ -34,15 +34,15 @@ end
 
 function p.drop_genesis_marker_long()
     --Dealing with cost.
-    local long_marker_cost = 50
+    local marker_cost = 50
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     --Sound.
-    ga_play_sound("marker_long");
+    game_sound.play_sound("marker_long");
 
     local game_time = ga_get_sys_f("game.time.total")
     local remove_time = game_time + 60.0 * 60.0 * 3.0 --3 hours.
@@ -76,13 +76,13 @@ function p.drop_marker_short()
         if ga_get_i("xar.player.markers.num_short") > 0 then
             std.set_bydelta_i("xar.player.markers.num_short", -1)
         else
-            local gold = ga_get_i("xar.player.gold.amount")
+            local gold = game_gold.get()
             local cheap_cost = 10
             if ga_get_b("xar.player.cheat_common_markers") then
                 cheap_cost = 5
             end
             if (gold < cheap_cost) then return end
-            ga_set_i("xar.player.gold.amount", gold - cheap_cost)
+            game_gold.add( -cheap_cost )
         end
     end
     
@@ -104,7 +104,7 @@ function p.drop_marker_short()
     ga_print("game_drop_markers.drop_marker_short e")
 
     --Playing a sound.
-    ga_play_sound("marker_short");
+    game_sound.play_sound("marker_short");
 
     ga_print("game_drop_markers.drop_marker_short end")
 end
@@ -116,11 +116,11 @@ function p.drop_marker_long()
     end
 
     --Dealing with gold.
-    local long_marker_cost = 20
+    local marker_cost = 20
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     -- Dropping a new ment.
@@ -133,11 +133,11 @@ function p.drop_marker_long()
     ga_ment_end()
 
     --Playing a sound.
-    ga_play_sound("marker_long");
+    game_sound.play_sound("marker_long");
 end
 
 function p.enabled_cheap_common_markers()
     if ga_get_b("xar.player.cheat_common_markers") then return end
-    ga_play_sound("buy")
+    game_sound.play_sound("buy")
     ga_set_b("xar.player.cheat_common_markers", true)
 end

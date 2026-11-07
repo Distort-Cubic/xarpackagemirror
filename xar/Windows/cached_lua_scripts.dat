@@ -1,4 +1,4 @@
--- Number of Lua scripts = 66
+-- Number of Lua scripts = 67
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_black_market.lua"
 function p.__start(wid)
     p.make_list(wid)
@@ -37,7 +37,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -46,12 +46,12 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_delta = 0
     
     local selection = ga_win_widget_small_list_process_input(wid)
@@ -126,8 +126,8 @@ function p.__process_input(wid)
     end
 
     if (gold_delta ~= 0) then
-        std.set_bydelta_i("xar.player.gold.amount", gold_delta)
-        ga_play_sound("buy")
+        game_gold.add(gold_delta)
+        game_sound.play_sound_menu("buy")
     end
 end
 END_FILE
@@ -154,7 +154,7 @@ function p.__process_input(wid)
     if( ga_win_key_pressed(wid, "ESC") or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 end
@@ -200,7 +200,7 @@ end
 
 function p.__process_input(wid)
     if( ga_win_key_pressed(wid, "ESC") ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -214,10 +214,10 @@ function p.__process_input(wid)
     elseif( entered_str == "iwanttolosemycurrentbookmark" ) then
         --Turning off the current bookmark.
         game_bookmark_tele.set_bookmark_off()
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound_menu("explosion_tube_long")
         ga_window_pop()
     else
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
     end
 end
 END_FILE
@@ -249,7 +249,7 @@ end
 function p.__render(wid)
     ga_win_set_background_default(wid)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -258,7 +258,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -269,12 +269,11 @@ function p.__process_input(wid)
     then
         local price = ga_get_i("temp.xar.ent.buy_blue_key.price")
         local cost = price
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         if (gold >= cost) then
-            new_gold = gold - cost
-            ga_set_i("xar.player.gold.amount", new_gold)
+            game_gold.add( -cost )
             ga_set_f("xar.key_time.blue", 20.0)
-            ga_play_sound("pickup_powerup")
+            game_sound.play_sound_menu("pickup_powerup")
             ga_window_pop()
         end
     end
@@ -311,7 +310,7 @@ end
 function p.__render(wid)
     ga_win_set_background_default(wid)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -323,7 +322,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -335,12 +334,11 @@ function p.__process_input(wid)
         local price = ga_get_i("temp.xar.ent.buy_marker.price")
         local num = p.price_helper(price)
         local cost = num * price
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         if (gold >= cost) then
-            local new_gold = gold - cost
-            ga_set_i("xar.player.gold.amount", new_gold)
+            game_gold.add( -cost )
             std.set_bydelta_i("xar.player.markers.num_short", num)
-            ga_play_sound("buy")
+            game_sound.play_sound_menu("buy")
         end
     end
 end
@@ -369,7 +367,7 @@ function p.__render(wid)
     -- ga_win_txt_center(wid, 0.5,
     --     "Press ENTER: buy 1 nuke for " .. price .. " gold")
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -381,7 +379,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -391,16 +389,15 @@ function p.__process_input(wid)
         game_key.pressed_or_spammed(wid, "ENTER") )
     then
         local cost = ga_get_i("temp.xar.ent.buy_nuke.price")
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         local ammo_max = game_wep_modes.get_ammo_max(9)
         local ammo = ga_get_i("xar.player.gun9.ammo")
         if (gold >= cost and
             ammo < ammo_max)
         then
-            local new_gold = gold - cost
-            ga_set_i("xar.player.gold.amount", new_gold)
+            game_gold.add( -cost )
             std.set_bydelta_i("xar.player.gun9.ammo", 1)
-            ga_play_sound("buy")
+            game_sound.play_sound_menu("buy")
         end
     end
 end
@@ -455,7 +452,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -464,7 +461,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -472,7 +469,7 @@ function p.__process_input(wid)
     --Todo: rewrite this code:
     --See what we do in "win_upgrade_station.lua".
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local starting_gold = gold
 
     local selection = ga_win_widget_small_list_process_input(wid) --Not getting selection yet.
@@ -633,8 +630,8 @@ function p.__process_input(wid)
     end
 
     if (gold ~= starting_gold) then
-        ga_set_i("xar.player.gold.amount", gold)
-        ga_play_sound("buy")
+        game_gold.set(gold)
+        game_sound.play_sound_menu("buy")
     end
 end
 END_FILE
@@ -664,17 +661,17 @@ function p.__process_input(wid)
         ga_win_key_pressed(wid, "F") or
         ga_win_mouse_pressed(wid, true) )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
     if game_key.pressed_or_spammed(wid, "ENTER") then
         local cost = 1000
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         if( gold < cost ) then
-            ga_play_sound_menu("error")
+            game_sound.play_sound_menu("error")
         else
-            ga_set_i_by_delta("xar.player.gold.amount", -cost)
+            game_gold.add( -cost )
             game_drop_markers.enabled_cheap_common_markers()
             ga_window_pop()
         end
@@ -718,7 +715,7 @@ end
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
         --Going to the main menu.
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_set_sys_b("menu.in_main", true)
     end
 end
@@ -733,7 +730,7 @@ local start_time = -1.0
 local scroll = 0.0
 
 function p.__start(wid)
-    --ga_play_sound("pickup_upgrade") --Could play a sound here.
+    --game_sound.play_sound_menu("pickup_upgrade") --Could play a sound here.
 
     p.start_time = ga_get_sys_f("time.current") --Seconds since program started.
 
@@ -956,7 +953,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -975,13 +972,13 @@ function p.__process_input(wid)
     if ( sel_str == "1" and cur_diff ~= -2 ) then
         --Actually changing the difficulty.
         game_difficulty.set(-2)
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound_menu("pickup_gold")
         ga_window_pop()
     end
     if ( sel_str == "2" and cur_diff ~= -1 ) then
         --Actually changing the difficulty.
         game_difficulty.set(-1)
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound_menu("pickup_gold")
         ga_window_pop()
     end
 end
@@ -1092,11 +1089,18 @@ function p.__render(wid)
         --
         local debug_frame = "win_hud.__render: " .. name
         ga_debug_push(debug_frame)
+        p.m_init_before_cb()
         func(wid)
         ga_debug_pop(debug_frame)
     end
 
     ga_debug_pop("win_hud.__render main")
+end
+
+--This is called right before calling a hud callback.
+function p.m_init_before_cb()
+    local col_white = std.vec(1,1,1)
+    ga_render_color(col_white)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_hud_user_above.lua"
@@ -1192,7 +1196,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -1204,14 +1208,20 @@ function p.__process_input(wid)
         p.toggle_enabled(value)
 
         if( p.get_enabled() ) then
-            ga_play_sound_menu("holy_cow")
-            -- ga_play_sound_menu("harp")
+            game_sound.play_sound_menu("holy_cow")
+            -- game_sound.play_sound_menu("harp")
         end
     end
-
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_marker_long.lua"
+local m_remove_marker_button = 1
+local m_tracking_marker_button = 2
+
+local m_txt_press_f5_to_remove = "PRESS F5 TO REMOVE (OR RIGHT CLICK ON MARKER)"
+local m_txt_press_f7_to_track = "PRESS F7 TO SET THIS AS YOUR TRACKING MARKER"
+local m_txt_this_is_your_track = "THIS IS YOUR TRACKING MARKER"
+
 function p.__start(wid)
     local min_x = 0.1
     local max_x = 0.9
@@ -1221,6 +1231,20 @@ function p.__start(wid)
     local char_h = 0.04
     local col = std.vec(0.0, 0.5, 0.5)
 
+    local dummy_x = 0.0
+    local w = 0.015
+    local h = 0.03
+    ga_win_widget_button_start(wid, m_remove_marker_button, dummy_x, 0.93, w, h,
+        m_txt_press_f5_to_remove)
+    ga_win_widget_button_center_x_at(wid, m_remove_marker_button, 0.5)
+
+    local dummy_x = 0.0
+    local w = 0.015
+    local h = 0.03
+    ga_win_widget_button_start(wid, m_tracking_marker_button, dummy_x, 0.87, w, h,
+        m_txt_press_f7_to_track) --Will set the text again later.
+    ga_win_widget_button_center_x_at(wid, m_tracking_marker_button, 0.5)
+
     local inst_id = ga_get_i("temp.xar.marker_long_inst_id")
     local init_str = ga_ment_get_s(inst_id, "msg")
 
@@ -1228,6 +1252,13 @@ function p.__start(wid)
         wid, min_x, max_x, min_y, max_y, char_w, char_h,
         col,
         init_str)
+
+    local y = 0.02
+    local w = 0.02
+    local h = 0.04
+    local go_back_msg = "Go Back (ESC)"
+    ga_win_widget_go_back_button_start(
+        wid, y, w, h, go_back_msg);
 end
 
 function p.__end(wid)
@@ -1243,11 +1274,31 @@ function p.__end(wid)
 end
 
 function p.__process_input(wid)
-    if ga_win_key_pressed(wid, "ESC") then
+    if( ga_win_key_pressed(wid, "ESC") or
+        ga_win_widget_go_back_button_process_input(wid) )
+    then
         ga_window_pop()
     end
 
-    if ga_win_key_pressed(wid, "F5") then
+    --Setting the text on the tracking marker button.
+    --Might as well do this here.
+    local button_txt = "NOT_SET"
+    local cur_marker = ga_get_i("temp.xar.marker_long_code_id")
+    local tracking_marker = ga_get_i("xar.player.tracking_marker")
+    if( cur_marker == tracking_marker ) then
+        button_txt = m_txt_this_is_your_track
+    else
+        button_txt = m_txt_press_f7_to_track
+    end
+    ga_win_widget_button_set_text(wid, m_tracking_marker_button, button_txt)
+    ga_win_widget_button_center_x_at(wid, m_tracking_marker_button, 0.5)
+
+    --Processing button clicking input.
+    local which_button = ga_win_widget_button_process_input(wid)
+
+    if( which_button == m_remove_marker_button or
+        ga_win_key_pressed(wid, "F5") )
+    then
         local cur_marker_code_id = ga_get_i("temp.xar.marker_long_code_id")
         local tracker_marker_code_id = ga_get_i("xar.player.tracking_marker")
         if( cur_marker_code_id == tracker_marker_code_id ) then
@@ -1255,11 +1306,15 @@ function p.__process_input(wid)
         end
         --
         local inst_id = ga_get_i("temp.xar.marker_long_inst_id")
+        local code_id = ga_get_i("temp.xar.marker_long_code_id")
         ga_ment_remove(inst_id)
+        game_tracking_marker.remove_maybe(code_id)
         ga_window_pop()
     end
 
-    if ga_win_key_pressed(wid, "F7") then
+    if( which_button == m_tracking_marker_button or
+        ga_win_key_pressed(wid, "F7") )
+    then
         game_tracking_marker.unhide()
         local cur_marker = ga_get_i("temp.xar.marker_long_code_id")
         ga_set_i("xar.player.tracking_marker", cur_marker)
@@ -1267,28 +1322,14 @@ function p.__process_input(wid)
 end
 
 function p.__render(wid)
+    local col_black = std.vec(0.0, 0.0, 0.0)
+    ga_win_set_background(wid, col_black, 0.95)
+
+    ga_win_set_char_size(wid, 0.02, 0.04)
+    ga_win_txt_center(wid, 0.80, "THE MESSAGE FOR THIS LONG MARKER:")
+
     --The mutable_text_box widget is rendered automatically
     --(because it was created).
-
-    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
-
-    ga_win_set_char_size(wid, 0.02, 0.04)
-    ga_win_txt_center(wid, 0.9, "THE MESSAGE FOR THIS LONG MARKER:")
-
-    ga_win_set_char_size(wid, 0.015, 0.03)
-    ga_win_txt_center(wid, 0.85, "PRESS F5 TO REMOVE (OR RIGHT CLICK ON MARKER)")
-
-    ga_win_set_char_size(wid, 0.015, 0.03)
-    local cur_marker = ga_get_i("temp.xar.marker_long_code_id")
-    local tracker_marker = ga_get_i("xar.player.tracking_marker")
-    if( cur_marker == tracker_marker ) then
-        ga_win_txt_center(wid, 0.80, "THIS IS YOUR TRACKING MARKER")
-    else
-        ga_win_txt_center(wid, 0.80, "PRESS F7 TO SET AS TRACKING MARKER")    
-    end
-
-    ga_win_set_char_size(wid, 0.02, 0.04)
-    ga_win_txt_center(wid, 0.06, "Go Back (ESC)")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/win_pay_toll.lua"
@@ -1324,7 +1365,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -1364,13 +1405,13 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
     if( ga_win_key_pressed(wid, "ENTER") ) then
         --Actually respawning.
-        ga_play_sound_menu("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop()
         ga_command("respawn force")
     end
@@ -1460,7 +1501,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -1474,14 +1515,19 @@ end
 
 --Returns true iff sold something.
 function p.sell(wid, str, sell_all)
+    if( game_gold.is_gold_at_max() ) then --Safety.
+        game_sound.play_sound_menu("error")
+        return
+    end
+    --
     if sell_all then
         --Doing it over and over until there is no effect.
         local sold_something = false 
         while true do
-            local gold_before = ga_get_i("xar.player.gold.amount")
+            local gold_before = game_gold.get()
             local sold_something_now = p.sell_helper(wid, str)
             if( sold_something_now ) then sold_something = true end
-            local gold_after = ga_get_i("xar.player.gold.amount")
+            local gold_after = game_gold.get()
             if( gold_after == gold_before ) then
                 return sold_something
             end
@@ -1494,7 +1540,7 @@ end
 
 --Returns true iff did not run out of money.
 function p.sell_helper(wid, str)
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local starting_gold = gold
     local sold = false
 
@@ -1591,7 +1637,7 @@ function p.sell_helper(wid, str)
     end
 
     if (gold ~= starting_gold) then
-        ga_set_i("xar.player.gold.amount", gold)
+        game_gold.set(gold)
     end
 
     if( sold ) then
@@ -1605,12 +1651,12 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
 
-    local starting_gold = ga_get_i("xar.player.gold.amount")
+    local starting_gold = game_gold.get()
     local selection = ga_win_widget_small_list_process_input(wid) --Not getting selection yet.
     local sel_name = ""
     if( selection >= 0 ) then
@@ -1694,16 +1740,16 @@ function p.__process_input(wid)
         ga_win_widget_small_list_set_selected(wid, 8) --Fragile!!!
     end
 
-    local ending_gold = ga_get_i("xar.player.gold.amount")
+    local ending_gold = game_gold.get()
 
     --Playing a sound based on how much gold way gained.
     local gold_diff = ending_gold - starting_gold
     if gold_diff >= 1000 then
-        ga_play_sound("pickup_gold_large")
+        game_sound.play_sound_menu("pickup_gold_large")
     elseif gold_diff >= 100 then
-        ga_play_sound("pickup_gold_medium")
+        game_sound.play_sound_menu("pickup_gold_medium")
     elseif gold_diff > 0 then
-        ga_play_sound("pickup_gold_small")
+        game_sound.play_sound_menu("pickup_gold_small")
     end
 end
 END_FILE
@@ -1711,8 +1757,10 @@ BEGIN_FILE: "../../Data/Packages/xar/Windows/win_sleep.lua"
 --Returns whether or not succeded
 function p.payload_one_minute()
     local cost = 5
-    if( ga_get_i("xar.player.gold.amount") < cost ) then return false end
-    std.set_bydelta_i("xar.player.gold.amount", -cost)
+    local gold = game_gold.get()
+    if( gold < cost ) then return false end
+    game_gold.add( -cost )
+    --
     local old_game_time = ga_get_sys_f("game.time.total")
     local new_game_time = old_game_time + 60.0
     ga_set_sys_f("game.time.total", new_game_time)
@@ -1728,12 +1776,12 @@ function p.payload(sleep_seconds)
         if worked then
             slept = true
         else
-            ga_play_sound("error")
+            game_sound.play_sound_menu("error")
             return
         end
     end
     if slept then
-        ga_play_sound_menu("snore")
+        game_sound.play_sound_menu("snore")
     end
 end
 
@@ -1782,7 +1830,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -1862,7 +1910,7 @@ function p.__render(wid)
             .. "The world is a big place, "
             .. "and it was so easy for me to get lost in it. "
             .. "Thank you for rescuing me. "
-            .. "I hope you found some intresting "
+            .. "I hope you found some interesting "
             .. "places in your journey!"
     elseif( e_diff_num == -1 ) then
         --Normal mode.
@@ -2065,7 +2113,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 end
@@ -2146,7 +2194,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -2155,7 +2203,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -2187,10 +2235,10 @@ function p.try_buy(wid, letter)
     end
     local option_price = p.price[letter]
     if( option_price == nil ) then return end
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if (gold >= option_price) then
         --Losing gold.
-        std.set_bydelta_i("xar.player.gold.amount", -option_price)
+        game_gold.add( -option_price )
         --Getting the upgrde.
         local var = ""
         if( letter == "H" ) then
@@ -2202,7 +2250,7 @@ function p.try_buy(wid, letter)
             var = "xar.player.gun" .. letter .. ".damage_level"
         end
         std.set_bydelta_i(var, 1)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound_menu("pickup_upgrade")
         --The widget.
         p.refresh_options(wid)
     end
@@ -2246,16 +2294,16 @@ function p.get_bent_location()
 end
 
 function p.get_num_charges()
-    ga_print("win_upgrade_station_max_ammo.get_num_charges 1")
+    -- ga_print("win_upgrade_station_max_ammo.get_num_charges 1")
     local location = p.get_bent_location()
     if( not location.is_valid ) then return -1 end
-    ga_print("win_upgrade_station_max_ammo.get_num_charges 2")
-    ga_print("win_upgrade_station_max_ammo: level = " .. tostring(location.level))
-    ga_print("win_upgrade_station_max_ammo: bp = " .. std.vec_to_str(location.bp))
+    -- ga_print("win_upgrade_station_max_ammo.get_num_charges 2")
+    -- ga_print("win_upgrade_station_max_ammo: level = " .. tostring(location.level))
+    -- ga_print("win_upgrade_station_max_ammo: bp = " .. std.vec_to_str(location.bp))
     local param = ga_bent_get_param_i(
         location.level,
         location.bp)
-    ga_print("win_upgrade_station_max_ammo: param = " .. tostring(param))
+    -- ga_print("win_upgrade_station_max_ammo: param = " .. tostring(param))
     return param
 end
 
@@ -2319,7 +2367,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -2336,7 +2384,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -2371,21 +2419,22 @@ function p.try_buy(wid, gun)
     --
     local gun_price = p.price[gun]
     if( gun_price == nil ) then return end
-    local charge_price = gun_price / 1000
+    local charge_price = math.floor(gun_price / 1000)
     if p.get_num_charges() < charge_price then
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
         return
     end
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if (gold < gun_price) then
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
         return
     end
     --Actually buying.
-    std.set_bydelta_i("xar.player.gold.amount", -gun_price)
+    game_gold.add( -gun_price )
+    --
     local var = "xar.player.gun" .. tostring(gun) .. ".ammo_level"
     std.set_bydelta_i(var, 1)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound_menu("pickup_upgrade")
     p.set_num_charges_by_delta(-charge_price)
     p.refresh_options(wid)
 end
@@ -2462,7 +2511,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -2528,7 +2577,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -2592,7 +2641,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -2980,7 +3029,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3048,7 +3097,7 @@ function p.__process_input(wid)
     -- end
 
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3135,18 +3184,18 @@ function p.__process_input(wid)
     local curved = ga_get_b("xar.difficulty.curve.enabled")
     if( ga_win_key_pressed(wid, "Y") and not curved ) then
         ga_set_b("xar.difficulty.curve.enabled", true)
-        ga_play_sound_menu("cheater")
+        game_sound.play_sound_menu("cheater")
         ga_window_pop_all()
         return
     end
     if( ga_win_key_pressed(wid, "N") and curved ) then
         ga_set_b("xar.difficulty.curve.enabled", false)
-        ga_play_sound_menu("cheater")
+        game_sound.play_sound_menu("cheater")
         ga_window_pop_all()
         return
     end
     if ga_win_key_pressed(wid, "ESC") then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3207,18 +3256,18 @@ function p.__process_input(wid)
         if ga_win_key_pressed(wid, "Y") then
             --Actually changing the difficulty.
             game_difficulty.set(-1)
-            ga_play_sound("pickup_gold")
+            game_sound.play_sound_menu("pickup_gold")
             ga_window_pop_all()
             return
         end
         if ga_win_key_pressed(wid, "N") then
-            ga_play_sound("menu_back")
+            game_sound.play_sound_menu("menu_back")
             ga_window_pop()
             return
         end
     end
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3280,18 +3329,18 @@ function p.__process_input(wid)
         if ga_win_key_pressed(wid, "Y") then
             --Actually changing the difficulty.
             game_difficulty.set(-2)
-            ga_play_sound("pickup_gold")
+            game_sound.play_sound_menu("pickup_gold")
             ga_window_pop_all()
             return
         end
         if ga_win_key_pressed(wid, "N") then
-            ga_play_sound("menu_back")
+            game_sound.play_sound_menu("menu_back")
             ga_window_pop()
             return
         end
     end
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3347,45 +3396,45 @@ function p.__process_input(wid)
     if( p.can_use_harder() ) then
         cur_txt = ga_win_widget_text_input_process_input(wid)
         if cur_txt == "icandoit" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_normal")
             return
         end
         if cur_txt == "elfenlied" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_1")
             return
         end
         if cur_txt == "supersolenoid" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_2")
             return
         end
         if cur_txt == "wings" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_3")
             return
         end
         if cur_txt == "thespicemustflow" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_4")
             return
         end
         if cur_txt == "custom" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             game_difficulty.set_custom()
             return
         end
         if cur_txt == "peace" then
             ga_set_b("xar.difficulty.trying_to_be_pacifist", true)
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_pop()
             return
         end
     end
 
     if( ga_win_widget_go_back_button_process_input(wid) ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3432,14 +3481,14 @@ function p.__process_input(wid)
     if ga_win_key_pressed(wid, "Y") then
         --Actually changing the difficulty.
         game_difficulty.set(1)
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3485,14 +3534,14 @@ function p.__process_input(wid)
     if ga_win_key_pressed(wid, "Y") then
         --Actually changing the difficulty.
         game_difficulty.set(2)
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3538,14 +3587,14 @@ function p.__process_input(wid)
     if ga_win_key_pressed(wid, "Y") then
         --Actually changing the difficulty.
         game_difficulty.set(3)
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3591,14 +3640,14 @@ function p.__process_input(wid)
     if ga_win_key_pressed(wid, "Y") then
         --Actually changing the difficulty.
         game_difficulty.set(4)
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3672,7 +3721,7 @@ function p.__process_input(wid)
         (not p.get_hardcore())
     then
         p.set_hardcore()
-        ga_play_sound("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop_all()
         return
     end
@@ -3680,7 +3729,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3757,18 +3806,18 @@ function p.__process_input(wid)
         if ga_win_key_pressed(wid, "Y") then
             --Actually changing the difficulty.
             game_difficulty.set(0)
-            ga_play_sound("pickup_gold")
+            game_sound.play_sound_menu("pickup_gold")
             ga_window_pop_all()
             return
         end
         if ga_win_key_pressed(wid, "N") then
-            ga_play_sound("menu_back")
+            game_sound.play_sound_menu("menu_back")
             ga_window_pop()
             return
         end
     end
     if( ga_win_widget_go_back_button_process_input(wid) ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3793,6 +3842,96 @@ end
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
         ga_window_pop()
+    end
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_blood.lua"
+--win_main_menu_blood.lua
+
+function p.def_value()
+    return 1.0 --Default num.
+end
+
+function p.get_value()
+    local var = "effects.blood.factor"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_get_f(var)
+end
+
+function p.set_value(value)
+    local var = "effects.blood.factor"
+    ga_package_init_f(var, p.def_value())
+    return ga_package_set_f(var, value)
+end
+
+--Returns true off worked.
+function p.set_value_maybe(str_value)
+    local num_value = tonumber(str_value)
+    if( num_value == nil ) then return false end
+    -- if( num_value > 1.0 ) then return false end
+    if( num_value < 0.0 ) then return false end
+    --
+    p.set_value(num_value)
+    return true
+end
+
+function p.__start(wid)
+    local go_back_button_y = 0.06
+    local w = 0.02
+    local h = 0.04
+    local go_back_msg = "Go Back (ESC)"
+    ga_win_widget_go_back_button_start(
+        wid, go_back_button_y, w, h, go_back_msg);
+
+    local min_y = 0.45
+    local w = 0.02
+    local h = 0.04
+    ga_win_widget_text_input_start(wid, min_y, w, h)
+end
+
+function p.__end(wid)
+    --Nothing to do.
+end
+
+function p.__get_path_display_name()
+    return "BLOOD"
+end
+
+function p.__render(wid)
+    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
+
+    local path = ga_get_window_stack_display_names()
+    game_win_top_bar.render_path(wid, path)
+    ga_win_set_front_color_default(wid)
+
+    ga_win_set_char_size(wid, 0.03, 0.06)
+    ga_win_txt_center(wid, 0.85, "BLOOD FACTOR")
+
+    local cur_value = p.get_value()
+
+    ga_win_set_char_size(wid, 0.02, 0.04)
+    ga_win_txt_center(wid, 0.75, "DEFAULT VALUE: 1.0")
+    ga_win_txt_center(wid, 0.70, "CURRENT VALUE: " .. tostring(cur_value))
+
+    ga_win_txt_center(wid, 0.5, "ENTER NEW NON-ZERO VALUE:")
+end
+
+function p.__process_input(wid)
+    if ga_win_widget_go_back_button_process_input(wid) then
+        game_sound.play_sound_menu("menu_back")
+        ga_window_pop()
+        return
+    end
+
+    local txt = ga_win_widget_text_input_process_input(wid)
+    if( txt ~= "" ) then
+        local ok = p.set_value_maybe(txt)
+        if( ok ) then
+            ga_window_pop()
+            return
+        else
+            game_sound.play_sound_menu("error")
+        end
     end
 end
 END_FILE
@@ -3859,7 +3998,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -3968,7 +4107,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -3980,7 +4119,7 @@ function p.__process_input(wid)
             ga_window_pop()
             return
         else
-            ga_play_sound_menu("error")
+            game_sound.play_sound_menu("error")
         end
     end
 end
@@ -4057,7 +4196,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4069,15 +4208,15 @@ function p.__process_input(wid)
             ga_window_pop()
             return
         else
-            ga_play_sound_menu("error")
+            game_sound.play_sound_menu("error")
         end
     end
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_game.lua"
 function p.__start(wid)
-    local min_y = 0.30
-    local max_y = 0.60
+    local min_y = 0.25
+    local max_y = 0.65
     local char_w = 0.03
     local char_h = 0.06
     local col = {x=0.0, y=0.5, z=0.5}
@@ -4085,7 +4224,8 @@ function p.__start(wid)
     options = {
         "CAMERA + MOVEMENT",
         "MARKERS",
-        "USE KEY" }
+        "USE KEY",
+        "BLOOD" }
     ga_win_widget_small_list_start(
         wid, min_y, max_y, char_w, char_h,
         col, options)
@@ -4133,22 +4273,34 @@ function p.__process_input(wid)
         ga_window_push("win_main_menu_use_key")
         return
     end
+    if( sel_str == "BLOOD" ) then
+        ga_window_push("win_main_menu_blood")
+        return
+    end
 
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_markers.lua"
+local m_tracking_marker_button = 1
+
+local m_txt_turn_on_tracking_marker = "PRESS Y TO TURN ON YOUR TRACKING MARKER"
+local m_txt_turn_off_tracking_marker = "PRESS N TO TURN OFF YOUR TRACKING MARKER"
+
+local m_marker_msg1 = ""
+local m_marker_msg2 = ""
+
 function p.__start(wid)
-    local go_back_button_y = 0.06
+    local y = 0.06
     local w = 0.02
     local h = 0.04
     local go_back_msg = "Go Back (ESC)"
     ga_win_widget_go_back_button_start(
-        wid, go_back_button_y, w, h, go_back_msg);
+        wid, y, w, h, go_back_msg);
 end
 
 function p.__end(wid)
@@ -4159,8 +4311,71 @@ function p.__get_path_display_name()
     return "MARKERS"
 end
 
+function p.refresh_button(wid)
+    m_marker_msg2 = ""
+    local marker_exists = game_tracking_marker.exists()
+    local marker_enabled = false;
+    if( marker_exists ) then
+        marker_enabled = game_tracking_marker.exists_and_enabled()
+        if( marker_enabled ) then
+            local dist = game_tracking_marker.get_dist()
+            local dist_str = game_str.make_3_digit_big(dist)
+            m_marker_msg1 = "YOUR TRACKING MARKER IS " .. dist_str .. " BLOCKS AWAY"
+            m_marker_msg2 = "PRESS N TO TURN OFF YOUR TRACKING MARKER"
+        else
+            m_marker_msg1 = "YOU HAVE A TRACKING MARKER BUT IT IS TURNED OFF"
+            m_marker_msg2 = "PRESS Y TO TURN ON YOUR TRACKING MARKER"
+        end
+        --Creating tracking marker button.
+        local dummy_x = 0.0
+        local w = 0.015
+        local h = 0.03
+        ga_win_widget_button_start(wid, m_tracking_marker_button, dummy_x, 0.4, w, h, m_marker_msg2)
+        ga_win_widget_button_center_x_at(wid, m_tracking_marker_button, 0.5)
+    else
+        m_marker_msg1 = "YOU DO NOT HAVE A TRACKING MARKER"
+        ga_win_widget_button_end(wid, m_tracking_marker_button)
+    end
+end
+
+function p.__process_input(wid)
+    --Setting the text on the tracking marker button.
+    --Might as well do this here.
+    p.refresh_button(wid)
+
+    --Processing button clicking input.
+    local which_button = ga_win_widget_button_process_input(wid)
+
+    local marker_exists = game_tracking_marker.exists()
+    local marker_enabled = game_tracking_marker.exists_and_enabled()
+
+    if( marker_exists ) then
+        if( ga_win_key_pressed(wid, "N") or
+            (marker_enabled and which_button == m_tracking_marker_button) )
+        then
+            game_tracking_marker.hide()
+            ga_window_pop_all()
+            return
+        end
+        if( ga_win_key_pressed(wid, "Y") or
+            (not marker_enabled and which_button == m_tracking_marker_button) )
+        then
+            game_tracking_marker.unhide()
+            ga_window_pop_all()
+            return
+        end
+    end
+
+    if ga_win_widget_go_back_button_process_input(wid) then
+        game_sound.play_sound_menu("menu_back")
+        ga_window_pop()
+        return
+    end
+end
+
 function p.__render(wid)
-    ga_win_set_background(wid, std.vec(0.0, 0.0, 0.0), 0.95)
+    local col_black = std.vec(0.0, 0.0, 0.0)
+    ga_win_set_background(wid, col_black, 0.95)
 
     local path = ga_get_window_stack_display_names()
     game_win_top_bar.render_path(wid, path)
@@ -4171,40 +4386,14 @@ function p.__render(wid)
 
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local marker_exists = game_tracking_marker.exists()
-    if( marker_exists ) then
-        local enabled = game_tracking_marker.exists_and_enabled()
-        if( enabled ) then     
-            local dist = game_tracking_marker.get_dist()
-            local dist_str = game_str.make_3_digit_big(dist)
-            ga_win_txt_center(wid, 0.5, "YOUR TRACKING MARKER IS " .. dist_str .. " BLOCKS AWAY")
-            ga_win_txt_center(wid, 0.4, "PRESS N TO TURN OFF YOUR TRACKING MARKER")
-        else
-            ga_win_txt_center(wid, 0.5, "YOU HAVE A TRACKING MARKER BUT IT IS TURNED OFF")
-            ga_win_txt_center(wid, 0.4, "PRESS Y TO TURN ON YOUR TRACKING MARKER")
-        end
-
-    else
-        ga_win_txt_center(wid, 0.5, "YOU DO NOT HAVE A TRACKING MARKER")
-    end
-end
-
-function p.__process_input(wid)
-    if( ga_win_key_pressed(wid, "N") ) then
-        game_tracking_marker.hide()
-        ga_window_pop_all()
-        return
-    end
-    if( ga_win_key_pressed(wid, "Y") ) then
-        game_tracking_marker.unhide()
-        ga_window_pop_all()
-        return
-    end
-    if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
-        ga_window_pop()
-        return
-    end
+    -- local marker_exists = game_tracking_marker.exists()
+    -- if( marker_exists ) then
+    --     ga_win_txt_center(wid, 0.5, m_marker_msg1)
+    -- else
+    --     ga_win_txt_center(wid, 0.5, "YOU DO NOT HAVE A TRACKING MARKER")
+    -- end
+    ga_win_txt_center(wid, 0.5, m_marker_msg1)
+    --The msg2 is rendered automatically as part of the text button.
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Game/win_main_menu_use_key.lua"
@@ -4281,7 +4470,7 @@ function p.__process_input(wid)
     if( (uses and sel == 0) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_select")
+        game_sound.play_sound_menu("menu_select")
         ga_set_b("xar.input.use_primary_uses_object", false)
         p.refresh_list(wid)
         return
@@ -4289,14 +4478,14 @@ function p.__process_input(wid)
     if( (not uses and sel == 0) or
         ga_win_key_pressed(wid, "Y") )
     then
-        ga_play_sound("menu_select")
+        game_sound.play_sound_menu("menu_select")
         ga_set_b("xar.input.use_primary_uses_object", true)
         p.refresh_list(wid)
         return
     end
     
     if( ga_win_widget_go_back_button_process_input(wid) ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         p.refresh_list(wid)
         return
@@ -4304,9 +4493,9 @@ function p.__process_input(wid)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Windows/MainMenu/Respawn/win_main_menu_respawn.lua"
-local press_y_handle = 1
-local press_n_handle = 2
-local press_p_handle = 3
+local m_press_y_handle = 1
+local m_press_n_handle = 2
+local m_press_p_handle = 3
 
 function p.__start(wid)
     local go_back_button_y = 0.02
@@ -4316,14 +4505,14 @@ function p.__start(wid)
     ga_win_widget_go_back_button_start(
         wid, go_back_button_y, w, h, go_back_msg);
 
-    ga_win_widget_button_start(wid, press_y_handle, 0.0, 0.6, 0.02, 0.04, "YES (PRESS Y)")
-    ga_win_widget_button_center_x_at(wid, press_y_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_y_handle, 0.0, 0.6, 0.02, 0.04, "YES (PRESS Y)")
+    ga_win_widget_button_center_x_at(wid, m_press_y_handle, 0.5)
 
-    ga_win_widget_button_start(wid, press_n_handle, 0.0, 0.53, 0.02, 0.04, "NO (PRESS N)")
-    ga_win_widget_button_center_x_at(wid, press_n_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_n_handle, 0.0, 0.53, 0.02, 0.04, "NO (PRESS N)")
+    ga_win_widget_button_center_x_at(wid, m_press_n_handle, 0.5)
 
-    ga_win_widget_button_start(wid, press_p_handle, 0.0, 0.37, 0.02, 0.04, "PRESS P")
-    ga_win_widget_button_center_x_at(wid, press_p_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_p_handle, 0.0, 0.37, 0.02, 0.04, "PRESS P")
+    ga_win_widget_button_center_x_at(wid, m_press_p_handle, 0.5)
 end
 
 function p.__end(wid)
@@ -4372,9 +4561,13 @@ function p.__render(wid)
 end
 
 function p.__process_input(wid)
-    if ga_win_key_pressed(wid, "Y") then
+    local which_button = ga_win_widget_button_process_input(wid)
+
+    if( which_button == m_press_y_handle or
+        ga_win_key_pressed(wid, "Y") )
+    then
         ga_set_i("xar.player.health.amount", -100)
-        ga_play_sound("player_death")
+        game_sound.play_sound_menu("player_death")
         ga_window_pop_all()
         --
         --Actually respawning.
@@ -4382,25 +4575,25 @@ function p.__process_input(wid)
         return
     end
 
-    local which_button = ga_win_widget_button_process_input(wid)
-
-    if( which_button == press_p_handle or
+    if( which_button == m_press_p_handle or
         ga_win_key_pressed(wid, "P") )
     then
         if ga_get_b("xar.player.arcade.inside") then
             ga_window_push("win_main_menu_respawn_arcade_error")
             return
         end
-        ga_play_sound("buy")
+        game_sound.play_sound_menu("buy")
         ga_window_pop_all()
         --Actually respawning.
         ga_command("respawn force keepammo")
         return
     end
-    if( ga_win_widget_go_back_button_process_input(wid) or
+
+    if( which_button == m_press_n_handle or
+        ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4431,7 +4624,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4506,7 +4699,7 @@ function p.__process_input(wid)
     end
 
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4726,7 +4919,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -4811,7 +5004,7 @@ function p.__process_input(wid)
     end
 
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4862,7 +5055,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -4940,7 +5133,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -5000,7 +5193,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -5079,6 +5272,10 @@ function p.get_color_code_purple()
     return p.color_blind_helper("^xff00ff", 4)
 end
 
+function p.get_color_code_white()
+    return p.color_blind_helper("^xffffff", 5)
+end
+
 -------------------------------------------------
 
 function p.round(num, numDecimalPlaces)
@@ -5086,6 +5283,8 @@ function p.round(num, numDecimalPlaces)
   return math.floor(num * mult + 0.5) / mult
 end
 
+--Could modify this function to make it green
+--if it is 9999 (the default max).
 function p.to5(num)
     str = "" .. num
     if( num < 10 ) then return str .. "    " end
@@ -5100,6 +5299,20 @@ function p.to5max(num, max_num)
         str = str .. p.get_color_code_green()
     else
         str = str .. p.get_color_code_yellow()
+    end
+    str = str .. num .. "^!"
+    if( num < 10 ) then return str .. "    " end
+    if( num < 100 ) then return str .. "   " end
+    if( num < 1000 ) then return str .. "  " end
+    return str .. " "
+end
+
+function p.to5maxsuper(num, max_num)
+    str = ""
+    if( num >= max_num ) then
+        str = str .. p.get_color_code_white()
+    else
+        str = str .. p.get_color_code_purple()
     end
     str = str .. num .. "^!"
     if( num < 10 ) then return str .. "    " end
@@ -5237,7 +5450,9 @@ function p.__render(wid)
         .. "     "
         .. "     "
         -- .. "X    "
-        .. cc_purple .. p.to5( ga_get_i("xar.player.gun6.num_level") ) .. "^!"
+        .. p.to5maxsuper(
+            ga_get_i("xar.player.gun6.num_level"),
+            game_wep_modes.get_num_level_max(6)) .. "^!"
     ga_win_txt(wid, min_x, cur_y, line)
 
     cur_y = cur_y - 0.04
@@ -6650,7 +6865,7 @@ function p.__render(wid)
     ga_win_txt_center(wid, 0.88, "EXPERIENCE AND GOLD")
 
     ga_win_set_char_size(wid, 0.015, 0.03)
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     ga_win_txt_center(wid, 0.80, "GOLD = " .. game_str.add_commas(gold))
 
     local xp_level = ga_get_i("xar.experience.level")
@@ -6805,41 +7020,44 @@ function p.__render(wid)
 
     ga_win_set_char_size(wid, 0.015, 0.03)
     local player_name = ga_get_sys_s("game.player.name")
-    local player_name_str = "PLAYER NAME: " .. player_name
-    ga_win_txt_center(wid, 0.81, player_name_str)
+    local player_name_str = "PLAYER NAME: ^x00ff00" .. player_name
+    ga_win_txt_center(wid, 0.83, player_name_str)
+
+    local engine_ver = ga_get_sys_s("game.version.first_engine_version")
+    ga_win_txt_center(wid, 0.78, "PLAYER ENGINE VERSION: " .. engine_ver)
 
     local diff_num = game_difficulty.num()
     -- local cur_diff = game_difficulty.num_to_human_readable(diff_num)
     local cur_diff_str = "CURRENT DIFFICULTY: " .. game_difficulty.human_readable()
-    ga_win_txt(wid, 0.3, 0.71, cur_diff_str)
+    ga_win_txt(wid, 0.3, 0.61, cur_diff_str)
     local icon_name = "INVALID"
     if( diff_num < 0 ) then icon_name = "icon_easy_" .. tostring(-diff_num) end
     if( diff_num == 0 ) then icon_name = "" end
     if( diff_num > 0 ) then icon_name = "icon_hard_" .. tostring(diff_num) end
     if( icon_name ~= "" ) then
-        ga_win_quad(wid, 0.25, 0.69, 0.29, 0.76, icon_name)
+        ga_win_quad(wid, 0.25, 0.59, 0.29, 0.66, icon_name)
     end
 
     local e_diff_num = game_difficulty.easiest_num()
     local e_diff = game_difficulty.num_to_human_readable(e_diff_num)
     local e_diff_str = "EASIEST USED DIFFICULTY: " .. e_diff
-    ga_win_txt(wid, 0.3, 0.61, e_diff_str)
+    ga_win_txt(wid, 0.3, 0.51, e_diff_str)
     local icon_name = "INVALID"
     if( e_diff_num < 0 ) then icon_name = "icon_easy_" .. tostring(-e_diff_num) .. "_once" end
     if( e_diff_num == 0 ) then icon_name = "icon_normal_once" end
     if( e_diff_num > 0 ) then icon_name = "icon_hard_" .. tostring(e_diff_num) .. "_once" end
     if( icon_name ~= "" ) then
-        ga_win_quad(wid, 0.25, 0.59, 0.29, 0.66, icon_name)
+        ga_win_quad(wid, 0.25, 0.49, 0.29, 0.56, icon_name)
     end
 
     ga_win_set_char_size(wid, 0.02, 0.04)
     play_time = ga_get_sys_f("game.time.play")
     play_time_str = game_time_helpers.time_str(play_time)
-    ga_win_txt_center(wid, 0.37, "PLAY TIME: " .. play_time_str)
+    ga_win_txt_center(wid, 0.35, "PLAY TIME: " .. play_time_str)
 
     game_time = ga_get_sys_f("game.time.total")
     game_time_str = game_time_helpers.time_str(game_time)
-    ga_win_txt_center(wid, 0.30, "GAME TIME: " .. game_time_str)
+    ga_win_txt_center(wid, 0.28, "GAME TIME: " .. game_time_str)
 end
 
 function p.__process_input(wid)
@@ -7674,7 +7892,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

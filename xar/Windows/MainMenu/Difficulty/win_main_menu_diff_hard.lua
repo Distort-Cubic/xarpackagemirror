@@ -47,45 +47,45 @@ function p.__process_input(wid)
     if( p.can_use_harder() ) then
         cur_txt = ga_win_widget_text_input_process_input(wid)
         if cur_txt == "icandoit" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_normal")
             return
         end
         if cur_txt == "elfenlied" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_1")
             return
         end
         if cur_txt == "supersolenoid" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_2")
             return
         end
         if cur_txt == "wings" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_3")
             return
         end
         if cur_txt == "thespicemustflow" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_push("win_main_menu_diff_hard_4")
             return
         end
         if cur_txt == "custom" then
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             game_difficulty.set_custom()
             return
         end
         if cur_txt == "peace" then
             ga_set_b("xar.difficulty.trying_to_be_pacifist", true)
-            ga_play_sound("harp")
+            game_sound.play_sound_menu("harp")
             ga_window_pop()
             return
         end
     end
 
     if( ga_win_widget_go_back_button_process_input(wid) ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

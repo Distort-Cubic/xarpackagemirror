@@ -34,9 +34,8 @@ function p.use_common(mode)
     local vel = std.vec_scale(look, speed)
     ga_ment_init_set_v("__vel", vel)
 
-    --Hit damage is 0 (only an explosion does damage,
-    --and that code knows how to calculate it).
-    ga_ment_init_set_i("damage", 0)
+    --Nuke projectile deal zero damage,
+    --so they do not have a damage var.
 
     ga_ment_end()
 

@@ -1,5 +1,21 @@
+--File: aaa_check_api.lua
+
 function p.func1() return "foo" end
 function p.func2() return 13 end
+
+--This can be used for a multiplayer mod.
+-- function p.__ment_removed(inst_id, code_id, respawn_time)
+--     if( code_id > 0 ) then return end --It is "roaming".
+--     ga_print("aaa_check_api.__ment_removed")
+--     ga_print("  inst_id = " .. tostring(inst_id))
+--     ga_print("  code_id = " .. tostring(code_id))
+--     ga_print("  respawn_time = " .. tostring(respawn_time))
+--     --
+--     local type_name = ga_ment_get_type(inst_id)
+--     ga_print("  type_name = " .. type_name)
+--     local source_path = ga_ment_get_source_path(inst_id)
+--     ga_print("  source_path = " .. source_path)
+-- end
 
 function p.main()
     -- local type = ga_get_type("xar.stats.kill_count")
@@ -174,8 +190,8 @@ function p.main()
     -- ga_dyn_leaf_itr_next()
     -- ga_dyn_dump()
 
-    -- ga_play_sound("foo")
-    -- ga_play_sound_menu("foo")
+    -- game_sound.play_sound("foo")
+    -- game_sound.play_sound_menu("foo")
     -- ga_play_music("foo")
     -- ga_stop_music()
 

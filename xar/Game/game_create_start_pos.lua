@@ -377,7 +377,7 @@ function p.finish()
     --
     p.finish_helper()
     --
-    ga_play_sound("enter_game")
+    game_sound.play_sound("enter_game")
 end
 
 --This is used for the non "classic" or "genesis" game configurations.

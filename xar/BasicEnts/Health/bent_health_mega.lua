@@ -16,7 +16,7 @@ function p.__on_touch(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_mega")
+        game_sound.play_sound("pickup_health_mega")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an extra 100% health")
     end
@@ -33,7 +33,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 

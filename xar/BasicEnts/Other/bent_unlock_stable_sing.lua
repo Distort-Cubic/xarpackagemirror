@@ -37,11 +37,11 @@ function p.__on_use(level, bp)
     --
     --Actually unlocking.
     if not already_unlocked then
-        ga_play_sound_menu("harp")
+        game_sound.play_sound_menu("harp")
         local var = p.get_var_name(level, bp)
         ga_set_b(var, true) --The door is now unlocked.
     else
-        ga_play_sound_menu("use")
+        game_sound.play_sound_menu("use")
     end
     --
     ga_window_push("win_unlock_stable_sing")

@@ -11,7 +11,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 1000.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_abomination_blue") --Ok?
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.95)
-    ia_ment_new_static_var_s(id, "sound_death", "die_abomination_blue") --Ok?
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow") --Ok?
     ia_ment_new_static_var_s(id, "identity_str", "Green Yin Yang")
     ia_ment_new_static_var_b(id, "shoots", true)
     ia_ment_new_static_var_b(id, "shoot_allow_multiple_proj", true) --Forcing it.

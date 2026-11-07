@@ -16,6 +16,6 @@ end
 
 function p.__on_use(level, bp)
     if p.already_using() then return end
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_cheap_common_markers")
 end

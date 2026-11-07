@@ -10,7 +10,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.gun0.ammo")
     if ( old_value ~= max_value ) then
         ga_set_i("xar.player.gun0.ammo", max_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Dark hole gun recharged")
     end

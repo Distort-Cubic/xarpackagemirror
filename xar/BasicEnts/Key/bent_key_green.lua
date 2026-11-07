@@ -3,7 +3,7 @@ function p.payload(level, bp)
     local combo = ga_bent_get_param_s(level, bp)
     ga_set_f("xar.key_time.green", num_sec)
     ga_set_s("xar.key_time.green_combo", combo)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 

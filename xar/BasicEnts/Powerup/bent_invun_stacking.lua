@@ -4,7 +4,7 @@ function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     local new_time = old_time + num_sec
     ga_set_f("xar.invun_stacking_time", new_time)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     ga_hud_msg("You Are Invulnerable!", 5.0)
     game_msg.add("You are invulnerable!")
     game_bent.remove_temp(level, bp, 60 * 60) --One hour.

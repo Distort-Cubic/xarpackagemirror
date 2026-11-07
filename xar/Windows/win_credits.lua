@@ -7,7 +7,7 @@ local start_time = -1.0
 local scroll = 0.0
 
 function p.__start(wid)
-    --ga_play_sound("pickup_upgrade") --Could play a sound here.
+    --game_sound.play_sound_menu("pickup_upgrade") --Could play a sound here.
 
     p.start_time = ga_get_sys_f("time.current") --Seconds since program started.
 

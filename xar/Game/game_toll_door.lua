@@ -24,15 +24,15 @@ end
 function p.remove_door_from_chunk(level, bp)
     --Dealing with gold.
     local price = ga_get_i("temp.xar.ent.pay_toll.price")
-    local gold_in_inv = ga_get_i("xar.player.gold.amount")
+    local gold_in_inv = game_gold.get()
     if( gold_in_inv < price ) then
         game_msg.add("You do not have enough gold to open the door")
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     gold_in_inv = gold_in_inv - price
-    ga_set_i("xar.player.gold.amount", gold_in_inv)
+    game_gold.set(gold_in_inv)
     
     local vcp = ga_bp_to_parent_vcp(bp)
 

@@ -60,7 +60,7 @@ end
 
 function p.__process_input(wid)
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 

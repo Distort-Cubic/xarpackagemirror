@@ -32,7 +32,7 @@ function p.SPACE_MOON_GAMMA_MOD_WP2(chunk_id)
     else
         str = str .. "When you go beneath the surface, you will find tunnels "
             .. "and sporadic ^x00ff00Laser Damage^! upgrades.\n\n"
-            .. "In the center of the planet is a cavern with tunnels through the air. "
+            .. "In the center of the moon is a cavern with tunnels through the air. "
             .. "Different Gamma Moons contain different Nuke upgrades at their centers. "
             .. "In the very center of the core is a box of 25 nukes."
     end

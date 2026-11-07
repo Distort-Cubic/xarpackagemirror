@@ -71,7 +71,7 @@ function p.__process_input(wid)
     if( (uses and sel == 0) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_select")
+        game_sound.play_sound_menu("menu_select")
         ga_set_b("xar.input.use_primary_uses_object", false)
         p.refresh_list(wid)
         return
@@ -79,14 +79,14 @@ function p.__process_input(wid)
     if( (not uses and sel == 0) or
         ga_win_key_pressed(wid, "Y") )
     then
-        ga_play_sound("menu_select")
+        game_sound.play_sound_menu("menu_select")
         ga_set_b("xar.input.use_primary_uses_object", true)
         p.refresh_list(wid)
         return
     end
     
     if( ga_win_widget_go_back_button_process_input(wid) ) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         p.refresh_list(wid)
         return

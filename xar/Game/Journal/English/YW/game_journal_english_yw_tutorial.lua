@@ -31,7 +31,7 @@ function p.recordable()
     local str = "Note that you can always respawn by going "
         .. "to the package top menu (press F1) and selecting respawn. "
         .. "When you respawn you keep all your upgrades. "
-        .. "Normally when you respawn you loose all your health, armor, and ammo. "
+        .. "Normally when you respawn you lose all your health, armor, and ammo. "
         .. "However if you pay a fine you can keep all that. "
         .. "The fine is the lesser of 400 gold and 8% of your total gold."
     game_journal.add_txt(lang, "TUTORIAL_RESPAWN_part2", str)

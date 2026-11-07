@@ -7,7 +7,7 @@ end
 function p.set_inside_arcade()
     --Dealing with ammo.
     if not p.in_arcade() then
-        ga_play_sound("arcade_enter")
+        game_sound.play_sound("arcade_enter")
         --
         local health = ga_get_i("xar.player.health.amount")
         local armor  = ga_get_i("xar.player.armor.amount")
@@ -44,7 +44,7 @@ end
 function p.set_outside_arcade()
     --Setting ammo to what is was when entered the arcade.
     if p.in_arcade() then
-        ga_play_sound("arcade_exit")
+        game_sound.play_sound("arcade_exit")
         local health = ga_get_i("xar.player.arcade.health")
         local armor = ga_get_i("xar.player.arcade.armor")
         local ammo1 = ga_get_i("xar.player.arcade.ammo.1")

@@ -27,13 +27,14 @@
 --"sets the blue type and blue pos" of a chunk
 --during chunk generation.
 --That is, it must sync with the file "base/Worldnodes/Helpers/base_blue_tele.lua".
-local dyn_block_var_blue_type  = "dyn_base_blue_tele_type"
-local dyn_block_var_blue_pos_x = "dyn_base_blue_tele_pos_x"
-local dyn_block_var_blue_pos_y = "dyn_base_blue_tele_pos_y"
-local dyn_block_var_blue_pos_z = "dyn_base_blue_tele_pos_z"
+local m_dyn_block_var_blue_type = "dyn_base_blue_tele_type"
+local m_dyn_block_var_blue_pos  = "dyn_base_blue_tele_pos"
+-- local m_dyn_block_var_blue_pos_x = "dyn_base_blue_tele_pos_x"
+-- local m_dyn_block_var_blue_pos_y = "dyn_base_blue_tele_pos_y"
+-- local m_dyn_block_var_blue_pos_z = "dyn_base_blue_tele_pos_z"
 
 --Must sync with "win_base_tele_blue.lua".
-local var_always_render = "dyn.base.blue_tele_always_render"
+local m_var_always_render = "dyn.base.blue_tele_always_render"
 
 -------------------------------------------------------------------------------
 --                       Local constants and variables
@@ -41,37 +42,37 @@ local var_always_render = "dyn.base.blue_tele_always_render"
 --Do not use from outside this script.
 
 --The name of this script.
-local this_mod = "game_base_tele_blue"
+local m_this_mod = "game_base_tele_blue"
 
 --Access the var_stage via helper functions.
-local var_stage            = "dyn.base.blue_tele_stage"
-local var_start_chunk_id   = "dyn.base.blue_tele_start_chunk_id"
-local var_num_iterations   = "dyn.base.blue_tele_num_iterations"
-local var_render_countdown = "dyn.base.blue_tele_render_countdown"
+local m_var_stage            = "dyn.base.blue_tele_stage"
+local m_var_start_chunk_id   = "dyn.base.blue_tele_start_chunk_id"
+local m_var_num_iterations   = "dyn.base.blue_tele_num_iterations"
+local m_var_render_countdown = "dyn.base.blue_tele_render_countdown"
 
 --Do NOT call from outside this script.
 --Called just before blue teleportation.
 function p.init_dyn_vars(start_chunk_id)
-    ga_dyn_create_i(var_stage)
-    ga_dyn_create_i(var_start_chunk_id)
-    ga_dyn_create_i(var_num_iterations)
-    ga_dyn_create_i(var_render_countdown)
-    ga_dyn_create_b(var_always_render)
+    ga_dyn_create_i(m_var_stage)
+    ga_dyn_create_i(m_var_start_chunk_id)
+    ga_dyn_create_i(m_var_num_iterations)
+    ga_dyn_create_i(m_var_render_countdown)
+    ga_dyn_create_b(m_var_always_render)
     --
-    ga_dyn_set_i(var_stage, 0)
-    ga_dyn_set_i(var_start_chunk_id, start_chunk_id)
-    ga_dyn_set_i(var_num_iterations, 0)
-    ga_dyn_set_i(var_render_countdown, 0)
-    ga_dyn_set_b(var_always_render, false)
+    ga_dyn_set_i(m_var_stage, 0)
+    ga_dyn_set_i(m_var_start_chunk_id, start_chunk_id)
+    ga_dyn_set_i(m_var_num_iterations, 0)
+    ga_dyn_set_i(m_var_render_countdown, 0)
+    ga_dyn_set_b(m_var_always_render, false)
 end
 
 --Do NOT call from outside this script.
 --Called just after blue teleportation.
 function p.remove_dyn_vars()
-    ga_dyn_remove(var_stage)
-    ga_dyn_remove(var_start_chunk_id)
-    ga_dyn_remove(var_num_iterations)
-    ga_dyn_remove(var_render_countdown)
+    ga_dyn_remove(m_var_stage)
+    ga_dyn_remove(m_var_start_chunk_id)
+    ga_dyn_remove(m_var_num_iterations)
+    ga_dyn_remove(m_var_render_countdown)
 end
 
 -------------------------------------------------------------------------------
@@ -82,11 +83,11 @@ end
 --Starts blue teleporting the player
 --from the given chunk.
 function p.start_tele(chunk_id)
-    ga_print(this_mod .. ".start_tele")
+    ga_print(m_this_mod .. ".start_tele")
     p.init_dyn_vars(chunk_id)
     p.set_blue_tele_progress_stage(1)
 
-    local callback_name = this_mod .. ".update"
+    local callback_name = m_this_mod .. ".update"
     local win_name = "win_base_tele_blue"
     ga_explore_while(callback_name, win_name)
 end
@@ -147,18 +148,17 @@ end
 --These should NOT be called from outside this script.
 
 function p.get_chunk_blue_type_new_version(chunk_id)
-    local level = ga_chunk_id_to_level(chunk_id)
+    -- local level = ga_chunk_id_to_level(chunk_id)
+    local var = m_dyn_block_var_blue_type
+    -- local vcp = ga_chunk_id_to_vcp(chunk_id)
 
-    local var = dyn_block_var_blue_type
-    local vcp = ga_chunk_id_to_vcp(chunk_id)
-
-    local var_exists = ga_chunk_dyn_var_exists(level, vcp, var)
+    local var_exists = ga_chunk_id_dyn_var_exists(chunk_id, var)
     
     if( not var_exists ) then
         --Chunks are of "blue type up" by default.
         return "up"
     end
-    local blue_type = ga_chunk_dyn_get_s(level, vcp, var)
+    local blue_type = ga_chunk_id_dyn_get_s(chunk_id, var)
 
     if( blue_type == "down" or
         blue_type == "terminal" )
@@ -173,20 +173,28 @@ end
 --but they forget to set the blue pos, with the function below the
 --blue pos will be set to (8,8,8).  This agrees with "PopulateData.cpp"
 --in the engine.
-function p.get_blue_pos_coord(chunk_id, var_name)
-    local level = ga_chunk_id_to_level(chunk_id)
-    local vcp = ga_chunk_id_to_vcp(chunk_id)
-    if not ga_chunk_dyn_var_exists(level, vcp, var_name) then return 8 end
-    return ga_chunk_dyn_get_i(level, vcp, var_name)
-end
+-- function p.get_blue_pos_coord(chunk_id, var_name)
+--     -- local level = ga_chunk_id_to_level(chunk_id)
+--     -- local vcp = ga_chunk_id_to_vcp(chunk_id)
+--     if not ga_chunk_id_dyn_var_exists(chunk_id, var_name) then return 8 end
+--     return ga_chunk_id_dyn_get_i(chunk_id, var_name)
+-- end
 
 function p.get_chunk_blue_pos_new_version(chunk_id)
-    local frame = this_mod .. ".get_chunk_blue_pos_new_version"
+    local frame = m_this_mod .. ".get_chunk_blue_pos_new_version"
     ga_debug_push(frame)
-    local x = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_x)
-    local y = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_y)
-    local z = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_z)
-    local value = std.bp(x,y,z)
+    local value = std.bp(-1,-1,-1)
+    if( ga_chunk_id_dyn_var_exists(chunk_id, m_dyn_block_var_blue_pos) ) then
+        --Todo: Write the function "ga_chunk_id_dyn_get_maybe_p".
+        value = ga_chunk_id_dyn_get_p(chunk_id, m_dyn_block_var_blue_pos)
+    else
+        ga_print("*** Error: In game_base_tele_blue, blue pos not found")
+        ga_exit()
+    end
+    -- local x = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_x)
+    -- local y = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_y)
+    -- local z = p.get_blue_pos_coord(chunk_id, dyn_block_var_blue_pos_z)
+    -- local value = std.bp(x,y,z)
     ga_debug_pop(frame)
     return value
 end
@@ -222,14 +230,14 @@ end
 -- 1 -> We need to first teleport up the the first "down" or "terminal" chunk.
 -- 2 -> We need to keep drilling (one chunk per frame) until we reach a "terminal" chunk.
 function p.get_blue_tele_progress_stage()
-    if not ga_dyn_exists(var_stage) then return 0 end
-    return ga_dyn_get_i(var_stage)
+    if not ga_dyn_exists(m_var_stage) then return 0 end
+    return ga_dyn_get_i(m_var_stage)
 end
 
 function p.set_blue_tele_progress_stage(stage)
-    if stage == 0 then ga_dyn_remove(var_stage) return end
-    ga_dyn_create_i(var_stage)
-    ga_dyn_set_i(var_stage, stage)
+    if stage == 0 then ga_dyn_remove(m_var_stage) return end
+    ga_dyn_create_i(m_var_stage)
+    ga_dyn_set_i(m_var_stage, stage)
 end
 
 -------------------------------------------------
@@ -241,10 +249,10 @@ function p.set_blue_tele_update_stage_1()
         ga_print("*** Error: set_blue_tele_update_stage_1 not called in stage 1")
         ga_exit()
     end
-    local frame = this_mod .. ".set_blue_tele_update_stage_1"
+    local frame = m_this_mod .. ".set_blue_tele_update_stage_1"
     ga_debug_push(frame)
     --
-    local source_chunk_id = ga_dyn_get_i(var_start_chunk_id)
+    local source_chunk_id = ga_dyn_get_i(m_var_start_chunk_id)
     --
     local top_chunk_id = p.get_blue_dest_top_chunk_id(source_chunk_id)
     local top_chunk_path = ga_chunk_id_to_path(top_chunk_id)
@@ -271,30 +279,30 @@ function p.set_blue_tele_update_stage_1()
 end
 
 function p.maybe_skip_render_frame()
-    local always_render = ga_dyn_get_b(var_always_render)
+    local always_render = ga_dyn_get_b(m_var_always_render)
     if( always_render ) then return end
 
     --For speed we could not render at all anymore until
     --the teleportation is done.
     --However we can be sneaky and only render
     --the first out of every 20 frames.
-    local render_countdown = ga_dyn_get_i(var_render_countdown)
+    local render_countdown = ga_dyn_get_i(m_var_render_countdown)
     ga_print("render countdown = " .. tostring(render_countdown))
     if( render_countdown > 0 ) then
         --Do not render the next frame.
         ga_render_skip_next_frame()
-        ga_dyn_set_i(var_render_countdown, render_countdown-1)
+        ga_dyn_set_i(m_var_render_countdown, render_countdown-1)
     else
         --We WILL render the next frame.
-        ga_dyn_set_i(var_render_countdown, 20)
+        ga_dyn_set_i(m_var_render_countdown, 20)
     end
 end
 
 --Returns false iff done (like a while loop).
 function p.set_blue_tele_update_stage_2()
     --Safety.
-    ga_dyn_set_i_by_delta(var_num_iterations, 1)
-    local which_try = ga_dyn_get_i(var_num_iterations)
+    ga_dyn_set_i_by_delta(m_var_num_iterations, 1)
+    local which_try = ga_dyn_get_i(m_var_num_iterations)
     if which_try > 1000 then
         p.set_blue_tele_update_stage_failed()
     end
@@ -345,7 +353,7 @@ end
 --Called if the while loop is taking to long.
 function p.set_blue_tele_update_stage_failed()
     ga_print("*** Error: Too many shrinks in search of blue rings.")
-    local num_tries = ga_dyn_get_i(var_num_iterations)
+    local num_tries = ga_dyn_get_i(m_var_num_iterations)
     ga_print("    num_tries = " .. tostring(num_tries))
     ga_exit()
 end
@@ -357,7 +365,7 @@ end
 --Chunk variables are not actually stored in their chunk, but in their parent chunk.
 --That is, the chunk variables of a chunk are the block variables of the block
 --of that chunk.  Every chunk is itself a block, EXCEPT the root chunk.
---Thus, we have a problem about how to store chunk variables for that.
+--Thus, we have a problem about how to store chunk variables for the root.
 --There needs to be a separate system for storing, saving, and loading the
 --chunk variables of the root chunk.  This is annoying.
 --As a workaround to this issue, we allow procedural world generation to set the

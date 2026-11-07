@@ -30,12 +30,12 @@ function p.__on_use(level, bp)
     if p.get_can_open(level,bp) then
         p.remove_door(level, bp)
     else
-        ga_play_sound("error")
+        game_sound.play_sound("error")
     end
 end
 
 function p.remove_door(level, bp)
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
 
     local vcp = ga_bp_to_parent_vcp(bp)
 

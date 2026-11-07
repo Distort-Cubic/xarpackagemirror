@@ -29,9 +29,9 @@ function p.MOON_ICE_MOD_WP2(chunk_id)
             .. "2) there are ^x00ff00Blue Bubbles^! near their treasure rooms.\n\n"
             .. "In the caves between the Ice Cubes you can find Laser Ammo "
             .. "not too far from waypoints.\n\n"
-            .. "In the center of the planet are Ice Cubes with more treasure. "
+            .. "In the center of the moon are Ice Cubes with more treasure. "
             .. "In the very center of the planet there is a ^x00ff00Laser Max Ammo^! upgrade "
-            .. "and also a lot of Laser ammo next to an in-only waypoint. ";
+            .. "and also a lot of Laser ammo next to an in-only waypoint."
     end
     return str
 end

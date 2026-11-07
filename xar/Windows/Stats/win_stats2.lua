@@ -34,6 +34,10 @@ function p.get_color_code_purple()
     return p.color_blind_helper("^xff00ff", 4)
 end
 
+function p.get_color_code_white()
+    return p.color_blind_helper("^xffffff", 5)
+end
+
 -------------------------------------------------
 
 function p.round(num, numDecimalPlaces)
@@ -41,6 +45,8 @@ function p.round(num, numDecimalPlaces)
   return math.floor(num * mult + 0.5) / mult
 end
 
+--Could modify this function to make it green
+--if it is 9999 (the default max).
 function p.to5(num)
     str = "" .. num
     if( num < 10 ) then return str .. "    " end
@@ -55,6 +61,20 @@ function p.to5max(num, max_num)
         str = str .. p.get_color_code_green()
     else
         str = str .. p.get_color_code_yellow()
+    end
+    str = str .. num .. "^!"
+    if( num < 10 ) then return str .. "    " end
+    if( num < 100 ) then return str .. "   " end
+    if( num < 1000 ) then return str .. "  " end
+    return str .. " "
+end
+
+function p.to5maxsuper(num, max_num)
+    str = ""
+    if( num >= max_num ) then
+        str = str .. p.get_color_code_white()
+    else
+        str = str .. p.get_color_code_purple()
     end
     str = str .. num .. "^!"
     if( num < 10 ) then return str .. "    " end
@@ -192,7 +212,9 @@ function p.__render(wid)
         .. "     "
         .. "     "
         -- .. "X    "
-        .. cc_purple .. p.to5( ga_get_i("xar.player.gun6.num_level") ) .. "^!"
+        .. p.to5maxsuper(
+            ga_get_i("xar.player.gun6.num_level"),
+            game_wep_modes.get_num_level_max(6)) .. "^!"
     ga_win_txt(wid, min_x, cur_y, line)
 
     cur_y = cur_y - 0.04

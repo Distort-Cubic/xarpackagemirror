@@ -180,7 +180,7 @@ function p.trophy_locations()
 
     local str = "^x00ff00Blackberries^! are cultivated by the Monks of Stoney Sanctuaries. "
         .. "Blackberries can be found in the EMP Castles that appear in "
-        .. "group #1 of the the Infinity Flower (I1). "
+        .. "group #1 of the Infinity Flower (I1). "
         .. "There is a trophy in the main treasure room of a Blackberry."
     game_journal.add_txt(lang, "RICHMOND_TOP_HOMING_TROPHY_LIST_blackberry", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{100}Blackberry")

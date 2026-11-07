@@ -25,5 +25,7 @@ function p.monster(inst_id)
 
     --more (can add more when I create more)!!!
 
+    --Might want to add one for the death animation phase.
+
     -- ga_print("game_ment_add_to_live.monster end")
 end

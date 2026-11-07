@@ -17,8 +17,8 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        --ga_play_sound("pickup_armor")
-        ga_play_sound("oh_yeah")
+        --game_sound.play_sound("pickup_armor")
+        game_sound.play_sound("oh_yeah")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got jade armor (1000%)")
     end
@@ -35,6 +35,6 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end

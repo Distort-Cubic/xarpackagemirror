@@ -1,3 +1,5 @@
+--File: ment_monster_wolf.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -16,6 +18,7 @@ end
 -------------------------------------------------
 
 function p.__on_add_to_live_world(inst_id)
+    -- ga_print("ment_monster_wolf.__on_add_to_live_world: inst_id: " .. tostring(inst_id))
     game_ment_add_to_live.monster(inst_id)
 end
 
@@ -53,7 +56,7 @@ end
 --     p.render_helper(inst_id)
 -- end
 
---Debugging.
+-- --Debugging.
 -- function p.render_helper(inst_id)
 --     local game_time = ga_get_game_time()
 --     local game_time_int = math.floor( game_time )
@@ -63,3 +66,8 @@ end
 --         ga_render_ment_typical(inst_id)
 --     end
 -- end
+
+--The plan is for all monsters to have this code.
+function p.__on_render(inst_id, radius)
+    game_ment_render.monster(inst_id, radius)
+end

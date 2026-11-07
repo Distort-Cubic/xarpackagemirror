@@ -1,5 +1,5 @@
 function p.alarm(inst_id)
-    if( ga_ment_get_i(inst_id, "__death_anim_stage") == 2) then
+    if( ga_ment_get_i(inst_id, "__death_anim_stage") == 2 ) then
         ga_ment_remove(inst_id)
     else
         --Doing it again.

@@ -7,6 +7,6 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_upgrade_station")
 end

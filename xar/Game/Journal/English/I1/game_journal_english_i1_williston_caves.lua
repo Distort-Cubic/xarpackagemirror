@@ -136,7 +136,7 @@ function p.trophy_locations()
     local str = "In the Williston Fields that surround Williston Cities, "
         .. "on the ground you can find checkered cubes that are actually "
         .. "^x00ff00Bristol Towns^!. You can enter these towns at their top, "
-        .. "pass through 2 layers of maze, and enter the main part of the the town. "
+        .. "pass through 2 layers of maze, and enter the main part of the town. "
         .. "In the center of such a town is a power with a trophy at the top."
     game_journal.add_txt(lang, "WILLISTON_CAVES_TROPHY_LIST_bristol", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{140}Bristol")

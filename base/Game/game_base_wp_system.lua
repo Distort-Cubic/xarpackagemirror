@@ -214,15 +214,15 @@ function p.load_waypoints_from_dyn_vars()
         --because it is true for each waypoint stored there.
         node.previously_enabled = true
 
-        node.first_enabled_time = ga_dyn_get_f_maybe(prefix2 .. "first_enabled_time", -1.0)
-        node.hidden             = ga_dyn_get_b_maybe(prefix2 .. "hidden", false)
-        node.in_only            = ga_dyn_get_b_maybe(prefix2 .. "in_only", false)
-        node.last_hid_time      = ga_dyn_get_f_maybe(prefix2 .. "last_hid_time", -1.0)
-        node.last_travel_failed = ga_dyn_get_b_maybe(prefix2 .. "last_travel_failed", false)
-        node.last_used_time     = ga_dyn_get_f_maybe(prefix2 .. "last_used_time", -1.0)
-        node.name               = ga_dyn_get_s_maybe(prefix2 .. "name", "")
-        node.custom_name        = ga_dyn_get_s_maybe(prefix2 .. "custom_name", "")
-        node.path               = ga_dyn_get_s_maybe(prefix2 .. "path", "")
+        node.first_enabled_time = ga_dyn_get_maybe_f(prefix2 .. "first_enabled_time", -1.0)
+        node.hidden             = ga_dyn_get_maybe_b(prefix2 .. "hidden", false)
+        node.in_only            = ga_dyn_get_maybe_b(prefix2 .. "in_only", false)
+        node.last_hid_time      = ga_dyn_get_maybe_f(prefix2 .. "last_hid_time", -1.0)
+        node.last_travel_failed = ga_dyn_get_maybe_b(prefix2 .. "last_travel_failed", false)
+        node.last_used_time     = ga_dyn_get_maybe_f(prefix2 .. "last_used_time", -1.0)
+        node.name               = ga_dyn_get_maybe_s(prefix2 .. "name", "")
+        node.custom_name        = ga_dyn_get_maybe_s(prefix2 .. "custom_name", "")
+        node.path               = ga_dyn_get_maybe_s(prefix2 .. "path", "")
 
         waypoints[handle] = node
         path_to_handle[node.path] = handle

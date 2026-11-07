@@ -21,7 +21,7 @@ function p.__render(wid)
     -- ga_win_txt_center(wid, 0.5,
     --     "Press ENTER: buy 1 nuke for " .. price .. " gold")
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -33,7 +33,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -43,16 +43,15 @@ function p.__process_input(wid)
         game_key.pressed_or_spammed(wid, "ENTER") )
     then
         local cost = ga_get_i("temp.xar.ent.buy_nuke.price")
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         local ammo_max = game_wep_modes.get_ammo_max(9)
         local ammo = ga_get_i("xar.player.gun9.ammo")
         if (gold >= cost and
             ammo < ammo_max)
         then
-            local new_gold = gold - cost
-            ga_set_i("xar.player.gold.amount", new_gold)
+            game_gold.add( -cost )
             std.set_bydelta_i("xar.player.gun9.ammo", 1)
-            ga_play_sound("buy")
+            game_sound.play_sound_menu("buy")
         end
     end
 end

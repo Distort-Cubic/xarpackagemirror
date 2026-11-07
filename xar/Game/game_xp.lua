@@ -48,7 +48,7 @@ function p.level_up()
     game_msg.add("You just leveled up to level " .. tostring(next_level) .. "!")
 
     --Playing the level up sound.
-    ga_play_sound("level_up")
+    game_sound.play_sound("level_up")
 
     --Dealing with xp.
     std.set_bydelta_i("xar.experience.level", 1)

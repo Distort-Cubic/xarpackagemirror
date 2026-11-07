@@ -46,6 +46,18 @@ b worldgen.state.low_max_ammo        false
 b worldgen.state.low_buy_upgrades    false
 b worldgen.state.no_stable_sing      false
 
+#The engine var game.package.seed_original
+#stores the original worldseed for the saved game.
+#That is maintained by the engine.
+#The var "worldgen.state.seed_original"
+#is a variable with the same purpose,
+#but it is maintained by the xar package
+#and it is passed to worldgen.
+#Maybe there should be a chunk gen api function
+#to get "game.package.seed_original".
+
+i worldgen.state.seed_original -1
+
 ######################################
 #     PASSING DATA FROM WORLDGEN
 ######################################

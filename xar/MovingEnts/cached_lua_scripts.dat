@@ -4745,7 +4745,7 @@ function p.on_closest_helper(inst_id)
     local sllp = ga_ment_get_sllp(inst_id)
     local lp = ga_ment_get_lp(inst_id)
 
-    --ga_play_sound("explosion_tube_short") --Annoying as hell.
+    --game_sound.play_sound("explosion_tube_short") --Annoying as hell.
 
     -- local vel = ga_ment_get_var_special_vec_to_viewer(inst_id)
     -- std.normalize(vel)
@@ -5366,7 +5366,7 @@ function p.__on_update(inst_id, et, elt)
     blast_radius = 4.5
     if dist_to_player < blast_radius then
         game_top2.damage_player(false, 1200)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -5376,7 +5376,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -5533,7 +5533,7 @@ function p.__on_update(inst_id, et, elt)
     local blast_radius = 6.0
     if dist_to_player < blast_radius then
         game_top2.damage_player(false, 1500)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -5543,7 +5543,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -5648,18 +5648,15 @@ end
 -------------------------------------------------
 
 function p.__on_update(inst_id, et, elt)
-    --Old way.
-    --inst_id = ma_inst()
-
     --On the ment's starting level.
     local dist_to_player = ga_ment_get_var_special_dist_to_viewer(inst_id)
 
     local blast_radius = 4.0
     if dist_to_player < blast_radius then
         --Dealing damage.
-        damage = ga_ment_get_i(inst_id, "damage")
+        local damage = ga_ment_get_i(inst_id, "damage")
         game_top2.damage_player(false, damage)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -5669,7 +5666,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -5685,7 +5682,6 @@ function p.explode(inst_id)
     local fudge2 = 1.0
     if( start_level == cur_level ) then fudge2 = 2.0 end
 
-    --NEW WAY:
     local args = {}
     args.level = cur_level
     args.pos = lp
@@ -5772,18 +5768,15 @@ end
 -------------------------------------------------
 
 function p.__on_update(inst_id, et, elt)
-    --Old way.
-    --inst_id = ma_inst()
-
     --On the ment's starting level.
     local dist_to_player = ga_ment_get_var_special_dist_to_viewer(inst_id)
 
     local blast_radius = 1.5
     if dist_to_player < blast_radius then
         --Dealing damage.
-        damage = ga_ment_get_i(inst_id, "damage")
+        local damage = ga_ment_get_i(inst_id, "damage")
         game_top2.damage_player(false, damage)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -5793,7 +5786,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -5806,9 +5799,6 @@ function p.explode(inst_id)
 
     local ls = ga_level_scale_factor(start_level, cur_level).value
 
-    --viewer_level = ga_get_viewer_level()
-    --ls = 1.0 --Level scale.
-    --if( viewer_level > level ) then ls = 16.0 end
     local fudge2 = 1.0
     if( start_level == cur_level ) then fudge2 = 2.0 end
 
@@ -6308,7 +6298,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -6328,7 +6318,7 @@ function p.explode(inst_id)
     
     local ls = ga_level_scale_factor(start_level, cur_level).value
 
-    ga_play_sound("explosion_tube_long")
+    game_sound.play_sound("explosion_tube_long")
 
     local fudge2 = 1.0
     if( start_level == cur_level ) then fudge2 = 2.0 end
@@ -6503,7 +6493,7 @@ function p.__type_init(id)
     game_ment_type_init.monster(id)
     ia_ment_set_builtin_var_f(id, "__respawn_length", 60*60)
     ia_ment_set_builtin_var_f(id, "__radius", 0.5)
-    ia_ment_set_builtin_var_s(id, "__mesh", "MonsterDragoon")
+    ia_ment_set_builtin_var_s(id, "__mesh", "MonsterDragoonGreater")
     ia_ment_new_var_i(id, "health", 100000, 60.0)
     ia_ment_new_static_var_f(id, "dps", 10.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_dragoon")
@@ -7111,7 +7101,7 @@ function p.on_closest_helper(inst_id)
     args.use_min_dist = true --No particles too close to viewer.
     ga_particle_explosion(args)
 
-    ga_play_sound("explosion_tube_short")
+    game_sound.play_sound("explosion_tube_short")
 
     local next_level = start_level+1
     local nlp = {}
@@ -7405,7 +7395,7 @@ function p.tele_maybe(inst_id)
         local lbp = std.bp(x,y,z)
         local bt = ga_chunk_id_and_lbp_to_bt(base_chunk_id, lbp)
         if( bt == "XAR_BLACK_HOLE_BIG_8_AIR" ) then --Fragile.
-            ga_play_sound("waypoint_travel")
+            game_sound.play_sound("waypoint_travel")
             local offset = std.block_center(lbp)
             ga_ment_tele(inst_id, base_chunk_id, offset)
             return
@@ -7462,6 +7452,8 @@ function p.__on_ment_hit(
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Other/ment_monster_wolf.lua"
+--File: ment_monster_wolf.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -7480,6 +7472,7 @@ end
 -------------------------------------------------
 
 function p.__on_add_to_live_world(inst_id)
+    -- ga_print("ment_monster_wolf.__on_add_to_live_world: inst_id: " .. tostring(inst_id))
     game_ment_add_to_live.monster(inst_id)
 end
 
@@ -7517,7 +7510,7 @@ end
 --     p.render_helper(inst_id)
 -- end
 
---Debugging.
+-- --Debugging.
 -- function p.render_helper(inst_id)
 --     local game_time = ga_get_game_time()
 --     local game_time_int = math.floor( game_time )
@@ -7527,6 +7520,11 @@ end
 --         ga_render_ment_typical(inst_id)
 --     end
 -- end
+
+--The plan is for all monsters to have this code.
+function p.__on_render(inst_id, radius)
+    game_ment_render.monster(inst_id, radius)
+end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/Other/ment_monster_wolf_dummy.lua"
 --File: ment_monster_world_dummy.lua
@@ -8860,14 +8858,14 @@ function p.hit_by_dark_hole(target_inst_id, killed)
             local game_time = ga_get_game_time()
             ga_ment_set_f(target_inst_id, "__death_anim_start", game_time)
             ga_ment_set_f(target_inst_id, "__death_anim_end", game_time + 2.5)
-            ga_play_sound("dark_hole_die")
+            game_sound.play_sound("dark_hole_die")
         end
     else
         -- ga_print("ment_player_proj_dark_hole.hit_by_dark_hole")
         local target_team_id = ga_ment_get_i(target_inst_id, "__team_id_source")
         if target_team_id == 1 then return end --It is a friendly unit.
         -- ga_print("target's source id = " .. tostring(target_team_id))
-        ga_play_sound("dark_hole_hit")
+        game_sound.play_sound("dark_hole_hit")
     end
 end
 
@@ -10058,6 +10056,7 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_f(id, "__max_screen_size", 0.75)
     ia_ment_set_builtin_var_f(id, "__max_screen_size_time_len", 1.0)
     ia_ment_new_static_var_b(id, "identifies", true)
+    ia_ment_remove_var(id, "damage") --So deals 0 damage instead of 1.
 end
 
 -------------------------------------------------
@@ -10069,6 +10068,11 @@ function p.__on_ment_hit(
     target_inst_id,
     level, lp, normal)
 --
+    --Debugging.
+    -- ga_print("ment_player_proj_nuke_1 about to dump")
+    -- ga_ment_dump(source_inst_id)
+    -- ga_exit()
+
     local args = {}
     args.source_inst_id = source_inst_id
     args.target_inst_id = target_inst_id
@@ -10135,7 +10139,7 @@ end
 
 --Helper function.
 function p.explode(inst_id, level, lp)
-    ga_play_sound("nuke_hit_primary")
+    game_sound.play_sound("nuke_hit_primary")
 
     local flash_color = std.vec(1.0, 1.0, 1.0)
     -- local flash_alpha = 1.0
@@ -10197,6 +10201,7 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_f(id, "__max_screen_size", 0.75)
     ia_ment_set_builtin_var_f(id, "__max_screen_size_time_len", 1.0)
     ia_ment_new_static_var_b(id, "identifies", true)
+    ia_ment_remove_var(id, "damage") --So deals 0 damage instead of 1.
 end
 
 -------------------------------------------------
@@ -10273,7 +10278,7 @@ end
 
 --Helper function.
 function p.explode(inst_id, level, lp)
-    ga_play_sound("nuke_hit_secondary")
+    game_sound.play_sound("nuke_hit_secondary")
 
     local flash_color = std.vec(1.0, 1.0, 1.0)
     local flash_alpha = 0.5
@@ -10330,6 +10335,7 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_s(id, "__mesh", "nuke2")
     ia_ment_set_builtin_var_f(id, "__ttl", 0.1) -- right varname?
     ia_ment_new_static_var_b(id, "identifies", true)
+    ia_ment_remove_var(id, "damage") --So deals 0 damage instead of 1.
 end
 
 -------------------------------------------------
@@ -10349,6 +10355,8 @@ function p.__on_update(
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/PlayerProj/ment_player_proj_plasma_1.lua"
+--File: ment_player_proj_plasma_1.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -10370,6 +10378,8 @@ function p.__on_ment_hit(
     target_inst_id,
     level, lp, normal)
 --
+    p.debug_gold_bullet_hit(target_inst_id) --TAKE THIS OUT!!!
+
     local args = {}
     args.source_inst_id = source_inst_id
     args.target_inst_id = target_inst_id
@@ -10411,6 +10421,48 @@ function p.__on_block_hit(
     end
 
     return true
+end
+
+-------------------------------------------------
+--                  Debugging
+-------------------------------------------------
+
+--This is for a debug mod where we remove a monster
+--(that was originally created from worlgen)
+--using only its starting path and its code id
+--(stone cold murder).
+
+local m_dead_man_walking_exists = false
+local m_dead_man_walking_source_path = ""
+local m_dead_man_walking_code_id = 0
+local m_dead_man_walking_respawn_time = 0
+
+--Note: dmw = "dead man walking".
+function p.get_dmw_exists() return m_dead_man_walking_exists end
+function p.get_dmw_source_path() return m_dead_man_walking_source_path end
+function p.get_dmw_code_id() return m_dead_man_walking_code_id end
+function p.get_dmw_respawn_time() return m_dead_man_walking_respawn_time end
+function p.clear_dmw() m_dead_man_walking_exists = false end
+
+--The inst_id is the monster being hit (the target).
+function p.debug_gold_bullet_hit(inst_id)
+    local type_name = ga_ment_get_type(inst_id)
+    if( type_name == "player_hit_sphere" ) then return end
+    --
+    ga_print("\nment_player_proj_plasma_1.debug_gold_bullet_hit (buffy)")
+    ga_print("  dmw inst_id: " .. tostring(inst_id))
+    m_dead_man_walking_exists = true
+    m_dead_man_walking_source_path = ga_ment_get_source_path(inst_id)
+    m_dead_man_walking_code_id = ga_ment_inst_id_to_code_id(inst_id)
+    m_dead_man_walking_respawn_time = ga_get_game_time() + 60*60
+    --
+    -- --Debugging.
+    -- ga_print("debug_gold_bullet_hit: ment_path   = " .. ga_chunk_id_to_path(ga_ment_get_chunk_id(inst_id)))
+    -- ga_print("debug_gold_bullet_hit: source_path = " .. m_dead_man_walking_source_path)
+    -- local chunk_id = ga_path_to_chunk_id(m_dead_man_walking_source_path)
+    -- local cc_id = ga_cc_open_by_path(m_dead_man_walking_source_path)
+    local code_id = ga_ment_inst_id_to_code_id(inst_id)
+    ga_print("debug_gold_bullet_hit: code_id = " .. code_id)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/PlayerProj/ment_player_proj_plasma_2.lua"
@@ -11242,7 +11294,7 @@ end
 
 --sllp = starting level level position.
 function p.explode(inst_id, level, lp)
-    ga_play_sound("rocket_explode")
+    game_sound.play_sound("rocket_explode")
 
     --Cannot get the sllp the usual way because
     --this could be during a ment move operation.
@@ -11370,7 +11422,7 @@ function p.__on_block_hit(
 end
 
 function p.explode(inst_id, level, lp)
-    ga_play_sound("rocket_explode")
+    game_sound.play_sound("rocket_explode")
 
     --Cannot get the sllp the usual way because
     --this could be during a ment move operation./
@@ -11498,7 +11550,7 @@ function p.__on_block_hit(
 end
 
 function p.explode(inst_id, level, lp)
-    ga_play_sound("rocket_explode")
+    game_sound.play_sound("rocket_explode")
 
     --Cannot get the sllp the usual way because
     --this could be during a ment move operation./
@@ -11658,7 +11710,7 @@ function p.ring_effect(level, lp, normal)
 end
 
 function p.play_sound()
-    ga_play_sound("rocket_secondary_hit")
+    game_sound.play_sound("rocket_secondary_hit")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/PlayerProj/ment_player_proj_rocket_5.lua"
@@ -11781,7 +11833,7 @@ function p.ring_effect(level, lp, normal)
 end
 
 function p.play_sound()
-    ga_play_sound("rocket_secondary_hit")
+    game_sound.play_sound("rocket_secondary_hit")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/MovingEnts/PlayerProj/ment_rocket_1_explosion.lua"
@@ -12706,7 +12758,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    -- ga_play_sound("explosion_tube_dud") --Too annoying?
+    -- game_sound.play_sound("explosion_tube_dud") --Too annoying?
     return true
 end
 
@@ -12740,7 +12792,7 @@ function p.on_closest_helper(inst_id)
     args.use_min_dist = true --No particles too close to viewer.
     ga_particle_explosion(args)
 
-    ga_play_sound("explosion_tube_short") --Annoying. Use sparingly.
+    game_sound.play_sound("explosion_tube_short") --Annoying. Use sparingly.
 
     local damage = ga_ment_get_i(inst_id, "damage")
 
@@ -12972,7 +13024,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    --ga_play_sound("explosion_tube_dud") --Too annoying?
+    --game_sound.play_sound("explosion_tube_dud") --Too annoying?
     return true
 end
 
@@ -13006,7 +13058,7 @@ function p.on_closest_helper(inst_id)
     args.use_min_dist = true --No particles too close to viewer.
     ga_particle_explosion(args)
 
-    ga_play_sound("explosion_tube_short") --Annoying. Use sparingly.
+    game_sound.play_sound("explosion_tube_short") --Annoying. Use sparingly.
 
     ga_ment_start(
         start_level, sllp,
@@ -13932,7 +13984,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 1000.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_abomination_blue") --Ok?
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.95)
-    ia_ment_new_static_var_s(id, "sound_death", "die_abomination_blue") --Ok?
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow") --Ok?
     ia_ment_new_static_var_s(id, "identity_str", "Green Yin Yang")
     ia_ment_new_static_var_b(id, "shoots", true)
     ia_ment_new_static_var_b(id, "shoot_allow_multiple_proj", true) --Forcing it.
@@ -13974,7 +14026,7 @@ function p.__type_init(id)
     ia_ment_new_static_var_f(id, "dps", 1000.0)
     ia_ment_new_static_var_s(id, "sound_hurt", "hurt_abomination_blue") --Ok?
     ia_ment_new_static_var_f(id, "sound_hurt_period", 0.95)
-    ia_ment_new_static_var_s(id, "sound_death", "die_abomination_blue") --Ok?
+    ia_ment_new_static_var_s(id, "sound_death", "holy_cow") --Ok?
     ia_ment_new_static_var_s(id, "identity_str", "Orange Yin Yang")
     ia_ment_new_static_var_b(id, "shoots", true)
     ia_ment_new_static_var_b(id, "shoot_allow_multiple_proj", true) --Forcing it.

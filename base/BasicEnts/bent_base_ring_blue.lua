@@ -1,6 +1,10 @@
 function p.__get_mesh() return "" end
 
 function p.payload(level, bp)
+    local v1 = ga_get_viewer_lp(level)
+    local v2 = std.block_center(bp)
+    ga_env_rect_line_trigger(level, v1, v2) --The end of an era.
+    --
     local center = std.block_center(bp)
     --
     --Old way.

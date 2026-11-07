@@ -37,18 +37,18 @@ function p.__process_input(wid)
     local curved = ga_get_b("xar.difficulty.curve.enabled")
     if( ga_win_key_pressed(wid, "Y") and not curved ) then
         ga_set_b("xar.difficulty.curve.enabled", true)
-        ga_play_sound_menu("cheater")
+        game_sound.play_sound_menu("cheater")
         ga_window_pop_all()
         return
     end
     if( ga_win_key_pressed(wid, "N") and curved ) then
         ga_set_b("xar.difficulty.curve.enabled", false)
-        ga_play_sound_menu("cheater")
+        game_sound.play_sound_menu("cheater")
         ga_window_pop_all()
         return
     end
     if ga_win_key_pressed(wid, "ESC") then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

@@ -16,11 +16,11 @@ end
 function p.remove_door(level, bp)
     local key_time = ga_get_f("xar.key_time.universe")
     if( key_time <= 0.01 ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
     --
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     local vcp = ga_bp_to_parent_vcp(bp)
 
     local remove_bents = {}

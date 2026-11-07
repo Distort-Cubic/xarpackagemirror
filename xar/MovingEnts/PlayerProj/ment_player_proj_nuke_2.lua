@@ -12,6 +12,7 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_f(id, "__max_screen_size", 0.75)
     ia_ment_set_builtin_var_f(id, "__max_screen_size_time_len", 1.0)
     ia_ment_new_static_var_b(id, "identifies", true)
+    ia_ment_remove_var(id, "damage") --So deals 0 damage instead of 1.
 end
 
 -------------------------------------------------
@@ -88,7 +89,7 @@ end
 
 --Helper function.
 function p.explode(inst_id, level, lp)
-    ga_play_sound("nuke_hit_secondary")
+    game_sound.play_sound("nuke_hit_secondary")
 
     local flash_color = std.vec(1.0, 1.0, 1.0)
     local flash_alpha = 0.5

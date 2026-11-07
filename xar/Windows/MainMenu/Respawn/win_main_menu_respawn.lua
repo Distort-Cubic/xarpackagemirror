@@ -1,6 +1,6 @@
-local press_y_handle = 1
-local press_n_handle = 2
-local press_p_handle = 3
+local m_press_y_handle = 1
+local m_press_n_handle = 2
+local m_press_p_handle = 3
 
 function p.__start(wid)
     local go_back_button_y = 0.02
@@ -10,14 +10,14 @@ function p.__start(wid)
     ga_win_widget_go_back_button_start(
         wid, go_back_button_y, w, h, go_back_msg);
 
-    ga_win_widget_button_start(wid, press_y_handle, 0.0, 0.6, 0.02, 0.04, "YES (PRESS Y)")
-    ga_win_widget_button_center_x_at(wid, press_y_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_y_handle, 0.0, 0.6, 0.02, 0.04, "YES (PRESS Y)")
+    ga_win_widget_button_center_x_at(wid, m_press_y_handle, 0.5)
 
-    ga_win_widget_button_start(wid, press_n_handle, 0.0, 0.53, 0.02, 0.04, "NO (PRESS N)")
-    ga_win_widget_button_center_x_at(wid, press_n_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_n_handle, 0.0, 0.53, 0.02, 0.04, "NO (PRESS N)")
+    ga_win_widget_button_center_x_at(wid, m_press_n_handle, 0.5)
 
-    ga_win_widget_button_start(wid, press_p_handle, 0.0, 0.37, 0.02, 0.04, "PRESS P")
-    ga_win_widget_button_center_x_at(wid, press_p_handle, 0.5)
+    ga_win_widget_button_start(wid, m_press_p_handle, 0.0, 0.37, 0.02, 0.04, "PRESS P")
+    ga_win_widget_button_center_x_at(wid, m_press_p_handle, 0.5)
 end
 
 function p.__end(wid)
@@ -66,9 +66,13 @@ function p.__render(wid)
 end
 
 function p.__process_input(wid)
-    if ga_win_key_pressed(wid, "Y") then
+    local which_button = ga_win_widget_button_process_input(wid)
+
+    if( which_button == m_press_y_handle or
+        ga_win_key_pressed(wid, "Y") )
+    then
         ga_set_i("xar.player.health.amount", -100)
-        ga_play_sound("player_death")
+        game_sound.play_sound_menu("player_death")
         ga_window_pop_all()
         --
         --Actually respawning.
@@ -76,25 +80,25 @@ function p.__process_input(wid)
         return
     end
 
-    local which_button = ga_win_widget_button_process_input(wid)
-
-    if( which_button == press_p_handle or
+    if( which_button == m_press_p_handle or
         ga_win_key_pressed(wid, "P") )
     then
         if ga_get_b("xar.player.arcade.inside") then
             ga_window_push("win_main_menu_respawn_arcade_error")
             return
         end
-        ga_play_sound("buy")
+        game_sound.play_sound_menu("buy")
         ga_window_pop_all()
         --Actually respawning.
         ga_command("respawn force keepammo")
         return
     end
-    if( ga_win_widget_go_back_button_process_input(wid) or
+
+    if( which_button == m_press_n_handle or
+        ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "N") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

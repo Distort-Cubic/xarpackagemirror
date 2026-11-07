@@ -47,6 +47,7 @@ function p.monster(id)
     ia_ment_set_builtin_var_i(id, "__team_id_source", 0)
     ia_ment_set_builtin_var_i(id, "__team_id_target", 2)
     ia_ment_set_builtin_var_i(id, "__extra_max_levels", 3)
+    -- ia_ment_set_builtin_var_b(id, "__disable_custom_render", true) --Put back in later.
     ia_ment_new_var_i(id, "health_max", -1, 60.0)
     ia_ment_new_var_i(id, "health", 1, 60.0) --Important that it is positive!
     ia_ment_new_var_i(id, "health_max_curved", -1, 3600.0)

@@ -1,7 +1,7 @@
 --Once the player has ten thousand gold in the bank,
 --the cost maxes out at 500.
 function p.get_keepammo_cost()
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local value1 = math.floor( gold * 0.08 ) --8% of gold.
     local value2 = 400
     local value3 = math.min(value1, value2)
@@ -67,11 +67,8 @@ function p.respawn_player(param)
         local respawn_cost = math.max(
             fixed_cost,
             game_respawn.get_keepammo_cost())
-        local old_gold = ga_get_i("xar.player.gold.amount")
-        ga_print("old gold = " .. tostring(old_gold))
-        local new_gold = old_gold - respawn_cost
-        if new_gold < 0 then new_gold = 0 end
-        ga_set_i("xar.player.gold.amount", new_gold)
+        local old_gold = game_gold.get()
+        game_gold.add( -respawn_cost )
     else
         ga_set_i("xar.player.health.amount",
             ga_get_i("xar.player.health.max"))
@@ -85,10 +82,7 @@ function p.respawn_player(param)
                 game_wep_modes.get_ammo_max(0))
         end
         --
-        std.set_bydelta_i("xar.player.gold.amount", -fixed_cost)
-        if ga_get_i("xar.player.gold.amount") < 0 then
-            ga_set_i("xar.player.gold.amount", 0)
-        end
+        game_gold.add( -fixed_cost )
         ga_set_i("xar.player.markers.num_short", 0)
     end
 

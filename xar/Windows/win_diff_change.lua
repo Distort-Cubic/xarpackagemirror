@@ -47,7 +47,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -66,13 +66,13 @@ function p.__process_input(wid)
     if ( sel_str == "1" and cur_diff ~= -2 ) then
         --Actually changing the difficulty.
         game_difficulty.set(-2)
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound_menu("pickup_gold")
         ga_window_pop()
     end
     if ( sel_str == "2" and cur_diff ~= -1 ) then
         --Actually changing the difficulty.
         game_difficulty.set(-1)
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound_menu("pickup_gold")
         ga_window_pop()
     end
 end

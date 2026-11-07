@@ -28,7 +28,7 @@ end
 function p.__render(wid)
     ga_win_set_background_default(wid)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -40,7 +40,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
@@ -52,12 +52,11 @@ function p.__process_input(wid)
         local price = ga_get_i("temp.xar.ent.buy_marker.price")
         local num = p.price_helper(price)
         local cost = num * price
-        local gold = ga_get_i("xar.player.gold.amount")
+        local gold = game_gold.get()
         if (gold >= cost) then
-            local new_gold = gold - cost
-            ga_set_i("xar.player.gold.amount", new_gold)
+            game_gold.add( -cost )
             std.set_bydelta_i("xar.player.markers.num_short", num)
-            ga_play_sound("buy")
+            game_sound.play_sound_menu("buy")
         end
     end
 end

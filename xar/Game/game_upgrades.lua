@@ -8,7 +8,7 @@ function p.armor_regen()
     std.set_bydelta_i("xar.player.armor.regen_level", delta)
     ga_hud_msg("Armor Regeneration Increased!!!", 5.0)
     game_msg.add("Armor regeneration increased!!!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.spice()
@@ -18,7 +18,7 @@ function p.spice()
     std.set_bydelta_i("xar.player.health.extra_regen_level", 1)
     ga_hud_msg(">100% Health Regeneration Increased!!", 5.0)
     game_msg.add(">100% health regeneration increased!!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.health_max()
@@ -27,7 +27,7 @@ function p.health_max()
     std.set_bydelta_i("xar.player.health.level", delta)
     ga_hud_msg("Max Health Increased!", 5.0)
     game_msg.add("Max health increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.health_regen()
@@ -36,7 +36,7 @@ function p.health_regen()
     std.set_bydelta_i("xar.player.health.regen_level", delta)
     ga_hud_msg("Health Regeneration Increased!", 5.0)
     game_msg.add("Health regeneration increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 -------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ function p.plasma_regen()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.ammo_regen_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Regeneration Increased!", 5.0)
     game_msg.add("Plasma regeneration increased!")
 end
@@ -58,7 +58,7 @@ function p.plasma_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Max Ammo Increased!", 5.0)
     game_msg.add("Plasma max ammo increased!")
 end
@@ -68,7 +68,7 @@ function p.plasma_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Damage Increased!", 5.0)
     game_msg.add("Plasma damage increased!")
 end
@@ -86,7 +86,7 @@ function p.plasma_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun1.fire_period_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Plasma Fire Rate Increased!", 5.0)
         game_msg.add("Plasma fire rate increased!")
     end
@@ -105,7 +105,7 @@ function p.plasma_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun1.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Plasma Velocity Increased!", 5.0)
         game_msg.add("Plasma velocity Increased!")
     end
@@ -120,7 +120,7 @@ function p.cannon_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun2.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Cannon Max Ammo Increased!", 5.0)
     game_msg.add("Cannon max ammo increased!")
 end
@@ -137,7 +137,7 @@ function p.cannon_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun2.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Fire Rate Increased!", 5.0)
         game_msg.add("Cannon fire rate increased!")
     end
@@ -148,7 +148,7 @@ function p.cannon_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun2.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Cannon Damage Increased!", 5.0)
     game_msg.add("Cannon damage increased!")
 end
@@ -165,7 +165,7 @@ function p.cannon_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun2.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Velocity Increased!", 5.0)
         game_msg.add("Cannon velocity increased!")
     end
@@ -184,7 +184,7 @@ function p.cannon_num()
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
 
         std.set_bydelta_i("xar.player.gun2.num_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Num Shots Increased!", 5.0)
         game_msg.add("Cannon num shots increased!")
     end
@@ -199,7 +199,7 @@ function p.laser_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Laser Max Ammo Increased!", 5.0)
     game_msg.add("Laser max ammo increased!")
 end
@@ -209,7 +209,7 @@ function p.laser_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Laser Damage Increased!", 5.0)
     game_msg.add("Laser damage increased!")
 end
@@ -226,7 +226,7 @@ function p.laser_freeze_time()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun3.freeze_time_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Laser Freeze Time Increased!", 5.0)
         game_msg.add("Laser freeze time increased!")
     end
@@ -237,7 +237,7 @@ function p.laser_super()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.num_level", delta)
-    ga_play_sound("fanfare")
+    game_sound.play_sound("fanfare")
     ga_hud_msg("Laser Damage Factor Increased!", 5.0)
     game_msg.add("Laser Damage Factor increased!")
 end
@@ -251,7 +251,7 @@ function p.rocket_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Max Ammo Increased!", 5.0)
     game_msg.add("Rocket max ammo increased!")
 end
@@ -261,7 +261,7 @@ function p.rocket_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Damage Increased!", 5.0)
     game_msg.add("Rocket damage increased!")
 end
@@ -279,7 +279,7 @@ function p.rocket_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun4.fire_period_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Rocket Fire Rate Increased!", 5.0)
         game_msg.add("Rocket fire rate increased!")
     end
@@ -290,7 +290,7 @@ function p.rocket_proj_speed()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.speed_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Velocity Increased!", 5.0)
     game_msg.add("Rocket velocity increased!")
 end
@@ -308,7 +308,7 @@ function p.rocket_radius()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun4.radius_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Rocket Radius Increased!", 5.0)
         game_msg.add("Rocket explosion radius increased!")
     end
@@ -323,7 +323,7 @@ function p.homing_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun5.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Homing Max Ammo Increased!", 5.0)
     game_msg.add("Homing max ammo increased!")
 end
@@ -333,7 +333,7 @@ function p.homing_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun5.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Homing Damage Increased!", 5.0)
     game_msg.add("Homing damage increased!")
 end
@@ -350,7 +350,7 @@ function p.homing_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun5.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Homing Fire Rate Increased!", 5.0)
         game_msg.add("Homing fire rate increased!")
     end
@@ -368,7 +368,7 @@ function p.homing_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun5.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Homing Velocity Increased!", 5.0)
         game_msg.add("Homing velocity increased!")
     end
@@ -383,7 +383,7 @@ function p.minigun_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun6.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Minigun Max Ammo Increased!", 5.0)
     game_msg.add("Minigun max ammo increased!")
 end
@@ -393,7 +393,7 @@ function p.minigun_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun6.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Minigun Damage Increased!", 5.0)
     game_msg.add("Minigun damage increased!")
 end
@@ -410,7 +410,7 @@ function p.minigun_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Minigun Fire Rate Increased!", 5.0)
         game_msg.add("Minigun fire rate increased!")
     end
@@ -430,7 +430,7 @@ function p.minigun_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Minigun Velocity Increased!", 5.0)
         game_msg.add("Minigun velocity increased!")
     end
@@ -450,7 +450,7 @@ function p.minigun_super()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.num_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Minigun Damage Factor Increased!!!", 5.0)
         game_msg.add("Minigun Damage Factor increased!!!")
     end
@@ -465,7 +465,7 @@ function p.railgun_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun7.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Railgun Max Ammo Increased!", 5.0)
     game_msg.add("Railgun max ammo increased!")
 end
@@ -475,7 +475,7 @@ function p.railgun_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun7.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Railgun Damage Increased!", 5.0)
     game_msg.add("Railgun damage increased!")
 end
@@ -492,7 +492,7 @@ function p.railgun_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun7.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Railgun Fire Rate Increased!", 5.0)
         game_msg.add("Railgun fire rate increased!")
     end
@@ -507,7 +507,7 @@ function p.emp_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Max Ammo Increased!", 5.0)
     game_msg.add("EMP max ammo increased!")
 end
@@ -517,7 +517,7 @@ function p.emp_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Damage Increased!", 5.0)
     game_msg.add("EMP damage increased!")
 end
@@ -527,7 +527,7 @@ function p.emp_radius()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.radius_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Radius Increased!", 5.0)
     game_msg.add("EMP radius increased!")
 end
@@ -537,7 +537,7 @@ function p.emp_freeze_time()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.freeze_time_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Freeze Time Increased!", 5.0)
     game_msg.add("EMP freeze time increased!")
 end
@@ -551,7 +551,7 @@ function p.nuke_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Max Ammo Increased!", 5.0)
     game_msg.add("Nuke max ammo increased!")
 end
@@ -561,7 +561,7 @@ function p.nuke_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Damage Increased!", 5.0)
     game_msg.add("Nuke damage increased!")
 end
@@ -571,7 +571,7 @@ function p.nuke_proj_speed()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.speed_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Velocity Increased!", 5.0)
     game_msg.add("Nuke velocity increased!")
 end
@@ -581,7 +581,7 @@ function p.nuke_radius()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.radius_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Radius Increased!", 5.0)
     game_msg.add("Nuke explosion radius increased!")
 end
@@ -597,7 +597,7 @@ function p.dark_hole_max_ammo()
     std.set_bydelta_i("xar.player.gun0.ammo_level", delta)
     ga_hud_msg("Dark Hole Max Ammo Increased!", 5.0)
     game_msg.add("Dark hole max ammo increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.dark_hole_damage()
@@ -607,7 +607,7 @@ function p.dark_hole_damage()
     std.set_bydelta_i("xar.player.gun0.damage_level", delta)
     ga_hud_msg("Dark Hole Damage Increased!", 5.0)
     game_msg.add("Dark hole damage increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.dark_hole_proj_speed()
@@ -617,5 +617,5 @@ function p.dark_hole_proj_speed()
     std.set_bydelta_i("xar.player.gun0.speed_level", delta)
     ga_hud_msg("Dark Hole Velocity Increased!", 5.0)
     game_msg.add("Dark hole velocity increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end

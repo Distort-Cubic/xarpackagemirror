@@ -7,7 +7,7 @@ function p.play_hurt_sound(num)
 
     if not sound_enabled then return end
     if not p.slot_free(num) then return end
-    ga_play_sound(str)
+    game_sound.play_sound(str)
 end
 
 function p.init_cooldown_vars()

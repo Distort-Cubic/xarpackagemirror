@@ -12,7 +12,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.gun0.ammo")
     if ( old_value ~= max_value ) then
         ga_set_i("xar.player.gun0.ammo", max_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Dark hole gun recharged")
     end
@@ -64,7 +64,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.gun0.ammo")
     if ( old_value ~= max_value ) then
         ga_set_i("xar.player.gun0.ammo", max_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         game_msg.add("Dark hole gun recharged")
     end
@@ -112,7 +112,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.gun1.ammo")
     if( old_value < max_value ) then
         ga_set_i("xar.player.gun1.ammo", max_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Plasma gun recharged")
     end
@@ -160,7 +160,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.gun1.ammo")
     if( old_value < max_value ) then
         ga_set_i("xar.player.gun1.ammo", max_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         game_msg.add("Plasma gun recharged")
     end
@@ -219,9 +219,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
         if( amount >= 100 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " shells"
         game_msg.add(msg2)
@@ -274,7 +274,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -337,7 +337,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -393,7 +393,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -457,7 +457,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -524,9 +524,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun2.ammo", new_value)
         if( amount >= 100 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " shells"
         game_msg.add(msg2)
@@ -579,7 +579,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun3.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -638,7 +638,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun3.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -694,7 +694,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun3.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -753,7 +753,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun3.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -820,9 +820,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun4.ammo", new_value)
         if( amount >= 100 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " rockets"
         game_msg.add(msg2)
@@ -875,7 +875,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun4.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -940,7 +940,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun4.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1002,7 +1002,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun4.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1061,7 +1061,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun4.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1128,9 +1128,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun5.ammo", new_value)
         if( amount >= 100 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " homing rockets"
         game_msg.add(msg2)
@@ -1183,7 +1183,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun5.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1248,7 +1248,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun5.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1310,7 +1310,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun5.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1375,7 +1375,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun5.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1443,9 +1443,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun6.ammo", new_value)
         if( amount >= 100 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " bullets"
         game_msg.add(msg2)
@@ -1498,7 +1498,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun6.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1557,7 +1557,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun6.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1614,7 +1614,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun6.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1679,7 +1679,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun6.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1735,7 +1735,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun7.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1794,7 +1794,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun7.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1850,7 +1850,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun7.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1909,7 +1909,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun7.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         local num_got = new_value - old_value
         if num_got == 1 then
@@ -1965,7 +1965,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun8.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an EMP")
     end
@@ -2014,7 +2014,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun8.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got an EMP")
     end
@@ -2060,7 +2060,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun9.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got a nuke")
     end
@@ -2122,9 +2122,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun9.ammo", new_value)
         if( amount >= 10 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " nukes"
         game_msg.add(msg2)
@@ -2180,7 +2180,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun9.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got a nuke")
     end
@@ -2233,8 +2233,8 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        --ga_play_sound("pickup_armor")
-        ga_play_sound("oh_yeah")
+        --game_sound.play_sound("pickup_armor")
+        game_sound.play_sound("oh_yeah")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got jade armor (1000%)")
     end
@@ -2251,7 +2251,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2275,8 +2275,8 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        --ga_play_sound("pickup_armor")
-        ga_play_sound("oh_yeah")
+        --game_sound.play_sound("pickup_armor")
+        game_sound.play_sound("oh_yeah")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got jade armor (1000%)")
     end
@@ -2293,7 +2293,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2314,7 +2314,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got bronze armor (100%)")
     end
@@ -2331,7 +2331,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2355,7 +2355,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got bronze armor (100%)")
     end
@@ -2372,7 +2372,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2390,7 +2390,7 @@ function p.payload(level, bp)
     if ( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.armor.amount", new_value)
-        ga_play_sound("pickup_armor_small")
+        game_sound.play_sound("pickup_armor_small")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an extra 10% armor")
     end
@@ -2440,7 +2440,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got silver armor (150%)")
     end
@@ -2457,7 +2457,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2481,7 +2481,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got silver armor (150%)")
     end
@@ -2498,7 +2498,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2519,7 +2519,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got gold armor (200%)")
     end
@@ -2536,7 +2536,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2560,7 +2560,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got gold armor (200%)")
     end
@@ -2577,7 +2577,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2596,7 +2596,7 @@ function p.payload(level, bp)
     if ( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.armor.amount", new_value)
-        ga_play_sound("pickup_armor_small")
+        game_sound.play_sound("pickup_armor_small")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got 5% more armor")
     end
@@ -2646,7 +2646,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got ivory armor (600%)")
     end
@@ -2663,7 +2663,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2687,7 +2687,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.armor.amount")
     if ( old_value < max_value ) then
         ga_set_i("xar.player.armor.amount", max_value)
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got ivory armor (600%)")
     end
@@ -2704,7 +2704,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 END_FILE
@@ -2718,7 +2718,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound("use")
     game_bent.remove_perm(level, bp)
 end
 END_FILE
@@ -2732,22 +2732,44 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound("use")
     game_bent.remove_perm(level, bp)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_1.lua"
-function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 1
+function p.payload_common(level, bp, amount)
+    local once = false
+    p.payload_common_helper(level, bp, amount, once)
+end
+
+function p.payload_common_helper(level, bp, amount, once)
+    local max_value = game_gold.get_max()
+    local old_value = game_gold.get()
+    local new_value = old_value + amount
     if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
+    if ( new_value == old_value ) then return end
+    --
+    --Actually picking up the entity.
+    game_gold.set(new_value)
+    --
+    local sound = "error"
+    if     amount < 100  then sound = "pickup_gold_small"
+    elseif amount < 1000 then sound = "pickup_gold_medium"
+    else                      sound = "pickup_gold_large"
     end
+    game_sound.play_sound(sound)
+    --
+    if( once ) then
+        game_bent.remove_perm(level, bp) --Will not respawn.
+    else
+        game_bent.remove_temp(level, bp, 60 * 60) --One hour.       
+    end
+    --
+    game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
+end
+
+function p.payload(level, bp)
+    bent_gold_1.payload_common(level, bp, 1)
 end
 
 function p.__get_touch_dist()
@@ -2777,16 +2799,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_10.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 10
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 10)
 end
 
 function p.__get_touch_dist()
@@ -2816,16 +2829,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_100.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 100
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 100)
 end
 
 function p.__get_touch_dist()
@@ -2854,16 +2858,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_1000.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 1000
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_large")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 1000)
 end
 
 function p.__get_touch_dist()
@@ -2892,16 +2887,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_2.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 2
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 2)
 end
 
 function p.__get_touch_dist()
@@ -2931,16 +2917,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_20.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 20
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 20)
 end
 
 function p.__get_touch_dist()
@@ -2970,16 +2947,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_200.lua"
 function p.payload(level, bp)
-    max_value = ga_get_i("xar.player.gold.max")
-    old_value = ga_get_i("xar.player.gold.amount")
-    new_value = old_value + 200
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 200)
 end
 
 function p.__get_touch_dist()
@@ -3008,16 +2976,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_3.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 3
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 3)
 end
 
 function p.__get_touch_dist()
@@ -3047,16 +3006,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_30.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 30
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 30)
 end
 
 function p.__get_touch_dist()
@@ -3086,16 +3036,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_300.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 300
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 300)
 end
 
 function p.__get_touch_dist()
@@ -3124,16 +3065,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_5.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 5
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 5)
 end
 
 function p.__get_touch_dist()
@@ -3163,16 +3095,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_50.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 50
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 50)
 end
 
 function p.__get_touch_dist()
@@ -3202,16 +3125,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_500.lua"
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 500
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 500)
 end
 
 function p.__get_touch_dist()
@@ -3242,17 +3156,13 @@ BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Gold/bent_gold_once_1.lua"
 function p.__get_mesh() return "bent_gold_1" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
+function p.payload_common(level, bp, amount)
+    local once = true
+    bent_gold_1.payload_common_helper(level, bp, amount, once)
+end
+
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 1
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 1)
 end
 
 function p.__get_touch_dist()
@@ -3281,16 +3191,7 @@ function p.__get_mesh() return "bent_gold_10" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 10
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 10)
 end
 
 function p.__get_touch_dist()
@@ -3319,16 +3220,7 @@ function p.__get_mesh() return "bent_gold_100" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 100
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 100)
 end
 
 function p.__get_touch_dist()
@@ -3356,16 +3248,7 @@ function p.__get_mesh() return "bent_gold_1000" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 1000
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_large")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 1000)
 end
 
 function p.__get_touch_dist()
@@ -3393,16 +3276,7 @@ function p.__get_mesh() return "bent_gold_2" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 2
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 2)
 end
 
 function p.__get_touch_dist()
@@ -3431,16 +3305,7 @@ function p.__get_mesh() return "bent_gold_20" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 20
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 20)
 end
 
 function p.__get_touch_dist()
@@ -3469,16 +3334,7 @@ function p.__get_mesh() return "bent_gold_200" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 200
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 200)
 end
 
 function p.__get_touch_dist()
@@ -3506,16 +3362,7 @@ function p.__get_mesh() return "bent_gold_3" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    max_value = ga_get_i("xar.player.gold.max")
-    old_value = ga_get_i("xar.player.gold.amount")
-    new_value = old_value + 3
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 3)
 end
 
 function p.__get_touch_dist()
@@ -3544,16 +3391,7 @@ function p.__get_mesh() return "bent_gold_30" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 30
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 30)
 end
 
 function p.__get_touch_dist()
@@ -3582,16 +3420,7 @@ function p.__get_mesh() return "bent_gold_300" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 300
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 300)
 end
 
 function p.__get_touch_dist()
@@ -3619,16 +3448,7 @@ function p.__get_mesh() return "bent_gold_5" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 5
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 5)
 end
 
 function p.__get_touch_dist()
@@ -3657,16 +3477,7 @@ function p.__get_mesh() return "bent_gold_50" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 50
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_small")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 50)
 end
 
 function p.__get_touch_dist()
@@ -3695,16 +3506,7 @@ function p.__get_mesh() return "bent_gold_500" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 500
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 500)
 end
 
 function p.__get_touch_dist()
@@ -3743,7 +3545,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.health.amount")
     if( old_value < max_value ) then
         ga_set_i("xar.player.health.amount", max_value)
-        ga_play_sound("pickup_health_100p")
+        game_sound.play_sound("pickup_health_100p")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Your health is now up to 100%")
     end
@@ -3760,7 +3562,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -3796,7 +3598,7 @@ function p.__on_touch(level, bp)
         picking_up = true
     end
     if picking_up then
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
     end
 end
@@ -3812,7 +3614,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -3834,7 +3636,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_10p")
+        game_sound.play_sound("pickup_health_10p")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an extra 10% health")
     end
@@ -3882,7 +3684,7 @@ function p.__on_touch(level, bp)
     local old_value = ga_get_i("xar.player.health.amount")
     if( old_value < max_value ) then
         ga_set_i("xar.player.health.amount", max_value)
-        ga_play_sound("pickup_health_200p")
+        game_sound.play_sound("pickup_health_200p")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Your health is now up to 200%")
     end
@@ -3899,7 +3701,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -3935,7 +3737,7 @@ function p.__on_touch(level, bp)
         picking_up = true
     end
     if picking_up then
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Health up to 200% and armor up to 100%")
     end
@@ -3952,7 +3754,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -3988,7 +3790,7 @@ function p.payload(level, bp)
         picking_up = true
     end
     if picking_up then
-        ga_play_sound("pickup_armor")
+        game_sound.play_sound("pickup_armor")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Health and armor both up to 200%")
     end
@@ -4005,7 +3807,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -4031,7 +3833,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_25p")
+        game_sound.play_sound("pickup_health_25p")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got 25% more health")
     end
@@ -4078,7 +3880,7 @@ function p.__on_touch(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_mega")
+        game_sound.play_sound("pickup_health_mega")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an extra 100% health")
     end
@@ -4095,7 +3897,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -4125,7 +3927,7 @@ function p.__on_touch(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_mega")
+        game_sound.play_sound("pickup_health_mega")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got an extra 100% health")
     end
@@ -4142,7 +3944,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound("xar_error")
+    game_sound.play_sound("xar_error")
     game_msg.add("You must touch this item")
 end
 
@@ -4162,7 +3964,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.shield.amount")
     if( old_value < max_value ) then
         ga_set_i("xar.player.shield.amount", max_value)
-        ga_play_sound("pickup_shield")
+        game_sound.play_sound("pickup_shield")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Your shield is recharged")
     end
@@ -4205,7 +4007,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     local price = p.get_price(level, bp)
     ga_create_i("temp.xar.ent.buy_blue_key.price")
     ga_set_i(   "temp.xar.ent.buy_blue_key.price", price)
@@ -4216,7 +4018,7 @@ BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Key/bent_key_dans_house.lua"
 function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     ga_set_f("xar.key_time.dans_house", num_sec)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 
@@ -4248,7 +4050,7 @@ function p.payload(level, bp)
     local combo = ga_bent_get_param_s(level, bp)
     ga_set_f("xar.key_time.green", num_sec)
     ga_set_s("xar.key_time.green_combo", combo)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 
@@ -4279,7 +4081,7 @@ BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Key/bent_key_laser_genesis.lua"
 function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     ga_set_f("xar.key_time.laser_genesis", num_sec)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 
@@ -4314,7 +4116,7 @@ function p.__get_mesh() return "bent_credits" end
 function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     ga_set_f("xar.key_time.universe", num_sec)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 
@@ -4344,7 +4146,7 @@ BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Key/bent_key_yellow.lua"
 function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     ga_set_f("xar.key_time.yellow", num_sec)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 
@@ -4497,7 +4299,7 @@ end
 function p.payload(level, bp)
     if not p.door_is_shut(level, bp) then return end
 
-    ga_play_sound("use")
+    game_sound.play_sound("use")
     
     local vcp = ga_bp_to_parent_vcp(bp)
     for xi = 0,15 do
@@ -4568,11 +4370,11 @@ function p.__on_use2(level, bp)
     if( p.has_current_bookmark() ) then
         game_msg.add("You already have a current bookmark")
         game_msg.add("Left click to deal with this")
-        ga_play_sound("error")
+        game_sound.play_sound("error")
     else
         local chunk_id = ga_bp_to_parent_chunk_id(level, bp)
         local lbp = ga_bp_to_lbp(bp)
-    game_bookmark_tele.start_tele_from_bookmark(chunk_id, lbp)
+        game_bookmark_tele.start_tele_from_bookmark(chunk_id, lbp)
     end
 end
 
@@ -4608,7 +4410,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_diff_change")
 end
 END_FILE
@@ -4645,12 +4447,12 @@ function p.__on_use(level, bp)
     if p.get_can_open(level,bp) then
         p.remove_door(level, bp)
     else
-        ga_play_sound("error")
+        game_sound.play_sound("error")
     end
 end
 
 function p.remove_door(level, bp)
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
 
     local vcp = ga_bp_to_parent_vcp(bp)
 
@@ -4714,11 +4516,11 @@ function p.remove_door(level, bp)
     local required_combo = p.get_required_combo(level, bp)
     local player_combo = ga_get_s("xar.key_time.green_combo")
     if( player_combo ~= required_combo ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
     --
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     local vcp = ga_bp_to_parent_vcp(bp)
 
     local remove_bents = {}
@@ -4767,11 +4569,11 @@ end
 function p.remove_door(level, bp)
     local key_time = ga_get_f("xar.key_time.universe")
     if( key_time <= 0.01 ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
     --
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     local vcp = ga_bp_to_parent_vcp(bp)
 
     local remove_bents = {}
@@ -4851,7 +4653,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_base_respawn_point") --New way.
 end
 
@@ -4932,11 +4734,11 @@ function p.__on_use(level, bp)
     --
     --Actually unlocking.
     if not already_unlocked then
-        ga_play_sound_menu("harp")
+        game_sound.play_sound_menu("harp")
         local var = p.get_var_name(level, bp)
         ga_set_b(var, true) --The door is now unlocked.
     else
-        ga_play_sound_menu("use")
+        game_sound.play_sound_menu("use")
     end
     --
     ga_window_push("win_unlock_stable_sing")
@@ -4973,7 +4775,7 @@ function p.payload(level, bp)
     local allow_powerup = false
     game_xp.add(num, allow_powerup)
     game_bent.remove_perm(level, bp)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Powerup/bent_damage_5x_stacking.lua"
@@ -4982,7 +4784,7 @@ function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     local new_time = old_time + num_sec
     ga_set_f("xar.damage_5x_stacking_time", new_time)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     ga_hud_msg("Your Damage Is Multiplied by 5!", 5.0)
     game_msg.add("Your damage is multiplied by 5!")
     game_bent.remove_temp(level, bp, 60 * 60) --One hour.
@@ -5012,7 +4814,7 @@ function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     local new_time = old_time + num_sec
     ga_set_f("xar.invun_stacking_time", new_time)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     ga_hud_msg("You Are Invulnerable!", 5.0)
     game_msg.add("You are invulnerable!")
     game_bent.remove_temp(level, bp, 60 * 60) --One hour.
@@ -5041,7 +4843,7 @@ function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     local new_time = old_time + num_sec
     ga_set_f("xar.xp_5x_stacking_time", new_time)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     ga_hud_msg("You Get 5 Times the Experience!", 5.0)
     game_msg.add("You get 5 times the experience!")
     game_bent.remove_temp(level, bp, 60 * 60) --One hour.
@@ -5066,7 +4868,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/BasicEnts/Store/bent_black_market.lua"
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_black_market")
 end
 END_FILE
@@ -5080,7 +4882,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 1)
     ga_window_push("win_buy_marker")
@@ -5096,7 +4898,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 2)
     ga_window_push("win_buy_marker")
@@ -5112,7 +4914,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 3)
     ga_window_push("win_buy_marker")
@@ -5128,7 +4930,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 4)
     ga_window_push("win_buy_marker")
@@ -5144,7 +4946,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 5)
     ga_window_push("win_buy_marker")
@@ -5160,7 +4962,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 100)
     ga_window_push("win_buy_nuke")
@@ -5176,7 +4978,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 150)
     ga_window_push("win_buy_nuke")
@@ -5192,7 +4994,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 200)
     ga_window_push("win_buy_nuke")
@@ -5208,7 +5010,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 250)
     ga_window_push("win_buy_nuke")
@@ -5224,7 +5026,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 300)
     ga_window_push("win_buy_nuke")
@@ -5240,7 +5042,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_nuke.price")
     ga_set_i("temp.xar.ent.buy_nuke.price", 400)
     ga_window_push("win_buy_nuke")
@@ -5256,7 +5058,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     --ga_create_i("xar.ent.buy_marker.price")
     --ga_set_i("xar.ent.buy_marker.price", 1)
     ga_window_push("win_buy_station")
@@ -5281,7 +5083,7 @@ end
 
 function p.__on_use(level, bp)
     if p.already_using() then return end
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_cheap_common_markers")
 end
 END_FILE
@@ -5301,7 +5103,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     --
     local price = p.get_price(level, bp)
     ga_create_i("temp.xar.ent.pay_toll.price")
@@ -5352,7 +5154,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     --
     local price = p.get_price(level, bp)
     ga_create_i("temp.xar.ent.pay_toll.price")
@@ -5392,7 +5194,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     --
     local price = p.get_price(level, bp)
     ga_create_i("temp.xar.ent.pay_toll.price")
@@ -5593,7 +5395,7 @@ function p.helper2(type)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
 
     local seed = ga_block_seed_pos(level, bp) --New way.
     ga_srand(seed)
@@ -5613,7 +5415,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
 
     local seed = ga_block_seed_pos(level, bp) --New way.
     ga_srand(seed)
@@ -5633,7 +5435,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     
     local seed = ga_block_seed_pos(level, bp) --New way.
     ga_srand(seed)
@@ -5656,7 +5458,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use()
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_sleep")
 end
 END_FILE
@@ -5675,7 +5477,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use()
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     win_sleep.payload(60 * 60)
 end
 END_FILE
@@ -5689,7 +5491,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_window_push("win_upgrade_station")
 end
 END_FILE
@@ -5703,7 +5505,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     local chunk_id = ga_bp_to_parent_chunk_id(level, bp)
     ga_create_i("temp.xar.upgrade_station_max_ammo.chunk_id")
     ga_set_i("temp.xar.upgrade_station_max_ammo.chunk_id", chunk_id)
@@ -5741,13 +5543,13 @@ end
 function p.__on_use(level, bp)
     if( p.has_upgrade(level,bp) ) then
         --Displaying the window.
-        ga_play_sound_menu("use")
+        game_sound.play_sound_menu("use")
         ga_window_push("win_upgrade_telekinesis")
     else
         --Upgrading the telekinesis ability.
         local var = p.get_var_name(level, bp)
         ga_set_b(var, true)
-        ga_play_sound("oh_yeah")
+        game_sound.play_sound("oh_yeah")
     end
 end
 END_FILE

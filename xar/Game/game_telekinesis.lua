@@ -103,7 +103,7 @@ function p.payload()
     local is_tele_free = (game_time > last_free_tele_time + tele_cooldown_len)
 
     --Making sure if have enough gold.
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if( gold < 5 ) then
         game_msg.add("Not enough gold for telekinesis")
         return
@@ -114,17 +114,17 @@ function p.payload()
     --a pickup that costs 10 gold, but who cares.
 
     if( is_tele_free ) then
-        ga_play_sound("telekinesis_free")
+        game_sound.play_sound("telekinesis_free")
     else
-        ga_play_sound("telekinesis")
+        game_sound.play_sound("telekinesis")
     end
 
     --Note: the player can use telekinesis even if they have no gold.
-    local gold_before = ga_get_i("xar.player.gold.amount")
+    local gold_before = game_gold.get()
     local num_picked_up1 = p.main_helper1() --Actually picking stuff up.
     local num_picked_up2 = p.main_helper2() --Actually picking stuff up.
     local num_picked_up = num_picked_up1 + num_picked_up2
-    local gold_after = ga_get_i("xar.player.gold.amount")
+    local gold_after = game_gold.get()
     local gold_diff = gold_after - gold_before
 
     --Calculating the gold cost.
@@ -141,7 +141,7 @@ function p.payload()
     local count_only_cost = 0
     if    ( num_picked_up < 5  ) then count_only_cost = 5
     elseif( num_picked_up < 10 ) then count_only_cost = 6
-    elseif( num_picked_up < 15 ) then count_only_cost = 7
+    elseif( num_picked_up < 15 ) then count_only_cost = 7   
     elseif( num_picked_up < 20 ) then count_only_cost = 8
     elseif( num_picked_up < 25 ) then count_only_cost = 9
     else                              count_only_cost = 10
@@ -153,7 +153,7 @@ function p.payload()
     if( gold_after_pay < 0 ) then gold_after_pay = 0 end --In case of exploit.
 
     --Actually paying the gold.
-    ga_set_i("xar.player.gold.amount", gold_after_pay)
+    game_gold.set(gold_after_pay)
 
     if( is_tele_free ) then
         ga_set_f("xar.input.last_free_telekinesis_time", game_time)
@@ -168,7 +168,7 @@ function p.main_helper1()
     local lp = ga_get_viewer_offset()
     -- local radius = 16.0 --Important.
     local radius = p.get_radius()
-    local ents = ga_bent_sphere_query(level, lp, radius) --MORE!!!
+    local ents = ga_bent_sphere_query(level, lp, radius)
     for k,v in pairs(ents) do
         local dist = v.dist
         local bp = v.bp

@@ -2,16 +2,7 @@ function p.__get_mesh() return "bent_gold_500" end
 function p.__get_mesh2() return "gun_ammo_once" end
 
 function p.payload(level, bp)
-    local max_value = ga_get_i("xar.player.gold.max")
-    local old_value = ga_get_i("xar.player.gold.amount")
-    local new_value = old_value + 500
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_perm(level, bp)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_once_1.payload_common(level, bp, 500)
 end
 
 function p.__get_touch_dist()

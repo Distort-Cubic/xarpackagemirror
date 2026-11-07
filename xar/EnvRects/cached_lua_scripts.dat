@@ -1,16 +1,43 @@
--- Number of Lua scripts = 10
+-- Number of Lua scripts = 11
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_enter.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     game_arcade.set_inside_arcade()
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_arcade_exit.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     game_arcade.set_outside_arcade()
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_dans_house.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     if( ga_get_f("xar.key_time.dans_house") > 0 ) then
         --The player has the key.
         return
@@ -21,6 +48,15 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_laser_genesis.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     if( ga_get_f("xar.key_time.laser_genesis") > 0 ) then
         --The player has the key.
         return
@@ -31,6 +67,15 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_universe.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     if( ga_get_f("xar.key_time.universe") > 0 ) then
         --The player has the key.
         return
@@ -41,6 +86,15 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_death_key_yellow.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     if( ga_get_f("xar.key_time.yellow") > 0 ) then
         --The player has the key.
         return
@@ -51,17 +105,35 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_lock_difficulty.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     local locked_in = ga_get_b("xar.difficulty.locked_in")
     if( locked_in ) then return end
     --
     ga_set_b("xar.difficulty.locked_in", true)
     game_msg.add("From now on, the easiest used difficulty...")
     game_msg.add("will be recorded (press F5) ")
-    ga_play_sound("harp")
+    game_sound.play_sound("harp")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_start_speedrun.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     local var = "xar.difficulty.speedrun_start"
     local start_time = ga_get_f(var)
     if( start_time > 0 ) then return end
@@ -72,11 +144,41 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_take_ammo.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
+    game_remove_ammo.remove_ammo()
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_take_ammo_cheesy.lua"
+function p.__on_touch()
+    p.payload()
+end
+
+--What makes this cheesy is there
+--is no __on_line_seg_hits function.
+
+function p.payload()
     game_remove_ammo.remove_ammo()
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/EnvRects/env_rect_take_keys.lua"
 function p.__on_touch()
+    p.payload()
+end
+
+--The end of an era.
+function p.__on_line_seg_hits()
+    p.payload()
+end
+
+function p.payload()
     game_remove_ammo.remove_keys()
 end
 END_FILE

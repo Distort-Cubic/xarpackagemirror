@@ -247,7 +247,7 @@ function p.start_tele_from_bookmark(chunk_id, lbp)
     local lua_win = "" --Not using a window (the teleportation is fast).
     ga_explore_while(lua_func, lua_win)
 
-    ga_play_sound("waypoint_travel") --Todo: have xar have its own version of this.
+    game_sound.play_sound("waypoint_travel") --Todo: have xar have its own version of this.
 end
 
 function p.tele_from_bookmark_while_loop()
@@ -315,7 +315,7 @@ end
 --The player should already be in spirit mode.
 function p.tele_from_bookmark_cancel()
     game_msg.add("Teleportation failed")
-    ga_play_sound("error")
+    game_sound.play_sound("error")
 
     --Remember, the player is still in spirit mode.
 
@@ -352,7 +352,7 @@ function p.start_tele_from_respawn_point()
     dest_lbp.z = ga_get_i("xar.world_pos.bookmark.lbp.z")
     local dest_offset = std.block_center(dest_lbp)
     if( dest_path == "" ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         game_msg.add("Your current bookmark does not exist")
         return
     end
@@ -376,7 +376,7 @@ function p.start_tele_from_respawn_point()
     local lua_win = "" --Not using a window (the teleportation is fast).
     ga_explore_while(lua_func, lua_win)
 
-    ga_play_sound("waypoint_travel") --Todo: have xar have its own version of this.
+    game_sound.play_sound("waypoint_travel") --Todo: have xar have its own version of this.
 
     --So we do not have to do it later.
     p.set_bookmark_off()
@@ -431,7 +431,7 @@ end
 --The player should already be in spirit mode.
 function p.tele_from_respawn_point_cancel()
     game_msg.add("Teleportation failed")
-    ga_play_sound("error")
+    game_sound.play_sound("error")
 
     --Requesting that the engine do the teleportation.
     ga_tele_back()

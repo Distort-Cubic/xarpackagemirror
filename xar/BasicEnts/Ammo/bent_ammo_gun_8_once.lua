@@ -15,7 +15,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun8.ammo", new_value)
-        ga_play_sound("pickup_ammo")
+        game_sound.play_sound("pickup_ammo")
         game_bent.remove_perm(level, bp)
         game_msg.add("You got an EMP")
     end

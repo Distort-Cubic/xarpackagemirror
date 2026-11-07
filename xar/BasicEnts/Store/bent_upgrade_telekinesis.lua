@@ -28,12 +28,12 @@ end
 function p.__on_use(level, bp)
     if( p.has_upgrade(level,bp) ) then
         --Displaying the window.
-        ga_play_sound_menu("use")
+        game_sound.play_sound_menu("use")
         ga_window_push("win_upgrade_telekinesis")
     else
         --Upgrading the telekinesis ability.
         local var = p.get_var_name(level, bp)
         ga_set_b(var, true)
-        ga_play_sound("oh_yeah")
+        game_sound.play_sound("oh_yeah")
     end
 end

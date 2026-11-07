@@ -211,7 +211,7 @@ end
 function p.give_mode(wep, mode)
     local use_to_have = p.get_has(wep, mode)
     if not use_to_have then
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
     end
     local var_str = "xar.player.gun" .. tostring(wep)
         .. ".mode" .. tostring(mode) .. ".has"
@@ -370,6 +370,7 @@ end
 
 function p.get_num_level_max(wep)
     if wep == 2 then return 8 end
+    if wep == 6 then return 99 end --Trying this out.
     return -1
 end
 

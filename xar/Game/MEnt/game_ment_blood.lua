@@ -1,3 +1,9 @@
+--File: game_ment_blood.lua
+
+function p.get_blood_factor()
+    return win_main_menu_blood.get_value()
+end
+
 function p.blood_hurt(inst_id, damage)
     local num_blood = 1 + math.floor(p.num_blood_helper(damage) / 2)
 
@@ -26,7 +32,13 @@ function p.num_blood_helper(health)
     end
 end
 
-function p.blood_several(inst_id, num_blood, fast, from_center)
+--Will curve the num blood inside this function.
+function p.blood_several(inst_id, num_blood_raw, fast, from_center)
+    --Curving the amount of blood.
+    local num_factor = p.get_blood_factor()
+    local num_blood = math.floor( num_blood_raw * num_factor )
+    if( num_blood <= 0 ) then return end
+
     --Scaling factor
     local speed_scale = 1.0
     if( fast ) then speed_scale = 2.0 end
@@ -81,10 +93,15 @@ function p.die_explosion(inst_id)
     local level = ga_ment_get_i(inst_id, "__start_level")
     local sllp = ga_ment_get_sllp(inst_id)
 
-    local num_blood = math.floor(2 * p.num_blood_helper(max_health))
+    local num_blood_raw = math.floor(2 * p.num_blood_helper(max_health))
     if( ga_ment_type_var_exists(ment_type, "blood_die_override") ) then
-        num_blood = ga_ment_get_i(inst_id, "blood_die_override")
+        num_blood_raw = ga_ment_get_i(inst_id, "blood_die_override")
     end
+
+    --Curving the amount of blood.
+    local num_factor = p.get_blood_factor()
+    local num_blood = math.floor( num_blood_raw * num_factor )
+    if( num_blood <= 0 ) then return end
 
     local ttl_scale = 1.0
     local fade_time_scale = 1.0

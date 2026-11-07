@@ -15,7 +15,7 @@ function p.remove_ammo()
         ga_get_i("xar.player.gun0.ammo")
 
     if total > 0 then
-        ga_play_sound("harp")
+        game_sound.play_sound("harp")
     end
 
     ga_set_i("xar.player.gun2.ammo", 0)

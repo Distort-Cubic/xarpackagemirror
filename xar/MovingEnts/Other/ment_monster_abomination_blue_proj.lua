@@ -35,7 +35,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -55,7 +55,7 @@ function p.explode(inst_id)
     
     local ls = ga_level_scale_factor(start_level, cur_level).value
 
-    ga_play_sound("explosion_tube_long")
+    game_sound.play_sound("explosion_tube_long")
 
     local fudge2 = 1.0
     if( start_level == cur_level ) then fudge2 = 2.0 end

@@ -23,9 +23,9 @@ function p.payload(level, bp)
     if ( new_value > old_value ) then
         ga_set_i("xar.player.gun9.ammo", new_value)
         if( amount >= 10 ) then
-            ga_play_sound("oh_yeah")
+            game_sound.play_sound("oh_yeah")
         else
-            ga_play_sound("pickup_ammo")
+            game_sound.play_sound("pickup_ammo")
         end
         local msg2 = "You got " .. tostring(new_value - old_value) .. " nukes"
         game_msg.add(msg2)

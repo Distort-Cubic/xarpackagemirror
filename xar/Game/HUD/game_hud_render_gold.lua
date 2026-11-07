@@ -12,7 +12,7 @@ function p.render_gold(wid)
     local col_green  = std.vec(0.0, 1.0, 0.0)
 
     x_min = 0.94
-    local gold = ga_get_i("xar.player.gold.amount");
+    local gold = game_gold.get()
     if ga_get_b("xar.hud.show_gold") then
         ga_win_quad(wid, 
             x_min,

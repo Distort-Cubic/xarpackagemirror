@@ -3,6 +3,17 @@ function p.exists()
     return (code_id >= 0) --Roaming code ids are negative.
 end
 
+--Will remove the tracking marker from this system
+--assuming it has the correct code_id.
+--Otherwise, nothing happens.
+function p.remove_maybe(code_id)
+    local actual_code_id = ga_get_i("xar.player.tracking_marker")
+    if( code_id == actual_code_id ) then
+        --Removing the marker from this system.
+        ga_set_i("xar.player.tracking_marker", -1)
+    end
+end
+
 function p.exists_and_enabled()
     if( not p.exists() ) then return false end
     if( ga_get_b("xar.player.tracking_marker_hide") ) then return false end

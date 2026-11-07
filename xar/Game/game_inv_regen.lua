@@ -11,9 +11,7 @@ function p.update()
     end
 
     --Capping gold (probably at one million) (brute force).
-    -- local max_gold = 1000000
-    local max_gold = ga_get_i("xar.player.gold.max")
-    p.clip_i("xar.player.gold.amount", 0, max_gold)
+    game_gold.clip()
 
     --Setting ammo to zero for guns the player cannot use (brute force).
     for wep = 0,9 do

@@ -63,8 +63,8 @@ function p.recordable()
 
     local str = "Message from Rigel:\n\n"
         .. "^x0000ffLet me tell you about the "
-        .. "^xff00ffBurlington City Combination Lock^!. "
-        .. "^x0000ffWe knew something was hidden deep inside Burlington. "
+        .. "^xff00ffBurlington City Combination Lock^x0000ff. "
+        .. "We knew something was hidden deep inside Burlington. "
         .. "We tried many combinations over the years. "
         .. "Finally we cracked the code. "
         .. "We hid the combination in a place we knew how to get to, "

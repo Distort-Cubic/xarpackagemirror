@@ -81,7 +81,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -95,14 +95,19 @@ end
 
 --Returns true iff sold something.
 function p.sell(wid, str, sell_all)
+    if( game_gold.is_gold_at_max() ) then --Safety.
+        game_sound.play_sound_menu("error")
+        return
+    end
+    --
     if sell_all then
         --Doing it over and over until there is no effect.
         local sold_something = false 
         while true do
-            local gold_before = ga_get_i("xar.player.gold.amount")
+            local gold_before = game_gold.get()
             local sold_something_now = p.sell_helper(wid, str)
             if( sold_something_now ) then sold_something = true end
-            local gold_after = ga_get_i("xar.player.gold.amount")
+            local gold_after = game_gold.get()
             if( gold_after == gold_before ) then
                 return sold_something
             end
@@ -115,7 +120,7 @@ end
 
 --Returns true iff did not run out of money.
 function p.sell_helper(wid, str)
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local starting_gold = gold
     local sold = false
 
@@ -212,7 +217,7 @@ function p.sell_helper(wid, str)
     end
 
     if (gold ~= starting_gold) then
-        ga_set_i("xar.player.gold.amount", gold)
+        game_gold.set(gold)
     end
 
     if( sold ) then
@@ -226,12 +231,12 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
 
-    local starting_gold = ga_get_i("xar.player.gold.amount")
+    local starting_gold = game_gold.get()
     local selection = ga_win_widget_small_list_process_input(wid) --Not getting selection yet.
     local sel_name = ""
     if( selection >= 0 ) then
@@ -315,15 +320,15 @@ function p.__process_input(wid)
         ga_win_widget_small_list_set_selected(wid, 8) --Fragile!!!
     end
 
-    local ending_gold = ga_get_i("xar.player.gold.amount")
+    local ending_gold = game_gold.get()
 
     --Playing a sound based on how much gold way gained.
     local gold_diff = ending_gold - starting_gold
     if gold_diff >= 1000 then
-        ga_play_sound("pickup_gold_large")
+        game_sound.play_sound_menu("pickup_gold_large")
     elseif gold_diff >= 100 then
-        ga_play_sound("pickup_gold_medium")
+        game_sound.play_sound_menu("pickup_gold_medium")
     elseif gold_diff > 0 then
-        ga_play_sound("pickup_gold_small")
+        game_sound.play_sound_menu("pickup_gold_small")
     end
 end

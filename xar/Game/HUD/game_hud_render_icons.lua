@@ -1,3 +1,5 @@
+--Todo: Use callback functions, as is done in meltdown.
+
 function p.render_icons(wid)
     if not ga_get_b("xar.hud.show_icons") then return end
 
@@ -107,6 +109,12 @@ function p.render_icons(wid)
         ga_win_quad(wid, cur_x, icon_bot, cur_x+icon_width, icon_top, tex)
         cur_x = cur_x + step_x
     end    
+
+    if game_bulk.get_is_player_in_bulk() then
+        local tex = "icon_bulk"
+        ga_win_quad(wid, cur_x, icon_bot, cur_x+icon_width, icon_top, tex)
+        cur_x = cur_x + step_x
+    end
 
     if ga_exists("xar.key_time.yellow") then
         local key_time = ga_get_f("xar.key_time.yellow")

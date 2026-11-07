@@ -135,7 +135,7 @@ function p.tele_maybe(inst_id)
         local lbp = std.bp(x,y,z)
         local bt = ga_chunk_id_and_lbp_to_bt(base_chunk_id, lbp)
         if( bt == "XAR_BLACK_HOLE_BIG_8_AIR" ) then --Fragile.
-            ga_play_sound("waypoint_travel")
+            game_sound.play_sound("waypoint_travel")
             local offset = std.block_center(lbp)
             ga_ment_tele(inst_id, base_chunk_id, offset)
             return

@@ -27,11 +27,6 @@ function p.__render(wid, min_x, min_y, max_x, max_y)
 
     local add_x = -(new_elapsed * scale_x)
 
-    --Shuffling.
-    local len = #data1
-    for i = len, 1, -1 do
-        data1[i+1] = data1[i]
-    end
     --Moving left.
     for i = 1, #data1 do
         data1[i].x = data1[i].x + add_x
@@ -46,11 +41,20 @@ function p.__render(wid, min_x, min_y, max_x, max_y)
             break
         end
     end
-    --Adding new value.
-    local new_table = {}
-    new_table.x = max_x
-    new_table.y = (new_elapsed / max_elapsed) * (max_y - min_y)
-    data1[1] = new_table
+    --We only want to add a node to the array if the game
+    --is not paused, otherwise the array will clog up.
+    if( new_elapsed > 0.001 ) then
+        --Moving over by one.
+        local len = #data1
+        for i = len, 1, -1 do
+            data1[i+1] = data1[i]
+        end
+        --Adding new value to the front.
+        local new_table = {}
+        new_table.x = max_x
+        new_table.y = (new_elapsed / max_elapsed) * (max_y - min_y)
+        data1[1] = new_table
+    end
 
     --Drawing the black rectangle.
     local black = std.vec(0.0, 0.0, 0.0)

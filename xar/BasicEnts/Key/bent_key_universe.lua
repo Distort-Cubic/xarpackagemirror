@@ -6,7 +6,7 @@ function p.__get_mesh() return "bent_credits" end
 function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     ga_set_f("xar.key_time.universe", num_sec)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     game_bent.remove_temp(level, bp, 60) --One minute.
 end
 

@@ -67,14 +67,14 @@ function p.hit_by_dark_hole(target_inst_id, killed)
             local game_time = ga_get_game_time()
             ga_ment_set_f(target_inst_id, "__death_anim_start", game_time)
             ga_ment_set_f(target_inst_id, "__death_anim_end", game_time + 2.5)
-            ga_play_sound("dark_hole_die")
+            game_sound.play_sound("dark_hole_die")
         end
     else
         -- ga_print("ment_player_proj_dark_hole.hit_by_dark_hole")
         local target_team_id = ga_ment_get_i(target_inst_id, "__team_id_source")
         if target_team_id == 1 then return end --It is a friendly unit.
         -- ga_print("target's source id = " .. tostring(target_team_id))
-        ga_play_sound("dark_hole_hit")
+        game_sound.play_sound("dark_hole_hit")
     end
 end
 

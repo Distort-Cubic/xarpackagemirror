@@ -18,18 +18,15 @@ end
 -------------------------------------------------
 
 function p.__on_update(inst_id, et, elt)
-    --Old way.
-    --inst_id = ma_inst()
-
     --On the ment's starting level.
     local dist_to_player = ga_ment_get_var_special_dist_to_viewer(inst_id)
 
     local blast_radius = 4.0
     if dist_to_player < blast_radius then
         --Dealing damage.
-        damage = ga_ment_get_i(inst_id, "damage")
+        local damage = ga_ment_get_i(inst_id, "damage")
         game_top2.damage_player(false, damage)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -39,7 +36,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end
@@ -55,7 +52,6 @@ function p.explode(inst_id)
     local fudge2 = 1.0
     if( start_level == cur_level ) then fudge2 = 2.0 end
 
-    --NEW WAY:
     local args = {}
     args.level = cur_level
     args.pos = lp

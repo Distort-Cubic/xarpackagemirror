@@ -24,7 +24,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     local api_name = ga_block_get_s(level, bp, "api_name")
     -- ga_print("block_xar_journal: api_name = " .. api_name)
     --

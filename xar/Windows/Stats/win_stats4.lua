@@ -17,7 +17,7 @@ function p.__render(wid)
     ga_win_txt_center(wid, 0.88, "EXPERIENCE AND GOLD")
 
     ga_win_set_char_size(wid, 0.015, 0.03)
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     ga_win_txt_center(wid, 0.80, "GOLD = " .. game_str.add_commas(gold))
 
     local xp_level = ga_get_i("xar.experience.level")

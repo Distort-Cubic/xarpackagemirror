@@ -1,6 +1,6 @@
 function p.__start(wid)
-    local min_y = 0.30
-    local max_y = 0.60
+    local min_y = 0.25
+    local max_y = 0.65
     local char_w = 0.03
     local char_h = 0.06
     local col = {x=0.0, y=0.5, z=0.5}
@@ -8,7 +8,8 @@ function p.__start(wid)
     options = {
         "CAMERA + MOVEMENT",
         "MARKERS",
-        "USE KEY" }
+        "USE KEY",
+        "BLOOD" }
     ga_win_widget_small_list_start(
         wid, min_y, max_y, char_w, char_h,
         col, options)
@@ -56,9 +57,13 @@ function p.__process_input(wid)
         ga_window_push("win_main_menu_use_key")
         return
     end
+    if( sel_str == "BLOOD" ) then
+        ga_window_push("win_main_menu_blood")
+        return
+    end
 
     if ga_win_widget_go_back_button_process_input(wid) then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

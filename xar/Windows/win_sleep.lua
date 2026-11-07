@@ -1,8 +1,10 @@
 --Returns whether or not succeded
 function p.payload_one_minute()
     local cost = 5
-    if( ga_get_i("xar.player.gold.amount") < cost ) then return false end
-    std.set_bydelta_i("xar.player.gold.amount", -cost)
+    local gold = game_gold.get()
+    if( gold < cost ) then return false end
+    game_gold.add( -cost )
+    --
     local old_game_time = ga_get_sys_f("game.time.total")
     local new_game_time = old_game_time + 60.0
     ga_set_sys_f("game.time.total", new_game_time)
@@ -18,12 +20,12 @@ function p.payload(sleep_seconds)
         if worked then
             slept = true
         else
-            ga_play_sound("error")
+            game_sound.play_sound_menu("error")
             return
         end
     end
     if slept then
-        ga_play_sound_menu("snore")
+        game_sound.play_sound_menu("snore")
     end
 end
 
@@ -72,7 +74,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end

@@ -117,5 +117,5 @@ function p.ring_effect(level, lp, normal)
 end
 
 function p.play_sound()
-    ga_play_sound("rocket_secondary_hit")
+    game_sound.play_sound("rocket_secondary_hit")
 end

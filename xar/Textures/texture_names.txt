@@ -38,6 +38,7 @@ icon_save                   _ Icons/icon_save.jpg
 icon_arcade                 _ Icons/icon_arcade.jpg
 icon_shrink_warning         _ Icons/icon_shrink_warning.jpg
 icon_yin_yang_warning       a Icons/icon_yin_yang_small.png
+icon_bulk                   _ Icons/icon_bulk.jpg
 
 # Difficulty icons.
 icon_easy_2               _ Icons/Difficulty/icon_easy_2.jpg
@@ -241,7 +242,7 @@ trophy_burlington           _ Trophies/Bur/trophy_burlington.jpg
 trophy_tegan_garden         _ Trophies/Bur/trophy_tegan_garden.jpg
 trophy_green_apple_club     _ Trophies/Bur/trophy_green_apple_club.jpg
 #Space.
-trophy_library_space        - Trophies/Space/trophy_library_space.jpg
+trophy_library_space        _ Trophies/Space/trophy_library_space.jpg
 trophy_moon_alpha           _ Trophies/Space/trophy_moon_alpha.jpg
 trophy_moon_beta            _ Trophies/Space/trophy_moon_beta.jpg
 trophy_moon_gamma           _ Trophies/Space/trophy_moon_gamma.jpg
@@ -547,6 +548,7 @@ block_blue_block_striped           _ Blocks/block_blue_black_striped.jpg
 block_expander                     _ Blocks/block_expander.jpg
 block_stopper                      _ Blocks/block_stopper.jpg
 block_stopper2                     _ Blocks/block_stopper2.jpg
+block_emp_node                     _ Blocks/block_emp_node.jpg
 block_one_way                      _ Blocks/block_one_way.jpg
 block_one_way_green                _ Blocks/block_one_way_green.jpg
 block_one_way_red                  _ Blocks/block_one_way_red.jpg
@@ -558,6 +560,9 @@ block_toll_door                    _ Blocks/block_toll_door.jpg
 block_anti_plug                    _ Blocks/block_anti_plug.jpg
 block_info                         _ Blocks/block_info.jpg
 block_map                          _ Blocks/block_map.jpg
+block_map_k_chunk                  _ Blocks/block_map_k_chunk.jpg
+block_map_m_chunk                  _ Blocks/block_map_m_chunk.jpg
+block_map_g_chunk                  _ Blocks/block_map_g_chunk.jpg
 block_light_blue_border            _ Blocks/block_light_blue_border.jpg
 block_blue_border                  _ Blocks/block_blue_border.jpg
 block_light_green_border           _ Blocks/block_light_green_border.jpg
@@ -604,6 +609,7 @@ block_i2_yellow                    _ Blocks/block_i2_yellow.jpg
 block_i2_red                       _ Blocks/block_i2_red.jpg
 block_i3_green                     _ Blocks/block_i3_green.jpg
 block_i3_yellow                    _ Blocks/block_i3_yellow.jpg
+block_bulk_ruin                    _ Blocks/block_bulk_ruin.jpg
 #block_witch_red                    _ Blocks/block_witch_red.jpg
 
 block_pink                         _ Blocks/block_pink.jpg
@@ -624,6 +630,7 @@ block_tau_caves                    _ Blocks/block_tau_caves.jpg
 block_mylantis_customs             _ Blocks/block_mylantis_customs.jpg
 block_laser_genesis                _ Blocks/block_laser_genesis.jpg
 block_laser_fort_small             _ Blocks/block_laser_fort_small.jpg
+block_laser_fort_hard              _ Blocks/block_laser_fort_hard.jpg
 block_oak_tree                     _ Blocks/block_oak_tree.jpg
 block_richmond                     _ Blocks/Town/block_richmond.jpg
 block_jericho                      _ Blocks/Town/block_jericho.jpg
@@ -858,6 +865,7 @@ MonsterSpiderGreat                 _ MEnts/Monster/Spider/monster_spider_great.j
 MonsterSpiderLord                  _ MEnts/Monster/Spider/monster_spider_lord.jpg
 MonsterRocketSpiderBaby            _ MEnts/Monster/Spider/monster_rocket_spider_baby.jpg
 MonsterDragoon                     _ MEnts/monster_dragoon.jpg
+MonsterDragoonGreater              _ MEnts/monster_dragoon_greater.jpg
 MonsterBee                         _ MEnts/Monster/Bee/monster_bee.jpg
 MonsterWasp                        _ MEnts/Monster/Bee/monster_wasp.jpg
 MonsterHornet                      _ MEnts/Monster/Bee/monster_hornet.jpg

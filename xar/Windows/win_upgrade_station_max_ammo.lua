@@ -32,16 +32,16 @@ function p.get_bent_location()
 end
 
 function p.get_num_charges()
-    ga_print("win_upgrade_station_max_ammo.get_num_charges 1")
+    -- ga_print("win_upgrade_station_max_ammo.get_num_charges 1")
     local location = p.get_bent_location()
     if( not location.is_valid ) then return -1 end
-    ga_print("win_upgrade_station_max_ammo.get_num_charges 2")
-    ga_print("win_upgrade_station_max_ammo: level = " .. tostring(location.level))
-    ga_print("win_upgrade_station_max_ammo: bp = " .. std.vec_to_str(location.bp))
+    -- ga_print("win_upgrade_station_max_ammo.get_num_charges 2")
+    -- ga_print("win_upgrade_station_max_ammo: level = " .. tostring(location.level))
+    -- ga_print("win_upgrade_station_max_ammo: bp = " .. std.vec_to_str(location.bp))
     local param = ga_bent_get_param_i(
         location.level,
         location.bp)
-    ga_print("win_upgrade_station_max_ammo: param = " .. tostring(param))
+    -- ga_print("win_upgrade_station_max_ammo: param = " .. tostring(param))
     return param
 end
 
@@ -105,7 +105,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 
@@ -122,7 +122,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -157,21 +157,22 @@ function p.try_buy(wid, gun)
     --
     local gun_price = p.price[gun]
     if( gun_price == nil ) then return end
-    local charge_price = gun_price / 1000
+    local charge_price = math.floor(gun_price / 1000)
     if p.get_num_charges() < charge_price then
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
         return
     end
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if (gold < gun_price) then
-        ga_play_sound("error")
+        game_sound.play_sound_menu("error")
         return
     end
     --Actually buying.
-    std.set_bydelta_i("xar.player.gold.amount", -gun_price)
+    game_gold.add( -gun_price )
+    --
     local var = "xar.player.gun" .. tostring(gun) .. ".ammo_level"
     std.set_bydelta_i(var, 1)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound_menu("pickup_upgrade")
     p.set_num_charges_by_delta(-charge_price)
     p.refresh_options(wid)
 end

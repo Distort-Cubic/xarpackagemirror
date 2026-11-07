@@ -27,7 +27,7 @@ function p.__on_update(inst_id, et, elt)
     local blast_radius = 6.0
     if dist_to_player < blast_radius then
         game_top2.damage_player(false, 1500)
-        ga_play_sound("explosion_tube_long")
+        game_sound.play_sound("explosion_tube_long")
         p.explode(inst_id)
     end
 end
@@ -37,7 +37,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    ga_play_sound("explosion_tube_dud")
+    game_sound.play_sound("explosion_tube_dud")
     p.explode(inst_id)
     return true
 end

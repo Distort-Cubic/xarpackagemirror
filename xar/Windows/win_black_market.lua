@@ -35,7 +35,7 @@ function p.__render(wid)
     ga_win_set_background_default(wid)
     ga_win_set_char_size(wid, 0.015, 0.03)
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_str = game_str.add_commas(gold)
     ga_win_txt_center(wid, 0.9, "GOLD IN INVENTORY = " .. gold_str)
 end
@@ -44,12 +44,12 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
 
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local gold_delta = 0
     
     local selection = ga_win_widget_small_list_process_input(wid)
@@ -124,7 +124,7 @@ function p.__process_input(wid)
     end
 
     if (gold_delta ~= 0) then
-        std.set_bydelta_i("xar.player.gold.amount", gold_delta)
-        ga_play_sound("buy")
+        game_gold.add(gold_delta)
+        game_sound.play_sound_menu("buy")
     end
 end

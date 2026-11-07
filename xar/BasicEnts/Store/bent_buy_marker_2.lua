@@ -7,7 +7,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     ga_create_i("temp.xar.ent.buy_marker.price")
     ga_set_i("temp.xar.ent.buy_marker.price", 2)
     ga_window_push("win_buy_marker")

@@ -55,7 +55,7 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
         return
     end
@@ -67,9 +67,8 @@ function p.__process_input(wid)
         p.toggle_enabled(value)
 
         if( p.get_enabled() ) then
-            ga_play_sound_menu("holy_cow")
-            -- ga_play_sound_menu("harp")
+            game_sound.play_sound_menu("holy_cow")
+            -- game_sound.play_sound_menu("harp")
         end
     end
-
 end

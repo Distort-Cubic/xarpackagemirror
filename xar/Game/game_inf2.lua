@@ -9,10 +9,10 @@ function p.enable()
         new_bot_to_eye, new_eye_to_top)
     if( not body_worked ) then
          --Aborting.
-        ga_play_sound("xar_error")
+        game_sound.play_sound("xar_error")
         return false
     end
-    ga_play_sound("oh_yeah")
+    game_sound.play_sound("oh_yeah")
 
     return true
 end

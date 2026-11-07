@@ -12,6 +12,6 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use()
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     win_sleep.payload(60 * 60)
 end

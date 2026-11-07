@@ -111,7 +111,7 @@ function p.drop_general(
         args.use_min_dist = false
         ga_particle_explosion(args)
 
-        ga_play_sound("drop_level")
+        game_sound.play_sound("drop_level")
     end
 end
 

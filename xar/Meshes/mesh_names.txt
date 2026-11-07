@@ -269,6 +269,7 @@ MonsterBloodBoyGreater          MonsterBloodBoyGreater          sphere.obj
 WhiteBoxDevice                  WhiteBoxDevice                  large_box.obj
 YellowBoxDevice                 YellowBoxDevice                 large_box.obj
 MonsterDragoon                  MonsterDragoon                  sphere.obj
+MonsterDragoonGreater           MonsterDragoonGreater           sphere.obj
 MonsterVulcan                   MonsterVulcan                   sphere.obj
 MonsterVulcanWar                MonsterVulcanWar                sphere.obj
 MonsterVulcanWarIron            MonsterVulcanWarIron            sphere.obj

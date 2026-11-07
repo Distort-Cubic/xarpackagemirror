@@ -33,7 +33,7 @@ end
 function p.__process_input(wid)
     if ga_win_key_pressed(wid, "ESC") then
         --Going to the main menu.
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_set_sys_b("menu.in_main", true)
     end
 end

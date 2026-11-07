@@ -20,11 +20,11 @@ function p.remove_door(level, bp)
     local required_combo = p.get_required_combo(level, bp)
     local player_combo = ga_get_s("xar.key_time.green_combo")
     if( player_combo ~= required_combo ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
     --
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     local vcp = ga_bp_to_parent_vcp(bp)
 
     local remove_bents = {}

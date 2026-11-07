@@ -1,10 +1,10 @@
-function p.takeall()
+function p.take()
     if not ga_get_sys_b("metagame.cheat.enabled") then
         ga_console_print("^1Cheating must be enabled")
         return
     end
     ga_console_print("^2Taking most health and ammo")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     for i = 0,9 do
         local ns = tostring(i)
         ga_set_i("xar.player.gun" .. ns .. ".ammo", 0)
@@ -14,6 +14,15 @@ function p.takeall()
     ga_set_i("xar.player.armor.amount", 0)
 end
 
+function p.take_gold()
+    if not ga_get_sys_b("metagame.cheat.enabled") then
+        ga_console_print("^1Cheating must be enabled")
+        return
+    end
+    ga_console_print("^2Taking all gold")
+    game_gold.set(0)
+end
+
 function p.giveall()
     if not ga_get_sys_b("metagame.cheat.enabled") then
         ga_console_print("^1Cheating must be enabled")
@@ -21,13 +30,12 @@ function p.giveall()
     end
 
     ga_console_print("^2Giving max health and ammo.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     for i = 0,9 do
         local ns = tostring(i)
         local ammo_max = game_wep_modes.get_ammo_max(i)
         ga_set_i("xar.player.gun" .. ns .. ".ammo", ammo_max)
     end
-    --ga_set_i("xar.player.gold.amount", 99000)
     local max_health = ga_get_i("xar.player.health.max")
     ga_set_i("xar.player.health.amount", 2*max_health)
     ga_set_i("xar.player.armor.amount", 2*max_health)
@@ -40,9 +48,10 @@ function p.givegold()
     end
 
     ga_console_print("^2Your gold is set to 100 thousand.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     
-    ga_set_i("xar.player.gold.amount", 100000) --The max is one million.
+    --We give gold, but not the max (the max is one million).
+    game_gold.set(100000)
 end
 
 --So can use all basic primary and secondary aspects of weapons.
@@ -54,7 +63,7 @@ function p.giveupgrades0()
 
     ga_console_print("^2Giving upgrades 0.")
 
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
     --Health.
     ga_set_i("xar.player.health.level", 10)
@@ -138,7 +147,7 @@ function p.giveupgrades()
     end
 
     ga_console_print("^2Giving many upgrades.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
 
     --Health.
@@ -230,7 +239,7 @@ function p.giveupgrades2()
 
     ga_console_print("^2Giving many upgrades 2.")
 
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
     --Health.
     ga_set_i("xar.player.health.level", 1000)

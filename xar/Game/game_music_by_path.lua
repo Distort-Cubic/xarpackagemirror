@@ -91,6 +91,9 @@ function p.init_maybe_helper()
     p.add("XAR_SPACE_SUN",          "xar_space_sun")
     p.add("XAR_SPACE_PLANET_AREA",  "xar_planet_area")
 
+    p.add("XAR_BLACK_HOLE_BIG",         "xar_black_hole_big")
+    p.add("XAR_BLACK_HOLE_BIG_9",       "xar_block_hole_big_end")
+
     -------------------------------------------
     --Ying world.
     --It is intended that these playlists are all within "xar_ying_world".
@@ -487,6 +490,8 @@ function p.init_maybe_helper()
     
     p.add("XAR_GUNS",                                   "xar_guns")
 
+    p.add("XAR_BLACK_HOLE_BIG_8_2",                     "xar_black_hole_big_boss")
+
     p.add("XAR_LASER_FORT_SMALL",                       "xar_laser_fort_small")
 
     --"Arcades", where you are given infinite ammo.
@@ -545,6 +550,21 @@ function p.init_maybe_helper()
 
     p.add("XAR_DAN_HOUSE_AREA_HOUSE_BELOW", "xar_secret_farmhouse_basement");
 
+    p.add("XAR_MOSSY_AIR_BASEMENT_BELOW",               "xar_basement_mossy")
+    p.add("XAR_FANATIC_ISLAND_WOODY_BASEMENT_BELOW",    "xar_basement_woody")
+    p.add("XAR_MINI_AMMO_FOREST_EARTHY_BASEMENT_BELOW", "xar_basement_earthy")
+    p.add("XAR_FANATIC_BLUE_DAMP_BASEMENT_BELOW",       "xar_basement_damp")
+    p.add("XAR_BLUE_MUSHROOM_BASEMENT_BELOW",           "xar_basement_moldy")
+    p.add("XAR_MAHOGANY_BASEMENT_BELOW",                "xar_basement_mahogany")
+    p.add("XAR_TURNIP_BASEMENT_BELOW",                  "xar_basement_root_veg")
+    p.add("XAR_QUICKSAND_GRASS_BASEMENT_BELOW",         "xar_basement_quicksand")
+    --
+    p.add("XAR_MOSSY_AIR_CELLAR_BELOW",                 "xar_cellar_mossy")
+    p.add("XAR_FANATIC_ISLAND_WOODY_CELLAR_BELOW",      "xar_cellar_woody")
+    p.add("XAR_MINI_AMMO_FOREST_EARTHY_CELLAR_BELOW",   "xar_cellar_earthy")
+    p.add("XAR_FANATIC_BLUE_DAMP_CELLAR_BELOW",         "xar_cellar_damp")
+    p.add("XAR_MAHOGANY_CELLAR_BELOW",                  "xar_cellar_mahogany")
+
     -------------------------------------------
     --Library.
     --It is intended that these playlists are all within "xar_library".
@@ -556,6 +576,8 @@ function p.init_maybe_helper()
     p.add("XAR_I3_LIBRARY",             "xar_library_i3")
     p.add("XAR_SPACE_LIBRARY",          "xar_library_space")
     p.add("XAR_MYLANTIS_CAVES_LIB",     "xar_library_mylantis_caves")
+    p.add("XAR_BASEMENT_LIBRARY_BELOW", "xar_library_basement")
+    p.add("XAR_CELLAR_LIBRARY_BELOW",   "xar_library_cellar")
 
     -------------------------------------------
     --Town.
@@ -574,6 +596,7 @@ function p.init_maybe_helper()
     p.add("XAR_FANATIC_ISLAND_DARK_WILLOW_CENTER",  "xar_town_dark_willow_center")
     p.add("XAR_COLCHESTER",                         "xar_town_colchester")
     p.add("XAR_ESSEX",                              "xar_town_essex")
+    p.add("XAR_STARKSBORO_KILO",                    "xar_town_starksboro")
     p.add("XAR_DENVER",                             "xar_town_denver")
 
     -------------------------------------------

@@ -56,7 +56,7 @@ function p.on_closest_helper(inst_id)
     local sllp = ga_ment_get_sllp(inst_id)
     local lp = ga_ment_get_lp(inst_id)
 
-    --ga_play_sound("explosion_tube_short") --Annoying as hell.
+    --game_sound.play_sound("explosion_tube_short") --Annoying as hell.
 
     -- local vel = ga_ment_get_var_special_vec_to_viewer(inst_id)
     -- std.normalize(vel)

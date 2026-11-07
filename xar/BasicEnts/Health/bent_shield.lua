@@ -9,7 +9,7 @@ function p.payload(level, bp)
     local old_value = ga_get_i("xar.player.shield.amount")
     if( old_value < max_value ) then
         ga_set_i("xar.player.shield.amount", max_value)
-        ga_play_sound("pickup_shield")
+        game_sound.play_sound("pickup_shield")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("Your shield is recharged")
     end

@@ -3,7 +3,7 @@ function p.payload(level, bp)
     local num_sec = ga_bent_get_param_i(level, bp)
     local new_time = old_time + num_sec
     ga_set_f("xar.damage_5x_stacking_time", new_time)
-    ga_play_sound("pickup_powerup")
+    game_sound.play_sound("pickup_powerup")
     ga_hud_msg("Your Damage Is Multiplied by 5!", 5.0)
     game_msg.add("Your damage is multiplied by 5!")
     game_bent.remove_temp(level, bp, 60 * 60) --One hour.

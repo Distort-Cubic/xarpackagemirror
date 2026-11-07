@@ -27,7 +27,7 @@ function p.__render(wid)
             .. "The world is a big place, "
             .. "and it was so easy for me to get lost in it. "
             .. "Thank you for rescuing me. "
-            .. "I hope you found some intresting "
+            .. "I hope you found some interesting "
             .. "places in your journey!"
     elseif( e_diff_num == -1 ) then
         --Normal mode.

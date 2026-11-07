@@ -1,7 +1,23 @@
--- Number of Lua scripts = 332
+-- Number of Lua scripts = 336
 BEGIN_FILE: "../../Data/Packages/xar/Game/aaa_check_api.lua"
+--File: aaa_check_api.lua
+
 function p.func1() return "foo" end
 function p.func2() return 13 end
+
+--This can be used for a multiplayer mod.
+-- function p.__ment_removed(inst_id, code_id, respawn_time)
+--     if( code_id > 0 ) then return end --It is "roaming".
+--     ga_print("aaa_check_api.__ment_removed")
+--     ga_print("  inst_id = " .. tostring(inst_id))
+--     ga_print("  code_id = " .. tostring(code_id))
+--     ga_print("  respawn_time = " .. tostring(respawn_time))
+--     --
+--     local type_name = ga_ment_get_type(inst_id)
+--     ga_print("  type_name = " .. type_name)
+--     local source_path = ga_ment_get_source_path(inst_id)
+--     ga_print("  source_path = " .. source_path)
+-- end
 
 function p.main()
     -- local type = ga_get_type("xar.stats.kill_count")
@@ -176,8 +192,8 @@ function p.main()
     -- ga_dyn_leaf_itr_next()
     -- ga_dyn_dump()
 
-    -- ga_play_sound("foo")
-    -- ga_play_sound_menu("foo")
+    -- game_sound.play_sound("foo")
+    -- game_sound.play_sound_menu("foo")
     -- ga_play_music("foo")
     -- ga_stop_music()
 
@@ -489,7 +505,7 @@ end
 function p.set_inside_arcade()
     --Dealing with ammo.
     if not p.in_arcade() then
-        ga_play_sound("arcade_enter")
+        game_sound.play_sound("arcade_enter")
         --
         local health = ga_get_i("xar.player.health.amount")
         local armor  = ga_get_i("xar.player.armor.amount")
@@ -526,7 +542,7 @@ end
 function p.set_outside_arcade()
     --Setting ammo to what is was when entered the arcade.
     if p.in_arcade() then
-        ga_play_sound("arcade_exit")
+        game_sound.play_sound("arcade_exit")
         local health = ga_get_i("xar.player.arcade.health")
         local armor = ga_get_i("xar.player.arcade.armor")
         local ammo1 = ga_get_i("xar.player.arcade.ammo.1")
@@ -922,7 +938,7 @@ function p.start_tele_from_bookmark(chunk_id, lbp)
     local lua_win = "" --Not using a window (the teleportation is fast).
     ga_explore_while(lua_func, lua_win)
 
-    ga_play_sound("waypoint_travel") --Todo: have xar have its own version of this.
+    game_sound.play_sound("waypoint_travel") --Todo: have xar have its own version of this.
 end
 
 function p.tele_from_bookmark_while_loop()
@@ -990,7 +1006,7 @@ end
 --The player should already be in spirit mode.
 function p.tele_from_bookmark_cancel()
     game_msg.add("Teleportation failed")
-    ga_play_sound("error")
+    game_sound.play_sound("error")
 
     --Remember, the player is still in spirit mode.
 
@@ -1027,7 +1043,7 @@ function p.start_tele_from_respawn_point()
     dest_lbp.z = ga_get_i("xar.world_pos.bookmark.lbp.z")
     local dest_offset = std.block_center(dest_lbp)
     if( dest_path == "" ) then
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         game_msg.add("Your current bookmark does not exist")
         return
     end
@@ -1051,7 +1067,7 @@ function p.start_tele_from_respawn_point()
     local lua_win = "" --Not using a window (the teleportation is fast).
     ga_explore_while(lua_func, lua_win)
 
-    ga_play_sound("waypoint_travel") --Todo: have xar have its own version of this.
+    game_sound.play_sound("waypoint_travel") --Todo: have xar have its own version of this.
 
     --So we do not have to do it later.
     p.set_bookmark_off()
@@ -1106,7 +1122,7 @@ end
 --The player should already be in spirit mode.
 function p.tele_from_respawn_point_cancel()
     game_msg.add("Teleportation failed")
-    ga_play_sound("error")
+    game_sound.play_sound("error")
 
     --Requesting that the engine do the teleportation.
     ga_tele_back()
@@ -1121,6 +1137,17 @@ function p.tele_from_respawn_point_cancel_while_loop()
     --Assume the teleportation worked.
     ga_move_set_body_spirit_off()
     return false --End the while loop.
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/game_bulk.lua"
+--File: game_bulk.lua
+
+function p.get_is_player_in_bulk()
+    local var = "dyn_in_bulk";
+    local chunk_id = ga_get_viewer_chunk_id()
+    local var_exists = ga_chunk_id_dyn_var_exists(chunk_id, var)
+    if( not var_exists ) then return false end
+    return ga_chunk_id_dyn_get_b(chunk_id, var)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_can_use.lua"
@@ -1246,16 +1273,28 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_cheater_waypoints.lua"
 function p.add_all()
+    --The existence of "if" statements like this make
+    --me want to freak the hell out.
+    local engine_ver = game_version.get_first_engine_version_int()
+    if( engine_ver <= 10201 ) then
+        p.add_all_version_1_02_01()
+    else
+        p.add_all_version_1_02_02()
+    end
+end
+
+--Works up through "1.02.01".
+function p.add_all_version_1_02_01()
     --Main cheater hub:
     p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0", "Reboot!")
     --Emergeny waypoint (sensitive).
     game_base_wp_system.add_emergency_wp("777_777_777_686_d3a_583_921_e20_082_657_778_679_777_664_777_777_03b_887_7b2_777_777_777_888_888_769_4c9_884_b76")
     --Growing a bit (sensitive).
     p.add_wp("777_777_777_686_d3a_583_921_e20_082_657_778_679_777_664_777_777_03b_887_7b2_777_777_777_988_545_798", "Gated Community")
-    p.add_wp("777_777_777_686_d3a_583_921_e20_082_657_778_679_777_78f", "The Moon")
     p.add_wp("777_777_777_686_d3a_583_921_e20_082_657_778_679_777_664_777_944_578", "Tau Caves")
+    p.add_wp("777_777_777_686_d3a_583_921_e20_082_657_778_679_777_78f", "The Moon")
     --Outer space.
-    p.add_wp("777_777_777_777_777_88f_88f_0e1", "Mylantis Top City")
+    p.add_wp("777_777_777_777_777_88f_88f_0e1", "Mylantis Top Garden")
     --Inner space.
     p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_193_778_777_e57_511_112", "Stoney Sanctuary")
     p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_193_875_14d_bf3", "Orange: Inside")
@@ -1270,6 +1309,37 @@ function p.add_all()
     p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_bd5_778_870", "Farmhouse")
 end
 
+--Works starting at "1.02.02".
+function p.add_all_version_1_02_02()
+    --Main cheater hub:
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0", "Reboot!")
+    --Emergeny waypoint (sensitive).
+    p.add_em_wp("777_777_777_768_e01_132_332_e42_cc9_627_768_666_777_664_777_777_051_887_7b2_777_777_777_888_888_769_4c9_884_b76")
+    --Growing a bit (sensitive).
+    p.add_wp("777_777_777_768_e01_132_332_e42_cc9_627_768_666_777_664_777_777_051_887_7b2_777_777_777_888_5be_798", "Gated Community")
+    p.add_wp("777_777_777_768_e01_132_332_e42_cc9_627_768_666_777_664_777_777_184", "Tau Caves")
+    p.add_wp("777_777_777_768_e01_132_332_e42_cc9_627_768_666_777_78f", "The Moon")
+    --Outer space.
+    p.add_wp("777_777_777_777_777_88f_88f_0e1", "Mylantis Top Garden")
+    --Inner space.
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_193_778_777_e57_511_112", "Stoney Sanctuary")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_193_775_3cd_725", "Orange: Inside")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_1a3_988_39f_777", "Botany Lab")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_1b3_887_775_773_c6a_5bf_37a_891_881_777", "Williston (I1)")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_187_920_7c0_77c_777_77d_777_787_c97_779", "I3 Main Forest")
+    --Hell.
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_197_88a_888_88b_78f_e1b", "Final Boss")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_197_88a_888_88b_881_778", "Credits")
+    --Burlington.
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_1a7_887_751_48a_590_0e6", "Burlington")
+    p.add_wp("777_777_777_777_777_88f_88f_0f1_0f0_bd5_778_870", "Farmhouse")
+end
+
+--Helper function.
+function p.add_em_wp(path)
+    game_base_wp_system.add_emergency_wp(path)
+end
+
 --Helper function.
 function p.add_wp(path, override_name)
     game_base_wp_system.add_builtin_wp(path, override_name)
@@ -1277,13 +1347,13 @@ function p.add_wp(path, override_name)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_cheats.lua"
-function p.takeall()
+function p.take()
     if not ga_get_sys_b("metagame.cheat.enabled") then
         ga_console_print("^1Cheating must be enabled")
         return
     end
     ga_console_print("^2Taking most health and ammo")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     for i = 0,9 do
         local ns = tostring(i)
         ga_set_i("xar.player.gun" .. ns .. ".ammo", 0)
@@ -1293,6 +1363,15 @@ function p.takeall()
     ga_set_i("xar.player.armor.amount", 0)
 end
 
+function p.take_gold()
+    if not ga_get_sys_b("metagame.cheat.enabled") then
+        ga_console_print("^1Cheating must be enabled")
+        return
+    end
+    ga_console_print("^2Taking all gold")
+    game_gold.set(0)
+end
+
 function p.giveall()
     if not ga_get_sys_b("metagame.cheat.enabled") then
         ga_console_print("^1Cheating must be enabled")
@@ -1300,13 +1379,12 @@ function p.giveall()
     end
 
     ga_console_print("^2Giving max health and ammo.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     for i = 0,9 do
         local ns = tostring(i)
         local ammo_max = game_wep_modes.get_ammo_max(i)
         ga_set_i("xar.player.gun" .. ns .. ".ammo", ammo_max)
     end
-    --ga_set_i("xar.player.gold.amount", 99000)
     local max_health = ga_get_i("xar.player.health.max")
     ga_set_i("xar.player.health.amount", 2*max_health)
     ga_set_i("xar.player.armor.amount", 2*max_health)
@@ -1319,9 +1397,10 @@ function p.givegold()
     end
 
     ga_console_print("^2Your gold is set to 100 thousand.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
     
-    ga_set_i("xar.player.gold.amount", 100000) --The max is one million.
+    --We give gold, but not the max (the max is one million).
+    game_gold.set(100000)
 end
 
 --So can use all basic primary and secondary aspects of weapons.
@@ -1333,7 +1412,7 @@ function p.giveupgrades0()
 
     ga_console_print("^2Giving upgrades 0.")
 
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
     --Health.
     ga_set_i("xar.player.health.level", 10)
@@ -1417,7 +1496,7 @@ function p.giveupgrades()
     end
 
     ga_console_print("^2Giving many upgrades.")
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
 
     --Health.
@@ -1509,7 +1588,7 @@ function p.giveupgrades2()
 
     ga_console_print("^2Giving many upgrades 2.")
 
-    ga_play_sound("cheater")
+    game_sound.play_sound("cheater")
 
     --Health.
     ga_set_i("xar.player.health.level", 1000)
@@ -2130,7 +2209,7 @@ function p.finish()
     --
     p.finish_helper()
     --
-    ga_play_sound("enter_game")
+    game_sound.play_sound("enter_game")
 end
 
 --This is used for the non "classic" or "genesis" game configurations.
@@ -2787,15 +2866,15 @@ END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_drop_markers.lua"
 function p.drop_genesis_marker_short()
     --Dealing with cost.
-    local long_marker_cost = 20
+    local marker_cost = 20
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     --Sound.
-    ga_play_sound("marker_short");
+    game_sound.play_sound("marker_short");
 
     local game_time = ga_get_sys_f("game.time.total")
     local remove_time = game_time + (60.0 * 60.0 * 3.0) --3 hours.
@@ -2821,15 +2900,15 @@ end
 
 function p.drop_genesis_marker_long()
     --Dealing with cost.
-    local long_marker_cost = 50
+    local marker_cost = 50
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     --Sound.
-    ga_play_sound("marker_long");
+    game_sound.play_sound("marker_long");
 
     local game_time = ga_get_sys_f("game.time.total")
     local remove_time = game_time + 60.0 * 60.0 * 3.0 --3 hours.
@@ -2863,13 +2942,13 @@ function p.drop_marker_short()
         if ga_get_i("xar.player.markers.num_short") > 0 then
             std.set_bydelta_i("xar.player.markers.num_short", -1)
         else
-            local gold = ga_get_i("xar.player.gold.amount")
+            local gold = game_gold.get()
             local cheap_cost = 10
             if ga_get_b("xar.player.cheat_common_markers") then
                 cheap_cost = 5
             end
             if (gold < cheap_cost) then return end
-            ga_set_i("xar.player.gold.amount", gold - cheap_cost)
+            game_gold.add( -cheap_cost )
         end
     end
     
@@ -2891,7 +2970,7 @@ function p.drop_marker_short()
     ga_print("game_drop_markers.drop_marker_short e")
 
     --Playing a sound.
-    ga_play_sound("marker_short");
+    game_sound.play_sound("marker_short");
 
     ga_print("game_drop_markers.drop_marker_short end")
 end
@@ -2903,11 +2982,11 @@ function p.drop_marker_long()
     end
 
     --Dealing with gold.
-    local long_marker_cost = 20
+    local marker_cost = 20
     if not ga_get_b("xar.cheat.free_markers") then
-        local gold = ga_get_i("xar.player.gold.amount")
-        if (gold < long_marker_cost) then return end
-        ga_set_i("xar.player.gold.amount", gold - long_marker_cost)
+        local gold = game_gold.get()
+        if (gold < marker_cost) then return end
+        game_gold.add( -marker_cost )
     end
 
     -- Dropping a new ment.
@@ -2920,12 +2999,12 @@ function p.drop_marker_long()
     ga_ment_end()
 
     --Playing a sound.
-    ga_play_sound("marker_long");
+    game_sound.play_sound("marker_long");
 end
 
 function p.enabled_cheap_common_markers()
     if ga_get_b("xar.player.cheat_common_markers") then return end
-    ga_play_sound("buy")
+    game_sound.play_sound("buy")
     ga_set_b("xar.player.cheat_common_markers", true)
 end
 END_FILE
@@ -3056,6 +3135,50 @@ function p.enabled()
     return ga_get_b("worldgen.state.genesis")
 end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/game_gold.lua"
+--File: game_gold.lua
+
+--This script should be used as an intermediary
+--instead of directly getting and setting the global
+--variable "xar.player.gold.amount".
+
+--Getting the amount of gold
+function p.get()
+    return ga_get_i("xar.player.gold.amount")
+end
+
+--Gets the max amount of gold the player can get.
+function p.get_max()
+    return ga_get_i("xar.player.gold.max")
+end
+
+function p.is_gold_at_max()
+    return ( p.get() >= p.get_max() )
+end
+
+function p.set(gold)
+    local gold_max = p.get_max()
+    --
+    --Clipping the gold.
+    if( gold < 0 ) then gold = 0 end
+    if( gold > gold_max ) then gold = gold_max end
+    --
+    ga_set_i("xar.player.gold.amount", gold)
+end
+
+--Adds a delta to the gold (can be negative).
+function p.add(delta)
+    local gold_old = p.get()
+    local gold_new = gold_old + delta
+    p.set(gold_new) --Will clip.
+end
+
+--Hopefully this does not need to be called
+--from the outside.
+function p.clip()
+    p.set( p.get() )
+end
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_hurt_sound.lua"
 function p.play_hurt_sound(num)
     local str = "player_hurt_" .. tostring(num)
@@ -3066,7 +3189,7 @@ function p.play_hurt_sound(num)
 
     if not sound_enabled then return end
     if not p.slot_free(num) then return end
-    ga_play_sound(str)
+    game_sound.play_sound(str)
 end
 
 function p.init_cooldown_vars()
@@ -3182,10 +3305,10 @@ function p.enable()
         new_bot_to_eye, new_eye_to_top)
     if( not body_worked ) then
          --Aborting.
-        ga_play_sound("xar_error")
+        game_sound.play_sound("xar_error")
         return false
     end
-    ga_play_sound("oh_yeah")
+    game_sound.play_sound("oh_yeah")
 
     return true
 end
@@ -3949,9 +4072,7 @@ function p.update()
     end
 
     --Capping gold (probably at one million) (brute force).
-    -- local max_gold = 1000000
-    local max_gold = ga_get_i("xar.player.gold.max")
-    p.clip_i("xar.player.gold.amount", 0, max_gold)
+    game_gold.clip()
 
     --Setting ammo to zero for guns the player cannot use (brute force).
     for wep = 0,9 do
@@ -4982,6 +5103,9 @@ function p.init_maybe_helper()
     p.add("XAR_SPACE_SUN",          "xar_space_sun")
     p.add("XAR_SPACE_PLANET_AREA",  "xar_planet_area")
 
+    p.add("XAR_BLACK_HOLE_BIG",         "xar_black_hole_big")
+    p.add("XAR_BLACK_HOLE_BIG_9",       "xar_block_hole_big_end")
+
     -------------------------------------------
     --Ying world.
     --It is intended that these playlists are all within "xar_ying_world".
@@ -5378,6 +5502,8 @@ function p.init_maybe_helper()
     
     p.add("XAR_GUNS",                                   "xar_guns")
 
+    p.add("XAR_BLACK_HOLE_BIG_8_2",                     "xar_black_hole_big_boss")
+
     p.add("XAR_LASER_FORT_SMALL",                       "xar_laser_fort_small")
 
     --"Arcades", where you are given infinite ammo.
@@ -5436,6 +5562,21 @@ function p.init_maybe_helper()
 
     p.add("XAR_DAN_HOUSE_AREA_HOUSE_BELOW", "xar_secret_farmhouse_basement");
 
+    p.add("XAR_MOSSY_AIR_BASEMENT_BELOW",               "xar_basement_mossy")
+    p.add("XAR_FANATIC_ISLAND_WOODY_BASEMENT_BELOW",    "xar_basement_woody")
+    p.add("XAR_MINI_AMMO_FOREST_EARTHY_BASEMENT_BELOW", "xar_basement_earthy")
+    p.add("XAR_FANATIC_BLUE_DAMP_BASEMENT_BELOW",       "xar_basement_damp")
+    p.add("XAR_BLUE_MUSHROOM_BASEMENT_BELOW",           "xar_basement_moldy")
+    p.add("XAR_MAHOGANY_BASEMENT_BELOW",                "xar_basement_mahogany")
+    p.add("XAR_TURNIP_BASEMENT_BELOW",                  "xar_basement_root_veg")
+    p.add("XAR_QUICKSAND_GRASS_BASEMENT_BELOW",         "xar_basement_quicksand")
+    --
+    p.add("XAR_MOSSY_AIR_CELLAR_BELOW",                 "xar_cellar_mossy")
+    p.add("XAR_FANATIC_ISLAND_WOODY_CELLAR_BELOW",      "xar_cellar_woody")
+    p.add("XAR_MINI_AMMO_FOREST_EARTHY_CELLAR_BELOW",   "xar_cellar_earthy")
+    p.add("XAR_FANATIC_BLUE_DAMP_CELLAR_BELOW",         "xar_cellar_damp")
+    p.add("XAR_MAHOGANY_CELLAR_BELOW",                  "xar_cellar_mahogany")
+
     -------------------------------------------
     --Library.
     --It is intended that these playlists are all within "xar_library".
@@ -5447,6 +5588,8 @@ function p.init_maybe_helper()
     p.add("XAR_I3_LIBRARY",             "xar_library_i3")
     p.add("XAR_SPACE_LIBRARY",          "xar_library_space")
     p.add("XAR_MYLANTIS_CAVES_LIB",     "xar_library_mylantis_caves")
+    p.add("XAR_BASEMENT_LIBRARY_BELOW", "xar_library_basement")
+    p.add("XAR_CELLAR_LIBRARY_BELOW",   "xar_library_cellar")
 
     -------------------------------------------
     --Town.
@@ -5465,6 +5608,7 @@ function p.init_maybe_helper()
     p.add("XAR_FANATIC_ISLAND_DARK_WILLOW_CENTER",  "xar_town_dark_willow_center")
     p.add("XAR_COLCHESTER",                         "xar_town_colchester")
     p.add("XAR_ESSEX",                              "xar_town_essex")
+    p.add("XAR_STARKSBORO_KILO",                    "xar_town_starksboro")
     p.add("XAR_DENVER",                             "xar_town_denver")
 
     -------------------------------------------
@@ -5564,42 +5708,6 @@ function p.init()
     ga_package_init_b("inf2.can_build_block_into_player", true)
 end
 END_FILE
-BEGIN_FILE: "../../Data/Packages/xar/Game/game_play_monster_die_sound.lua"
---This script is a stub.
---It is intended that people can mod (by overriding it).
-function p.play(str)
-    game_play_sound.play(str)
-end
-END_FILE
-BEGIN_FILE: "../../Data/Packages/xar/Game/game_play_monster_hurt_sound.lua"
---It is intended that people can mod (by overriding it).
-function p.play(str)
-    game_play_sound.play(str)
-end
-END_FILE
-BEGIN_FILE: "../../Data/Packages/xar/Game/game_play_sound.lua"
---This script is a stub.
---It is intended that people can mod (by overriding it).
-function p.play(str)
-    ga_play_sound(str)
-end
-END_FILE
-BEGIN_FILE: "../../Data/Packages/xar/Game/game_play_wep_sound.lua"
---This script is a stub.
---It is intended that people can mod (by overriding it).
-function p.play(wep, mode)
-    local shoot_sound = "shoot_" .. tostring(wep) .. "_" .. tostring(mode)
-    game_play_sound.play(shoot_sound)
-end
-
-function p.play_0_1_loud()
-    game_play_sound.play("shoot_0_1_loud")
-end
-
-function p.play_0_charge()
-    game_play_sound.play("shoot_0_charge")
-end
-END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_quasar_drive.lua"
 function p.stop_quasar_drive()
     local game_time = ga_get_game_time()
@@ -5668,7 +5776,7 @@ function p.remove_ammo()
         ga_get_i("xar.player.gun0.ammo")
 
     if total > 0 then
-        ga_play_sound("harp")
+        game_sound.play_sound("harp")
     end
 
     ga_set_i("xar.player.gun2.ammo", 0)
@@ -5713,7 +5821,7 @@ BEGIN_FILE: "../../Data/Packages/xar/Game/game_respawn.lua"
 --Once the player has ten thousand gold in the bank,
 --the cost maxes out at 500.
 function p.get_keepammo_cost()
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     local value1 = math.floor( gold * 0.08 ) --8% of gold.
     local value2 = 400
     local value3 = math.min(value1, value2)
@@ -5779,11 +5887,8 @@ function p.respawn_player(param)
         local respawn_cost = math.max(
             fixed_cost,
             game_respawn.get_keepammo_cost())
-        local old_gold = ga_get_i("xar.player.gold.amount")
-        ga_print("old gold = " .. tostring(old_gold))
-        local new_gold = old_gold - respawn_cost
-        if new_gold < 0 then new_gold = 0 end
-        ga_set_i("xar.player.gold.amount", new_gold)
+        local old_gold = game_gold.get()
+        game_gold.add( -respawn_cost )
     else
         ga_set_i("xar.player.health.amount",
             ga_get_i("xar.player.health.max"))
@@ -5797,10 +5902,7 @@ function p.respawn_player(param)
                 game_wep_modes.get_ammo_max(0))
         end
         --
-        std.set_bydelta_i("xar.player.gold.amount", -fixed_cost)
-        if ga_get_i("xar.player.gold.amount") < 0 then
-            ga_set_i("xar.player.gold.amount", 0)
-        end
+        game_gold.add( -fixed_cost )
         ga_set_i("xar.player.markers.num_short", 0)
     end
 
@@ -6273,7 +6375,7 @@ function p.payload()
     local is_tele_free = (game_time > last_free_tele_time + tele_cooldown_len)
 
     --Making sure if have enough gold.
-    local gold = ga_get_i("xar.player.gold.amount")
+    local gold = game_gold.get()
     if( gold < 5 ) then
         game_msg.add("Not enough gold for telekinesis")
         return
@@ -6284,17 +6386,17 @@ function p.payload()
     --a pickup that costs 10 gold, but who cares.
 
     if( is_tele_free ) then
-        ga_play_sound("telekinesis_free")
+        game_sound.play_sound("telekinesis_free")
     else
-        ga_play_sound("telekinesis")
+        game_sound.play_sound("telekinesis")
     end
 
     --Note: the player can use telekinesis even if they have no gold.
-    local gold_before = ga_get_i("xar.player.gold.amount")
+    local gold_before = game_gold.get()
     local num_picked_up1 = p.main_helper1() --Actually picking stuff up.
     local num_picked_up2 = p.main_helper2() --Actually picking stuff up.
     local num_picked_up = num_picked_up1 + num_picked_up2
-    local gold_after = ga_get_i("xar.player.gold.amount")
+    local gold_after = game_gold.get()
     local gold_diff = gold_after - gold_before
 
     --Calculating the gold cost.
@@ -6311,7 +6413,7 @@ function p.payload()
     local count_only_cost = 0
     if    ( num_picked_up < 5  ) then count_only_cost = 5
     elseif( num_picked_up < 10 ) then count_only_cost = 6
-    elseif( num_picked_up < 15 ) then count_only_cost = 7
+    elseif( num_picked_up < 15 ) then count_only_cost = 7   
     elseif( num_picked_up < 20 ) then count_only_cost = 8
     elseif( num_picked_up < 25 ) then count_only_cost = 9
     else                              count_only_cost = 10
@@ -6323,7 +6425,7 @@ function p.payload()
     if( gold_after_pay < 0 ) then gold_after_pay = 0 end --In case of exploit.
 
     --Actually paying the gold.
-    ga_set_i("xar.player.gold.amount", gold_after_pay)
+    game_gold.set(gold_after_pay)
 
     if( is_tele_free ) then
         ga_set_f("xar.input.last_free_telekinesis_time", game_time)
@@ -6338,7 +6440,7 @@ function p.main_helper1()
     local lp = ga_get_viewer_offset()
     -- local radius = 16.0 --Important.
     local radius = p.get_radius()
-    local ents = ga_bent_sphere_query(level, lp, radius) --MORE!!!
+    local ents = ga_bent_sphere_query(level, lp, radius)
     for k,v in pairs(ents) do
         local dist = v.dist
         local bp = v.bp
@@ -6699,15 +6801,15 @@ end
 function p.remove_door_from_chunk(level, bp)
     --Dealing with gold.
     local price = ga_get_i("temp.xar.ent.pay_toll.price")
-    local gold_in_inv = ga_get_i("xar.player.gold.amount")
+    local gold_in_inv = game_gold.get()
     if( gold_in_inv < price ) then
         game_msg.add("You do not have enough gold to open the door")
-        ga_play_sound("error")
+        game_sound.play_sound("error")
         return
     end
-    ga_play_sound("toll_door")
+    game_sound.play_sound("toll_door")
     gold_in_inv = gold_in_inv - price
-    ga_set_i("xar.player.gold.amount", gold_in_inv)
+    game_gold.set(gold_in_inv)
     
     local vcp = ga_bp_to_parent_vcp(bp)
 
@@ -6778,6 +6880,17 @@ BEGIN_FILE: "../../Data/Packages/xar/Game/game_tracking_marker.lua"
 function p.exists()
     local code_id = ga_get_i("xar.player.tracking_marker")
     return (code_id >= 0) --Roaming code ids are negative.
+end
+
+--Will remove the tracking marker from this system
+--assuming it has the correct code_id.
+--Otherwise, nothing happens.
+function p.remove_maybe(code_id)
+    local actual_code_id = ga_get_i("xar.player.tracking_marker")
+    if( code_id == actual_code_id ) then
+        --Removing the marker from this system.
+        ga_set_i("xar.player.tracking_marker", -1)
+    end
 end
 
 function p.exists_and_enabled()
@@ -7190,18 +7303,14 @@ function p.pickup_with_no_achievement(name)
     end
     if ga_get_b(var_name) then
         --Already has this trophy.
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound("pickup_gold")
         --
         game_msg.add("You already have this trophy: 10 gold")
         --
-        max_gold = ga_get_i("xar.player.gold.max")
-        old_gold = ga_get_i("xar.player.gold.amount")
-        new_gold = old_gold + 10
-        if( new_gold > max_gold ) then new_gold = max_gold end
-        ga_set_i("xar.player.gold.amount", new_gold)
+        game_gold.add(10)
     else
         --Does not have this trophy.
-        ga_play_sound("fanfare_short")
+        game_sound.play_sound("fanfare_short")
         --
         if genesis then
             game_msg.add("New trophy bonus: 200 gold")
@@ -7209,7 +7318,7 @@ function p.pickup_with_no_achievement(name)
             game_msg.add("New trophy bonus: 200 gold + 4 health upgrades") 
         end
         --
-        p.give_gold(200)
+        game_gold.add(200)
         --
         if not genesis then
             std.set_bydelta_i("xar.player.health.level", 2)
@@ -7238,7 +7347,7 @@ function p.pickup_secret_trophy(name)
 
     if already_exists then
         game_msg.add("You already have this secret trophy")
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound("pickup_gold")
     else
         --Getting it for the first time.
         if( game_genesis.enabled() ) then
@@ -7249,7 +7358,7 @@ function p.pickup_secret_trophy(name)
         --
         p.get_100_gold_200_health_armor()
         --
-        ga_play_sound("fanfare_short")
+        game_sound.play_sound("fanfare_short")
     end
 
     ga_get_steam_achievement(name)
@@ -7260,7 +7369,7 @@ function p.get_100_gold_200_health_armor()
         p.get_200_health_armor()
     end
     --
-    p.give_gold(100)
+    game_gold.add(100)
 end
 
 function p.get_200_health_armor()
@@ -7275,14 +7384,6 @@ function p.get_200_health_armor()
     if( armor < max_200_health ) then
         ga_set_i("xar.player.armor.amount", max_200_health)
     end
-end
-
-function p.give_gold(amount)
-    max_gold = ga_get_i("xar.player.gold.max")
-    old_gold = ga_get_i("xar.player.gold.amount")
-    new_gold = old_gold + amount
-    if( new_gold > max_gold ) then new_gold = max_gold end
-    ga_set_i("xar.player.gold.amount", new_gold)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_update.lua"
@@ -7461,7 +7562,7 @@ function p.armor_regen()
     std.set_bydelta_i("xar.player.armor.regen_level", delta)
     ga_hud_msg("Armor Regeneration Increased!!!", 5.0)
     game_msg.add("Armor regeneration increased!!!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.spice()
@@ -7471,7 +7572,7 @@ function p.spice()
     std.set_bydelta_i("xar.player.health.extra_regen_level", 1)
     ga_hud_msg(">100% Health Regeneration Increased!!", 5.0)
     game_msg.add(">100% health regeneration increased!!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.health_max()
@@ -7480,7 +7581,7 @@ function p.health_max()
     std.set_bydelta_i("xar.player.health.level", delta)
     ga_hud_msg("Max Health Increased!", 5.0)
     game_msg.add("Max health increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.health_regen()
@@ -7489,7 +7590,7 @@ function p.health_regen()
     std.set_bydelta_i("xar.player.health.regen_level", delta)
     ga_hud_msg("Health Regeneration Increased!", 5.0)
     game_msg.add("Health regeneration increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 -------------------------------------------------------------------------------
@@ -7501,7 +7602,7 @@ function p.plasma_regen()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.ammo_regen_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Regeneration Increased!", 5.0)
     game_msg.add("Plasma regeneration increased!")
 end
@@ -7511,7 +7612,7 @@ function p.plasma_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Max Ammo Increased!", 5.0)
     game_msg.add("Plasma max ammo increased!")
 end
@@ -7521,7 +7622,7 @@ function p.plasma_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun1.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Plasma Damage Increased!", 5.0)
     game_msg.add("Plasma damage increased!")
 end
@@ -7539,7 +7640,7 @@ function p.plasma_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun1.fire_period_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Plasma Fire Rate Increased!", 5.0)
         game_msg.add("Plasma fire rate increased!")
     end
@@ -7558,7 +7659,7 @@ function p.plasma_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun1.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Plasma Velocity Increased!", 5.0)
         game_msg.add("Plasma velocity Increased!")
     end
@@ -7573,7 +7674,7 @@ function p.cannon_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun2.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Cannon Max Ammo Increased!", 5.0)
     game_msg.add("Cannon max ammo increased!")
 end
@@ -7590,7 +7691,7 @@ function p.cannon_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun2.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Fire Rate Increased!", 5.0)
         game_msg.add("Cannon fire rate increased!")
     end
@@ -7601,7 +7702,7 @@ function p.cannon_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun2.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Cannon Damage Increased!", 5.0)
     game_msg.add("Cannon damage increased!")
 end
@@ -7618,7 +7719,7 @@ function p.cannon_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun2.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Velocity Increased!", 5.0)
         game_msg.add("Cannon velocity increased!")
     end
@@ -7637,7 +7738,7 @@ function p.cannon_num()
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
 
         std.set_bydelta_i("xar.player.gun2.num_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Cannon Num Shots Increased!", 5.0)
         game_msg.add("Cannon num shots increased!")
     end
@@ -7652,7 +7753,7 @@ function p.laser_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Laser Max Ammo Increased!", 5.0)
     game_msg.add("Laser max ammo increased!")
 end
@@ -7662,7 +7763,7 @@ function p.laser_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Laser Damage Increased!", 5.0)
     game_msg.add("Laser damage increased!")
 end
@@ -7679,7 +7780,7 @@ function p.laser_freeze_time()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun3.freeze_time_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Laser Freeze Time Increased!", 5.0)
         game_msg.add("Laser freeze time increased!")
     end
@@ -7690,7 +7791,7 @@ function p.laser_super()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun3.num_level", delta)
-    ga_play_sound("fanfare")
+    game_sound.play_sound("fanfare")
     ga_hud_msg("Laser Damage Factor Increased!", 5.0)
     game_msg.add("Laser Damage Factor increased!")
 end
@@ -7704,7 +7805,7 @@ function p.rocket_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Max Ammo Increased!", 5.0)
     game_msg.add("Rocket max ammo increased!")
 end
@@ -7714,7 +7815,7 @@ function p.rocket_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Damage Increased!", 5.0)
     game_msg.add("Rocket damage increased!")
 end
@@ -7732,7 +7833,7 @@ function p.rocket_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun4.fire_period_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Rocket Fire Rate Increased!", 5.0)
         game_msg.add("Rocket fire rate increased!")
     end
@@ -7743,7 +7844,7 @@ function p.rocket_proj_speed()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun4.speed_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Rocket Velocity Increased!", 5.0)
     game_msg.add("Rocket velocity increased!")
 end
@@ -7761,7 +7862,7 @@ function p.rocket_radius()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun4.radius_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Rocket Radius Increased!", 5.0)
         game_msg.add("Rocket explosion radius increased!")
     end
@@ -7776,7 +7877,7 @@ function p.homing_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun5.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Homing Max Ammo Increased!", 5.0)
     game_msg.add("Homing max ammo increased!")
 end
@@ -7786,7 +7887,7 @@ function p.homing_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun5.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Homing Damage Increased!", 5.0)
     game_msg.add("Homing damage increased!")
 end
@@ -7803,7 +7904,7 @@ function p.homing_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun5.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Homing Fire Rate Increased!", 5.0)
         game_msg.add("Homing fire rate increased!")
     end
@@ -7821,7 +7922,7 @@ function p.homing_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun5.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Homing Velocity Increased!", 5.0)
         game_msg.add("Homing velocity increased!")
     end
@@ -7836,7 +7937,7 @@ function p.minigun_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun6.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Minigun Max Ammo Increased!", 5.0)
     game_msg.add("Minigun max ammo increased!")
 end
@@ -7846,7 +7947,7 @@ function p.minigun_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun6.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Minigun Damage Increased!", 5.0)
     game_msg.add("Minigun damage increased!")
 end
@@ -7863,7 +7964,7 @@ function p.minigun_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Minigun Fire Rate Increased!", 5.0)
         game_msg.add("Minigun fire rate increased!")
     end
@@ -7883,7 +7984,7 @@ function p.minigun_proj_speed()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.speed_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Minigun Velocity Increased!", 5.0)
         game_msg.add("Minigun velocity increased!")
     end
@@ -7903,7 +8004,7 @@ function p.minigun_super()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun6.num_level", delta)
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
         ga_hud_msg("Minigun Damage Factor Increased!!!", 5.0)
         game_msg.add("Minigun Damage Factor increased!!!")
     end
@@ -7918,7 +8019,7 @@ function p.railgun_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun7.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Railgun Max Ammo Increased!", 5.0)
     game_msg.add("Railgun max ammo increased!")
 end
@@ -7928,7 +8029,7 @@ function p.railgun_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun7.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Railgun Damage Increased!", 5.0)
     game_msg.add("Railgun damage increased!")
 end
@@ -7945,7 +8046,7 @@ function p.railgun_fire_rate()
         local delta = 1
         if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
         std.set_bydelta_i("xar.player.gun7.fire_period_level", delta)
-        ga_play_sound("pickup_upgrade")
+        game_sound.play_sound("pickup_upgrade")
         ga_hud_msg("Railgun Fire Rate Increased!", 5.0)
         game_msg.add("Railgun fire rate increased!")
     end
@@ -7960,7 +8061,7 @@ function p.emp_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Max Ammo Increased!", 5.0)
     game_msg.add("EMP max ammo increased!")
 end
@@ -7970,7 +8071,7 @@ function p.emp_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Damage Increased!", 5.0)
     game_msg.add("EMP damage increased!")
 end
@@ -7980,7 +8081,7 @@ function p.emp_radius()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.radius_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Radius Increased!", 5.0)
     game_msg.add("EMP radius increased!")
 end
@@ -7990,7 +8091,7 @@ function p.emp_freeze_time()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun8.freeze_time_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("EMP Freeze Time Increased!", 5.0)
     game_msg.add("EMP freeze time increased!")
 end
@@ -8004,7 +8105,7 @@ function p.nuke_max_ammo()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.ammo_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Max Ammo Increased!", 5.0)
     game_msg.add("Nuke max ammo increased!")
 end
@@ -8014,7 +8115,7 @@ function p.nuke_damage()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.damage_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Damage Increased!", 5.0)
     game_msg.add("Nuke damage increased!")
 end
@@ -8024,7 +8125,7 @@ function p.nuke_proj_speed()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.speed_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Velocity Increased!", 5.0)
     game_msg.add("Nuke velocity increased!")
 end
@@ -8034,7 +8135,7 @@ function p.nuke_radius()
     local delta = 1
     if ga_get_b("xar.difficulty.easy_2") then delta = 2 end
     std.set_bydelta_i("xar.player.gun9.radius_level", delta)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
     ga_hud_msg("Nuke Radius Increased!", 5.0)
     game_msg.add("Nuke explosion radius increased!")
 end
@@ -8050,7 +8151,7 @@ function p.dark_hole_max_ammo()
     std.set_bydelta_i("xar.player.gun0.ammo_level", delta)
     ga_hud_msg("Dark Hole Max Ammo Increased!", 5.0)
     game_msg.add("Dark hole max ammo increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.dark_hole_damage()
@@ -8060,7 +8161,7 @@ function p.dark_hole_damage()
     std.set_bydelta_i("xar.player.gun0.damage_level", delta)
     ga_hud_msg("Dark Hole Damage Increased!", 5.0)
     game_msg.add("Dark hole damage increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 
 function p.dark_hole_proj_speed()
@@ -8070,7 +8171,7 @@ function p.dark_hole_proj_speed()
     std.set_bydelta_i("xar.player.gun0.speed_level", delta)
     ga_hud_msg("Dark Hole Velocity Increased!", 5.0)
     game_msg.add("Dark hole velocity increased!")
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_var_helpers.lua"
@@ -8374,7 +8475,7 @@ end
 function p.give_mode(wep, mode)
     local use_to_have = p.get_has(wep, mode)
     if not use_to_have then
-        ga_play_sound("fanfare")
+        game_sound.play_sound("fanfare")
     end
     local var_str = "xar.player.gun" .. tostring(wep)
         .. ".mode" .. tostring(mode) .. ".has"
@@ -8533,6 +8634,7 @@ end
 
 function p.get_num_level_max(wep)
     if wep == 2 then return 8 end
+    if wep == 6 then return 99 end --Trying this out.
     return -1
 end
 
@@ -9225,6 +9327,35 @@ function p.get_steam_achievements_pacifist_helper(diff_str)
     end
 end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/game_worldseed.lua"
+--File: game_worldseed.lua
+
+--Buckle yourself in.
+
+--This should be the first function that is called
+--when either a new game is created or a game is loaded.
+--This is in addition to the engine var "game.package.seed_original".
+function p.emergency_surgery()
+    local current_world_seed = ga_get_sys_i("game.package.seed") --An engine var.
+    local backup_seed = ga_get_i("worldgen.state.seed_original") --A xar specific var.
+    --Order matters.
+    if( backup_seed < 0 ) then
+        --The backup seed has never been set.
+        --Setting it now (and never again).
+        ga_print("Setting game.globals.worldgen.state.seed_original to " .. tostring(current_world_seed))
+        ga_set_i("worldgen.state.seed_original", current_world_seed)
+        ga_worldgen_refresh_state_var("seed_original")
+    end
+    --Now worldgen.seed_original is valid and will not be set again.
+    --Clearing the engine's world seed for backward compatibility.
+    --That is, the new random number functions of the engine, when a world seed of zero is used,
+    --behave identically to the old random number functions (with any world seed).
+    if( current_world_seed ~= 0 ) then
+        ga_print("Setting game.package.seed to zero.  Boom!")
+        ga_set_sys_i("game.package.seed", 0) --Boom.
+    end
+end
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/game_xp.lua"
 function p.get_max_level()
     return 500
@@ -9276,7 +9407,7 @@ function p.level_up()
     game_msg.add("You just leveled up to level " .. tostring(next_level) .. "!")
 
     --Playing the level up sound.
-    ga_play_sound("level_up")
+    game_sound.play_sound("level_up")
 
     --Dealing with xp.
     std.set_bydelta_i("xar.experience.level", 1)
@@ -9932,6 +10063,9 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/top.lua"
 function p.__new_game()
+    --Setting the world seed to zero.
+    game_worldseed.emergency_surgery() --Important.
+
     --Setting camera mode.
     game_body.set_default_fly_mode()
 
@@ -9967,6 +10101,9 @@ end
 
 function p.__load_game()
     ga_debug_push("top.__load_game")
+
+    --Setting the world seed to zero.
+    game_worldseed.emergency_surgery() --Important.
 
     --Setting dependent variables.
     game_var_helpers.set_dep_vars()
@@ -10136,7 +10273,7 @@ end
 --Called when the engine actually "kills" the player.
 function p.__killed_player()
     ga_debug_push("top.__killed_player")
-    ga_play_sound_menu("player_death")
+    game_sound.play_sound_menu("player_death")
     ga_win_release_keys_that_are_down() --Otherwise keys may be "stuck".
     ga_debug_pop("top.__killed_player")
 end
@@ -10900,18 +11037,25 @@ END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/Commands/game_cmd_takeall.lua"
 --This is called by the engine when the game is loaded.
 function p.__load_game()
-    local cmd_name = "takeall"
+    local cmd_name = "take"
     game_command_system.add_command(cmd_name, p.handler)
     game_command_system.add_help(cmd_name, p.get_help_str())
 end
 
 function p.handler(str)
-    game_cheats.takeall()
+    if( str == "all" ) then
+        game_cheats.take()
+    elseif( str == "gold" ) then
+        game_cheats.take_gold()
+    else
+        ga_console_print("^1Unknown arguments")
+    end
 end
 
 function p.get_help_str()
     return
-           "Usage: takeall\n\n"
+           "Usage: take all\n"
+        .. "       take gold\n\n"
         .. "Cheat code to take away all ammo, health, and armor of the player. "
 end
 END_FILE
@@ -11401,7 +11545,7 @@ function p.render_gold(wid)
     local col_green  = std.vec(0.0, 1.0, 0.0)
 
     x_min = 0.94
-    local gold = ga_get_i("xar.player.gold.amount");
+    local gold = game_gold.get()
     if ga_get_b("xar.hud.show_gold") then
         ga_win_quad(wid, 
             x_min,
@@ -11506,6 +11650,8 @@ function p.render_hive_attack_meter(wid)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/HUD/game_hud_render_icons.lua"
+--Todo: Use callback functions, as is done in meltdown.
+
 function p.render_icons(wid)
     if not ga_get_b("xar.hud.show_icons") then return end
 
@@ -11615,6 +11761,12 @@ function p.render_icons(wid)
         ga_win_quad(wid, cur_x, icon_bot, cur_x+icon_width, icon_top, tex)
         cur_x = cur_x + step_x
     end    
+
+    if game_bulk.get_is_player_in_bulk() then
+        local tex = "icon_bulk"
+        ga_win_quad(wid, cur_x, icon_bot, cur_x+icon_width, icon_top, tex)
+        cur_x = cur_x + step_x
+    end
 
     if ga_exists("xar.key_time.yellow") then
         local key_time = ga_get_f("xar.key_time.yellow")
@@ -13355,9 +13507,8 @@ function p.use_common(mode)
     local vel = std.vec_scale(look, speed)
     ga_ment_init_set_v("__vel", vel)
 
-    --Hit damage is 0 (only an explosion does damage,
-    --and that code knows how to calculate it).
-    ga_ment_init_set_i("damage", 0)
+    --Nuke projectile deal zero damage,
+    --so they do not have a damage var.
 
     ga_ment_end()
 
@@ -14635,8 +14786,8 @@ function p.recordable()
 
     local str = "Message from Rigel:\n\n"
         .. "^x0000ffLet me tell you about the "
-        .. "^xff00ffBurlington City Combination Lock^!. "
-        .. "^x0000ffWe knew something was hidden deep inside Burlington. "
+        .. "^xff00ffBurlington City Combination Lock^x0000ff. "
+        .. "We knew something was hidden deep inside Burlington. "
         .. "We tried many combinations over the years. "
         .. "Finally we cracked the code. "
         .. "We hid the combination in a place we knew how to get to, "
@@ -16823,7 +16974,7 @@ function p.trophy_locations()
     local str = "In the Williston Fields that surround Williston Cities, "
         .. "on the ground you can find checkered cubes that are actually "
         .. "^x00ff00Bristol Towns^!. You can enter these towns at their top, "
-        .. "pass through 2 layers of maze, and enter the main part of the the town. "
+        .. "pass through 2 layers of maze, and enter the main part of the town. "
         .. "In the center of such a town is a power with a trophy at the top."
     game_journal.add_txt(lang, "WILLISTON_CAVES_TROPHY_LIST_bristol", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_i1;{140}Bristol")
@@ -17951,7 +18102,7 @@ function p.recordable()
     game_journal.add_txt(lang, "I2_LIBRARY_FANATIC_LATTICE_part1", str)
     game_journal.add_path("@area;@area_lib;@area_lib_i2;{60}Other areas;{10}Fanatic lattice;{10}Part 1")
 
-    local str = "There are green vines that hand down from the light blue structures. "
+    local str = "There are green vines that hang down from the light blue structures. "
         .. "These are called ^x00ff00Laboratory Vines^!, and\n\n"
         .. "1) they have ^xff00ffIMPORTANT^! things growing on their sides and\n\n"
         .. "2) they have ^xff00ffScorpius Portals^! on their inside."
@@ -22400,7 +22551,7 @@ function p.trophy_locations()
 
     local str = "^x00ff00Blackberries^! are cultivated by the Monks of Stoney Sanctuaries. "
         .. "Blackberries can be found in the EMP Castles that appear in "
-        .. "group #1 of the the Infinity Flower (I1). "
+        .. "group #1 of the Infinity Flower (I1). "
         .. "There is a trophy in the main treasure room of a Blackberry."
     game_journal.add_txt(lang, "RICHMOND_TOP_HOMING_TROPHY_LIST_blackberry", str)
     game_journal.add_path("@basic;@basic_trophy;@basic_trophy_mid;{100}Blackberry")
@@ -26046,7 +26197,7 @@ function p.SPACE_MOON_GAMMA_MOD_WP2(chunk_id)
     else
         str = str .. "When you go beneath the surface, you will find tunnels "
             .. "and sporadic ^x00ff00Laser Damage^! upgrades.\n\n"
-            .. "In the center of the planet is a cavern with tunnels through the air. "
+            .. "In the center of the moon is a cavern with tunnels through the air. "
             .. "Different Gamma Moons contain different Nuke upgrades at their centers. "
             .. "In the very center of the core is a box of 25 nukes."
     end
@@ -26087,9 +26238,9 @@ function p.MOON_ICE_MOD_WP2(chunk_id)
             .. "2) there are ^x00ff00Blue Bubbles^! near their treasure rooms.\n\n"
             .. "In the caves between the Ice Cubes you can find Laser Ammo "
             .. "not too far from waypoints.\n\n"
-            .. "In the center of the planet are Ice Cubes with more treasure. "
+            .. "In the center of the moon are Ice Cubes with more treasure. "
             .. "In the very center of the planet there is a ^x00ff00Laser Max Ammo^! upgrade "
-            .. "and also a lot of Laser ammo next to an in-only waypoint. ";
+            .. "and also a lot of Laser ammo next to an in-only waypoint."
     end
     return str
 end
@@ -26212,7 +26363,7 @@ function p.SPACE_PLANET_CLAY_MOD_WP3(chunk_id)
     else
         str = str .. "There are also smaller cavities with Minigun Damage upgrades.\n\n"
     end
-    str = str .. "^xff0000Reaching the the giant cavern takes a long time.^!"
+    str = str .. "^xff0000Reaching the giant cavern takes a long time.^!"
     return str
 end
 
@@ -27644,7 +27795,7 @@ function p.recordable()
     local str = "Note that you can always respawn by going "
         .. "to the package top menu (press F1) and selecting respawn. "
         .. "When you respawn you keep all your upgrades. "
-        .. "Normally when you respawn you loose all your health, armor, and ammo. "
+        .. "Normally when you respawn you lose all your health, armor, and ammo. "
         .. "However if you pay a fine you can keep all that. "
         .. "The fine is the lesser of 400 gold and 8% of your total gold."
     game_journal.add_txt(lang, "TUTORIAL_RESPAWN_part2", str)
@@ -28492,6 +28643,8 @@ function p.monster(inst_id)
 
     --more (can add more when I create more)!!!
 
+    --Might want to add one for the death animation phase.
+
     -- ga_print("game_ment_add_to_live.monster end")
 end
 END_FILE
@@ -28737,6 +28890,12 @@ function p.picture_aura_execute(inst_id)
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/MEnt/game_ment_blood.lua"
+--File: game_ment_blood.lua
+
+function p.get_blood_factor()
+    return win_main_menu_blood.get_value()
+end
+
 function p.blood_hurt(inst_id, damage)
     local num_blood = 1 + math.floor(p.num_blood_helper(damage) / 2)
 
@@ -28765,7 +28924,13 @@ function p.num_blood_helper(health)
     end
 end
 
-function p.blood_several(inst_id, num_blood, fast, from_center)
+--Will curve the num blood inside this function.
+function p.blood_several(inst_id, num_blood_raw, fast, from_center)
+    --Curving the amount of blood.
+    local num_factor = p.get_blood_factor()
+    local num_blood = math.floor( num_blood_raw * num_factor )
+    if( num_blood <= 0 ) then return end
+
     --Scaling factor
     local speed_scale = 1.0
     if( fast ) then speed_scale = 2.0 end
@@ -28820,10 +28985,15 @@ function p.die_explosion(inst_id)
     local level = ga_ment_get_i(inst_id, "__start_level")
     local sllp = ga_ment_get_sllp(inst_id)
 
-    local num_blood = math.floor(2 * p.num_blood_helper(max_health))
+    local num_blood_raw = math.floor(2 * p.num_blood_helper(max_health))
     if( ga_ment_type_var_exists(ment_type, "blood_die_override") ) then
-        num_blood = ga_ment_get_i(inst_id, "blood_die_override")
+        num_blood_raw = ga_ment_get_i(inst_id, "blood_die_override")
     end
+
+    --Curving the amount of blood.
+    local num_factor = p.get_blood_factor()
+    local num_blood = math.floor( num_blood_raw * num_factor )
+    if( num_blood <= 0 ) then return end
 
     local ttl_scale = 1.0
     local fade_time_scale = 1.0
@@ -28864,7 +29034,7 @@ end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/MEnt/game_ment_death_anim.lua"
 function p.alarm(inst_id)
-    if( ga_ment_get_i(inst_id, "__death_anim_stage") == 2) then
+    if( ga_ment_get_i(inst_id, "__death_anim_stage") == 2 ) then
         ga_ment_remove(inst_id)
     else
         --Doing it again.
@@ -29077,7 +29247,7 @@ function p.drop_general(
         args.use_min_dist = false
         ga_particle_explosion(args)
 
-        ga_play_sound("drop_level")
+        game_sound.play_sound("drop_level")
     end
 end
 
@@ -30138,6 +30308,17 @@ function p.poison_hit(inst_id)
     ga_ment_set_alarm(inst_id, game_time + 1.0, "poison")
 end
 END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/MEnt/game_ment_render.lua"
+--File: game_ment_render.lua
+
+function p.monster(inst_id, radius)
+    --Eventually, have this p.monster function handle "death animations".
+    --The idea is that normally monsters have their var __disable_custom_render
+    --set to true, but when we start a death animation we set it to false.
+    --Then, in this function we actually render a death animation.
+    ga_render_ment_typical(inst_id)
+end
+END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/MEnt/game_ment_shoot.lua"
 function p.get_the_time(inst_id)
     local type_name = ga_ment_get_type(inst_id)
@@ -30726,6 +30907,7 @@ function p.monster(id)
     ia_ment_set_builtin_var_i(id, "__team_id_source", 0)
     ia_ment_set_builtin_var_i(id, "__team_id_target", 2)
     ia_ment_set_builtin_var_i(id, "__extra_max_levels", 3)
+    -- ia_ment_set_builtin_var_b(id, "__disable_custom_render", true) --Put back in later.
     ia_ment_new_var_i(id, "health_max", -1, 60.0)
     ia_ment_new_var_i(id, "health", 1, 60.0) --Important that it is positive!
     ia_ment_new_var_i(id, "health_max_curved", -1, 3600.0)
@@ -30833,6 +31015,130 @@ function p.typical(
     --to use alarms.
 
     --Might want to add to here for debugging.
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/Sound/game_play_monster_die_sound.lua"
+--This script is a stub.
+--It is intended that people can mod (by overriding it).
+function p.play(str)
+    game_sound.play_sound(str)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/Sound/game_play_monster_hurt_sound.lua"
+--It is intended that people can mod (by overriding it).
+function p.play(str)
+    game_sound.play_sound(str)
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/Sound/game_play_wep_sound.lua"
+--This script is a stub.
+--It is intended that people can mod (by overriding it).
+function p.play(wep, mode)
+    local shoot_sound = "shoot_" .. tostring(wep) .. "_" .. tostring(mode)
+    game_sound.play_sound(shoot_sound)
+end
+
+function p.play_0_1_loud()
+    game_sound.play_sound("shoot_0_1_loud")
+end
+
+function p.play_0_charge()
+    game_sound.play_sound("shoot_0_charge")
+end
+END_FILE
+BEGIN_FILE: "../../Data/Packages/xar/Game/Sound/game_sound.lua"
+--File: game_sound.lua
+
+--This is here so modders can redefine how the package
+--handles playing sounds.  This is still a work in progress.
+--
+--Note "__TRUST_ME__" is to be used for any potential "source code linter".
+
+-------------------------------------------------------------------------------
+-- Local variables
+-------------------------------------------------------------------------------
+
+--"Deny" callbacks.
+--If any one of these returns true,
+--then the sound is not played.
+local m_deny_cbs = {}
+
+-------------------------------------------------------------------------------
+-- Deny sound callback API
+-------------------------------------------------------------------------------
+
+--The var func should be a reference to a function that takes
+--a string argument (the sound name) and returns a bool.
+--If it returns true, the sound will be "denied" (it will not be played).
+function p.reg_deny_sound_cb(name, func)
+    m_deny_cbs[name] = func
+end
+
+function p.unreg_deny_sound_cb(name)
+    m_deny_cbs[name] = nil
+end
+
+--This should only be called from inside this script.
+function p.m_should_deny_sound(name)
+    for k,v in pairs(m_deny_cbs) do
+        local func = v
+        local should_deny = func(name)
+        if( should_deny ) then return true end
+    end
+    return false
+end
+
+--Note: We could imagine an alternate system were we deny sounds
+--based on their filename, not their name.
+
+-------------------------------------------------------------------------------
+-- Main API
+-------------------------------------------------------------------------------
+
+function p.play_sound(sound_name)
+    if( sound_name == "" ) then return end --Could complain.
+    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
+    ga_play_sound(sound_name) --__TRUST_ME__
+end
+
+function p.play_sound_menu(sound_name)
+    if( sound_name == "" ) then return end --Could complain.
+    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
+    ga_play_sound_menu(sound_name) --__TRUST_ME__
+end
+
+-- function p.play_sound_with_volume(sound_name, vol)
+--     if( sound_name == "" ) then return end --Could complain.
+--     local __TRUST_ME__ = sound_name
+--     ga_play_sound_with_volume(__TRUST_ME__, vol)
+-- end
+
+-- function p.play_sound_menu_with_volume(sound_name, vol)
+--     if( sound_name == "" ) then return end --Could complain.
+--     local __TRUST_ME__ = sound_name
+--     ga_play_sound_menu_with_volume(__TRUST_ME__, vol)
+-- end
+
+-------------------------------------------------------------------------------
+-- Loading
+-------------------------------------------------------------------------------
+
+function p.__load_game_early()
+    m_deny_cbs = {}
+
+    -- p.m_test()
+end
+
+-------------------------------------------------------------------------------
+-- Testing
+-------------------------------------------------------------------------------
+
+function p.m_test()
+    p.reg_deny_sound_cb("test_deny_everything", p.m_test_deny_cb)
+end
+
+function p.m_test_deny_cb(sound_name)
+    return true --Denies every sound.
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/Test/test_console_to_lua.lua"

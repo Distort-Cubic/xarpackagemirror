@@ -1,14 +1,5 @@
 function p.payload(level, bp)
-    max_value = ga_get_i("xar.player.gold.max")
-    old_value = ga_get_i("xar.player.gold.amount")
-    new_value = old_value + 200
-    if( new_value > max_value ) then new_value = max_value end
-    if ( new_value > old_value ) then
-        ga_set_i("xar.player.gold.amount", new_value)
-        ga_play_sound("pickup_gold_medium")
-        game_bent.remove_temp(level, bp, 60 * 60)
-        game_msg.add("You got " .. tostring(new_value - old_value) .. " gold")
-    end
+    bent_gold_1.payload_common(level, bp, 200)
 end
 
 function p.__get_touch_dist()

@@ -72,7 +72,7 @@ function p.on_closest_helper(inst_id)
     args.use_min_dist = true --No particles too close to viewer.
     ga_particle_explosion(args)
 
-    ga_play_sound("explosion_tube_short")
+    game_sound.play_sound("explosion_tube_short")
 
     local next_level = start_level+1
     local nlp = {}

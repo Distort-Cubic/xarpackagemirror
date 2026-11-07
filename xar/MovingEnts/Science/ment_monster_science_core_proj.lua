@@ -29,7 +29,7 @@ function p.__on_block_hit(
     level, bp, lp,
     normal_side, normal)
 
-    --ga_play_sound("explosion_tube_dud") --Too annoying?
+    --game_sound.play_sound("explosion_tube_dud") --Too annoying?
     return true
 end
 
@@ -63,7 +63,7 @@ function p.on_closest_helper(inst_id)
     args.use_min_dist = true --No particles too close to viewer.
     ga_particle_explosion(args)
 
-    ga_play_sound("explosion_tube_short") --Annoying. Use sparingly.
+    game_sound.play_sound("explosion_tube_short") --Annoying. Use sparingly.
 
     ga_ment_start(
         start_level, sllp,

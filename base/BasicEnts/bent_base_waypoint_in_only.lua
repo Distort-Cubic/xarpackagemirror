@@ -12,6 +12,10 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
+    local v1 = ga_get_viewer_lp(level)
+    local v2 = std.block_center(bp)
+    ga_env_rect_line_trigger(level, v1, v2) --The end of an era.
+    --
     ga_play_sound_menu("use")
     --
     local chunk_id = ga_bp_to_parent_chunk_id(level, bp)

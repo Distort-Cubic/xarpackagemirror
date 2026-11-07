@@ -20,13 +20,13 @@ function p.__process_input(wid)
     if( ga_win_widget_go_back_button_process_input(wid) or
         ga_win_key_pressed(wid, "F") )
     then
-        ga_play_sound("menu_back")
+        game_sound.play_sound_menu("menu_back")
         ga_window_pop()
     end
 
     if( ga_win_key_pressed(wid, "ENTER") ) then
         --Actually respawning.
-        ga_play_sound_menu("harp")
+        game_sound.play_sound_menu("harp")
         ga_window_pop()
         ga_command("respawn force")
     end

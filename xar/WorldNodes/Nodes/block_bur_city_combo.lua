@@ -27,7 +27,7 @@ function p.__get_use_msg(level, bp)
 end
 
 function p.__on_use(level, bp)
-    ga_play_sound_menu("use")
+    game_sound.play_sound_menu("use")
     local combo_str = ga_block_get_s(level, bp, "combo_str")
     --
     --Passing data to journal system.

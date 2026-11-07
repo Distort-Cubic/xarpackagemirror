@@ -28,5 +28,5 @@ function p.payload(level, bp)
     local allow_powerup = false
     game_xp.add(num, allow_powerup)
     game_bent.remove_perm(level, bp)
-    ga_play_sound("pickup_upgrade")
+    game_sound.play_sound("pickup_upgrade")
 end

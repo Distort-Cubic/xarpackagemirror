@@ -103,9 +103,16 @@ function p.__render(wid)
         --
         local debug_frame = "win_hud.__render: " .. name
         ga_debug_push(debug_frame)
+        p.m_init_before_cb()
         func(wid)
         ga_debug_pop(debug_frame)
     end
 
     ga_debug_pop("win_hud.__render main")
+end
+
+--This is called right before calling a hud callback.
+function p.m_init_before_cb()
+    local col_white = std.vec(1,1,1)
+    ga_render_color(col_white)
 end

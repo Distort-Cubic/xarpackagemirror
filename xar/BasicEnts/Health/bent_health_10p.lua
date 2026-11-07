@@ -11,7 +11,7 @@ function p.payload(level, bp)
     if( new_value > max_value ) then new_value = max_value end
     if ( new_value > old_value ) then
         ga_set_i("xar.player.health.amount", new_value)
-        ga_play_sound("pickup_health_10p")
+        game_sound.play_sound("pickup_health_10p")
         game_bent.remove_temp(level, bp, 60 * 60)
         game_msg.add("You got an extra 10% health")
     end

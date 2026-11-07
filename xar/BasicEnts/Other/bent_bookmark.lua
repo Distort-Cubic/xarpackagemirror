@@ -30,11 +30,11 @@ function p.__on_use2(level, bp)
     if( p.has_current_bookmark() ) then
         game_msg.add("You already have a current bookmark")
         game_msg.add("Left click to deal with this")
-        ga_play_sound("error")
+        game_sound.play_sound("error")
     else
         local chunk_id = ga_bp_to_parent_chunk_id(level, bp)
         local lbp = ga_bp_to_lbp(bp)
-    game_bookmark_tele.start_tele_from_bookmark(chunk_id, lbp)
+        game_bookmark_tele.start_tele_from_bookmark(chunk_id, lbp)
     end
 end
 

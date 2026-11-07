@@ -235,18 +235,14 @@ function p.pickup_with_no_achievement(name)
     end
     if ga_get_b(var_name) then
         --Already has this trophy.
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound("pickup_gold")
         --
         game_msg.add("You already have this trophy: 10 gold")
         --
-        max_gold = ga_get_i("xar.player.gold.max")
-        old_gold = ga_get_i("xar.player.gold.amount")
-        new_gold = old_gold + 10
-        if( new_gold > max_gold ) then new_gold = max_gold end
-        ga_set_i("xar.player.gold.amount", new_gold)
+        game_gold.add(10)
     else
         --Does not have this trophy.
-        ga_play_sound("fanfare_short")
+        game_sound.play_sound("fanfare_short")
         --
         if genesis then
             game_msg.add("New trophy bonus: 200 gold")
@@ -254,7 +250,7 @@ function p.pickup_with_no_achievement(name)
             game_msg.add("New trophy bonus: 200 gold + 4 health upgrades") 
         end
         --
-        p.give_gold(200)
+        game_gold.add(200)
         --
         if not genesis then
             std.set_bydelta_i("xar.player.health.level", 2)
@@ -283,7 +279,7 @@ function p.pickup_secret_trophy(name)
 
     if already_exists then
         game_msg.add("You already have this secret trophy")
-        ga_play_sound("pickup_gold")
+        game_sound.play_sound("pickup_gold")
     else
         --Getting it for the first time.
         if( game_genesis.enabled() ) then
@@ -294,7 +290,7 @@ function p.pickup_secret_trophy(name)
         --
         p.get_100_gold_200_health_armor()
         --
-        ga_play_sound("fanfare_short")
+        game_sound.play_sound("fanfare_short")
     end
 
     ga_get_steam_achievement(name)
@@ -305,7 +301,7 @@ function p.get_100_gold_200_health_armor()
         p.get_200_health_armor()
     end
     --
-    p.give_gold(100)
+    game_gold.add(100)
 end
 
 function p.get_200_health_armor()
@@ -320,12 +316,4 @@ function p.get_200_health_armor()
     if( armor < max_200_health ) then
         ga_set_i("xar.player.armor.amount", max_200_health)
     end
-end
-
-function p.give_gold(amount)
-    max_gold = ga_get_i("xar.player.gold.max")
-    old_gold = ga_get_i("xar.player.gold.amount")
-    new_gold = old_gold + amount
-    if( new_gold > max_gold ) then new_gold = max_gold end
-    ga_set_i("xar.player.gold.amount", new_gold)
 end

@@ -9,6 +9,7 @@ function p.__type_init(id)
     ia_ment_set_builtin_var_s(id, "__mesh", "nuke2")
     ia_ment_set_builtin_var_f(id, "__ttl", 0.1) -- right varname?
     ia_ment_new_static_var_b(id, "identifies", true)
+    ia_ment_remove_var(id, "damage") --So deals 0 damage instead of 1.
 end
 
 -------------------------------------------------
