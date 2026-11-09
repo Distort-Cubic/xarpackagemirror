@@ -4,9 +4,12 @@ function p.has_effect(level, bp)
     return ( old_value < max_value );
 end
 
+function p.get_default_amount()
+    return 1000
+end
+
 function p.ammo(level, bp)
-    local default_amount = 1000
-    --default_amount = 10000
+    local default_amount = p.get_default_amount()
     local amount = ga_bent_get_param_i(level, bp)
     if (amount == 0) then amount = default_amount end
     return amount

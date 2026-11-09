@@ -100,7 +100,7 @@ function p.recordable()
     local str = "^x00ff00Message from your friend K:\n\n"
         .. "Do you remember how the chemicals smelled so terrible "
         .. "in the fractal lab? "
-        .. "We would go back to our dorm room after working and put our "
+        .. "We would go back to our dorm after working and put our "
         .. "clothes in plastic bags. "
         .. "Our friends joked that we stank like fractals. "
         .. "You and I had that smell in common."

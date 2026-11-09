@@ -2,8 +2,12 @@ function p.__get_mesh() return "bent_ammo_gun_8" end
 function p.__get_mesh2() return "gun_8_incr_radius" end
 
 function p.payload(level, bp)
-    game_upgrades.emp_radius()
+    p.payload_anon()
     game_bent.remove_perm(level, bp)
+end
+
+function p.payload_anon()
+    game_upgrades.emp_radius()
 end
 
 function p.__on_touch(level, bp)

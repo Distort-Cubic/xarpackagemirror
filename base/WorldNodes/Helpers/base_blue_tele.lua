@@ -7,10 +7,8 @@
 
 --Dynamic block variable names.
 --These must by synced with "base/Game/base_game_tele_blue.lua".
-local dyn_block_var_blue_type  = "dyn_base_blue_tele_type"
-local dyn_block_var_blue_pos_x = "dyn_base_blue_tele_pos_x"
-local dyn_block_var_blue_pos_y = "dyn_base_blue_tele_pos_y"
-local dyn_block_var_blue_pos_z = "dyn_base_blue_tele_pos_z"
+local dyn_block_var_blue_type = "dyn_base_blue_tele_type"
+local dyn_block_var_blue_pos  = "dyn_base_blue_tele_pos"
 
 -------------------------------------------------------------------------------
 --              Setting the "blue teleportation type" of a chunk
@@ -25,14 +23,10 @@ end
 
 function p.set_blue_type_down(x,y,z)
     chunk_dyn_set_s(dyn_block_var_blue_type, "down")
-    chunk_dyn_set_i(dyn_block_var_blue_pos_x, x)
-    chunk_dyn_set_i(dyn_block_var_blue_pos_y, y)
-    chunk_dyn_set_i(dyn_block_var_blue_pos_z, z)
+    chunk_dyn_set_p(dyn_block_var_blue_pos, std.bp(x,y,z))
 end
 
 function p.set_blue_type_terminal(x,y,z)
     chunk_dyn_set_s(dyn_block_var_blue_type, "terminal")
-    chunk_dyn_set_i(dyn_block_var_blue_pos_x, x)
-    chunk_dyn_set_i(dyn_block_var_blue_pos_y, y)
-    chunk_dyn_set_i(dyn_block_var_blue_pos_z, z)
+    chunk_dyn_set_p(dyn_block_var_blue_pos, std.bp(x,y,z))
 end

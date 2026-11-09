@@ -6173,7 +6173,7 @@ function p.add_commas(num)
             .. p.make_3_digit(ones_rem)
     end
     return tostring(num) --Note that this is wrong if the number is too big.
-    --What if the number is even bigger!!!
+    --What if the number is even bigger???
 end
 
 function p.make_3_digit_big_no_sci(num)
@@ -11980,7 +11980,7 @@ function p.render_identified_ment(wid)
             local max_health = game_ment_identify.get_max_health()
             if( health < 0 ) then health = 0 end
             if( health > max_health ) then health = max_health end
-            local health_str = game_str.make_3_digit_big(health)
+            local health_str = game_str.add_commas(health)
             local id_str = base_str .. ": " .. health_str
             if( not has_health or
                 ga_ment_static_b_exists_and_true(type, "identity_str_no_health") )
@@ -15733,7 +15733,7 @@ function p.recordable()
     local str = "^x00ff00Message from your friend K:\n\n"
         .. "Do you remember how the chemicals smelled so terrible "
         .. "in the fractal lab? "
-        .. "We would go back to our dorm room after working and put our "
+        .. "We would go back to our dorm after working and put our "
         .. "clothes in plastic bags. "
         .. "Our friends joked that we stank like fractals. "
         .. "You and I had that smell in common."
@@ -27841,9 +27841,9 @@ function p.recordable()
     game_journal.add_txt(lang, "TUTORIAL_WP_ABOVE_part2", str)
     game_journal.add_path("@basic;@basic_waypoint;{30}Hiding a waypoint from the list")
 
-    local str = "Right clicking the Plasma weapon (secondary fire) shoots 8 shots "
-        .. "at once, but each one does only 1/2 the damage "
-        .. "as a primary shot. "
+    local str = "Right clicking the Plasma weapon (secondary fire) "
+        .. "shoots a mega shot which is really 8 primary shots combined into one "
+        .. "(but it only does the damage of 4 primary shots). "
         .. "Each weapon has a \"primary\" and a \"secondary\". \n\n"
         .. "Press F3 then the weapon number to read about a weapon. \n\n"
         .. "DPS = \"damage per second\" \n"
@@ -29249,6 +29249,39 @@ function p.drop_general(
 
         game_sound.play_sound("drop_level")
     end
+end
+
+--Added Nov 6, 2026.
+function p.claim_drop_box_treasure_by_ment_hit(
+    source_inst_id,
+    target_inst_id)
+--
+    local source_start_level = ga_ment_get_start_level(source_inst_id)
+    local target_start_level = ga_ment_get_start_level(target_inst_id)
+    if( source_start_level <= target_start_level ) then
+        --We cannot claim the trophy.
+        game_sound.play_sound("error")
+        return
+    end
+    --
+    local drop_bent = ga_ment_get_s(target_inst_id, "drop_bent")
+    --
+    local mod_name = drop_bent
+    local func_name = "payload_anon"
+    if( _G[mod_name] and
+        _G[mod_name][func_name] )
+    then
+        --Picking up the drop box remotely.
+        --This requres the bent script having
+        --a function called "p.payload_anon".
+        --The function should ignore the bent
+        --int and str param.
+        _G[mod_name][func_name]()
+        ga_ment_remove_perm(target_inst_id)
+    else
+        --We cannot claim the trophy.
+        game_sound.play_sound("error")
+    end    
 end
 
 --Should I add more functions?
@@ -31059,33 +31092,38 @@ BEGIN_FILE: "../../Data/Packages/xar/Game/Sound/game_sound.lua"
 -------------------------------------------------------------------------------
 
 --"Deny" callbacks.
---If any one of these returns true,
---then the sound is not played.
-local m_deny_cbs = {}
+--The sound volume will be the minimum value
+--returned by any one of these functions.
+local m_soften_cbs = {}
 
 -------------------------------------------------------------------------------
 -- Deny sound callback API
 -------------------------------------------------------------------------------
 
 --The var func should be a reference to a function that takes
---a string argument (the sound name) and returns a bool.
---If it returns true, the sound will be "denied" (it will not be played).
-function p.reg_deny_sound_cb(name, func)
-    m_deny_cbs[name] = func
+--a string argument (the sound name) and returns a float.
+--The float is the volume the sound should be played at.
+--0.0 (or a negative number) means it will not be played.
+--1.0 is the max volume.
+function p.reg_soften_sound_cb(name, func)
+    m_soften_cbs[name] = func
 end
 
-function p.unreg_deny_sound_cb(name)
-    m_deny_cbs[name] = nil
+function p.unreg_soften_sound_cb(name)
+    m_soften_cbs[name] = nil
 end
 
 --This should only be called from inside this script.
-function p.m_should_deny_sound(name)
-    for k,v in pairs(m_deny_cbs) do
+function p.m_soften_sound_volume(name)
+    --We call ALL off the callbacks,
+    --even after one of them says to deny the sound.
+    local lowest = 1.0
+    for k,v in pairs(m_soften_cbs) do
         local func = v
-        local should_deny = func(name)
-        if( should_deny ) then return true end
+        local cur_vol = func(name)
+        if( cur_vol < lowest ) then lowest = cur_vol end
     end
-    return false
+    return lowest
 end
 
 --Note: We could imagine an alternate system were we deny sounds
@@ -31097,34 +31135,32 @@ end
 
 function p.play_sound(sound_name)
     if( sound_name == "" ) then return end --Could complain.
-    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
-    ga_play_sound(sound_name) --__TRUST_ME__
+    local soften_vol = p.m_soften_sound_volume(sound_name)
+    if( soften_vol < 0.0 ) then return end
+    if( soften_vol < 0.99 ) then
+        ga_play_sound_with_volume(sound_name, soften_vol) --__TRUST_ME__
+    else
+        ga_play_sound(sound_name) --__TRUST_ME__
+    end
 end
 
 function p.play_sound_menu(sound_name)
     if( sound_name == "" ) then return end --Could complain.
-    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
-    ga_play_sound_menu(sound_name) --__TRUST_ME__
+    local soften_vol = p.m_soften_sound_volume(sound_name)
+    if( soften_vol < 0.0 ) then return end
+    if( soften_vol < 0.99 ) then
+        ga_play_sound_menu_with_volume(sound_name, soften_vol) --__TRUST_ME__
+    else
+        ga_play_sound_menu(sound_name) --__TRUST_ME__
+    end
 end
-
--- function p.play_sound_with_volume(sound_name, vol)
---     if( sound_name == "" ) then return end --Could complain.
---     local __TRUST_ME__ = sound_name
---     ga_play_sound_with_volume(__TRUST_ME__, vol)
--- end
-
--- function p.play_sound_menu_with_volume(sound_name, vol)
---     if( sound_name == "" ) then return end --Could complain.
---     local __TRUST_ME__ = sound_name
---     ga_play_sound_menu_with_volume(__TRUST_ME__, vol)
--- end
 
 -------------------------------------------------------------------------------
 -- Loading
 -------------------------------------------------------------------------------
 
 function p.__load_game_early()
-    m_deny_cbs = {}
+    m_soften_cbs = {}
 
     -- p.m_test()
 end
@@ -31134,11 +31170,16 @@ end
 -------------------------------------------------------------------------------
 
 function p.m_test()
-    p.reg_deny_sound_cb("test_deny_everything", p.m_test_deny_cb)
+    -- p.reg_soften_sound_cb("test_deny_everything", p.m_test_deny_cb)
+    p.reg_soften_sound_cb("test_soften_everything", p.m_test_soften_cb)
 end
 
 function p.m_test_deny_cb(sound_name)
-    return true --Denies every sound.
+    return -1.0 --Denies every sound.
+end
+
+function p.m_test_soften_cb(sound_name)
+    return 0.1 --Denies every sound.
 end
 END_FILE
 BEGIN_FILE: "../../Data/Packages/xar/Game/Test/test_console_to_lua.lua"

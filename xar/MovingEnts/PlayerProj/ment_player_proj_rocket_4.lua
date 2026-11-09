@@ -1,3 +1,5 @@
+--File: ment_player_proj_rocket4.lua
+
 -------------------------------------------------
 --            Type Init Function
 -------------------------------------------------
@@ -41,6 +43,15 @@ function p.__on_ment_hit(
         p.ring_effect(start_level, sllp, normal)
         p.play_sound()
     end
+
+    --We can put this back in if we like it.
+    --Added Nov 6, 2026.
+    -- local target_type = ga_ment_get_type(target_inst_id)
+    -- if( target_type == "ment_general_drop_box" ) then
+    --     game_ment_drop.claim_drop_box_treasure_by_ment_hit(
+    --         source_inst_id, target_inst_id)
+    --     return true --Terminal hit.
+    -- end
 
     local terminal_hit = false
     if( valid_hit ) then terminal_hit = true end

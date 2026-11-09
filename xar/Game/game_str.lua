@@ -38,7 +38,7 @@ function p.add_commas(num)
             .. p.make_3_digit(ones_rem)
     end
     return tostring(num) --Note that this is wrong if the number is too big.
-    --What if the number is even bigger!!!
+    --What if the number is even bigger???
 end
 
 function p.make_3_digit_big_no_sci(num)

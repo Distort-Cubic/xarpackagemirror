@@ -21,7 +21,7 @@ function p.render_identified_ment(wid)
             local max_health = game_ment_identify.get_max_health()
             if( health < 0 ) then health = 0 end
             if( health > max_health ) then health = max_health end
-            local health_str = game_str.make_3_digit_big(health)
+            local health_str = game_str.add_commas(health)
             local id_str = base_str .. ": " .. health_str
             if( not has_health or
                 ga_ment_static_b_exists_and_true(type, "identity_str_no_health") )

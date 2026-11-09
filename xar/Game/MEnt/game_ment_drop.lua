@@ -115,4 +115,37 @@ function p.drop_general(
     end
 end
 
+--Added Nov 6, 2026.
+function p.claim_drop_box_treasure_by_ment_hit(
+    source_inst_id,
+    target_inst_id)
+--
+    local source_start_level = ga_ment_get_start_level(source_inst_id)
+    local target_start_level = ga_ment_get_start_level(target_inst_id)
+    if( source_start_level <= target_start_level ) then
+        --We cannot claim the trophy.
+        game_sound.play_sound("error")
+        return
+    end
+    --
+    local drop_bent = ga_ment_get_s(target_inst_id, "drop_bent")
+    --
+    local mod_name = drop_bent
+    local func_name = "payload_anon"
+    if( _G[mod_name] and
+        _G[mod_name][func_name] )
+    then
+        --Picking up the drop box remotely.
+        --This requres the bent script having
+        --a function called "p.payload_anon".
+        --The function should ignore the bent
+        --int and str param.
+        _G[mod_name][func_name]()
+        ga_ment_remove_perm(target_inst_id)
+    else
+        --We cannot claim the trophy.
+        game_sound.play_sound("error")
+    end    
+end
+
 --Should I add more functions?

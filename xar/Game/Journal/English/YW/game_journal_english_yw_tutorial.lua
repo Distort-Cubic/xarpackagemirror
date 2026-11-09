@@ -77,9 +77,9 @@ function p.recordable()
     game_journal.add_txt(lang, "TUTORIAL_WP_ABOVE_part2", str)
     game_journal.add_path("@basic;@basic_waypoint;{30}Hiding a waypoint from the list")
 
-    local str = "Right clicking the Plasma weapon (secondary fire) shoots 8 shots "
-        .. "at once, but each one does only 1/2 the damage "
-        .. "as a primary shot. "
+    local str = "Right clicking the Plasma weapon (secondary fire) "
+        .. "shoots a mega shot which is really 8 primary shots combined into one "
+        .. "(but it only does the damage of 4 primary shots). "
         .. "Each weapon has a \"primary\" and a \"secondary\". \n\n"
         .. "Press F3 then the weapon number to read about a weapon. \n\n"
         .. "DPS = \"damage per second\" \n"

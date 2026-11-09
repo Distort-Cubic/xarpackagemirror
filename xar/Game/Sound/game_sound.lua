@@ -10,33 +10,38 @@
 -------------------------------------------------------------------------------
 
 --"Deny" callbacks.
---If any one of these returns true,
---then the sound is not played.
-local m_deny_cbs = {}
+--The sound volume will be the minimum value
+--returned by any one of these functions.
+local m_soften_cbs = {}
 
 -------------------------------------------------------------------------------
 -- Deny sound callback API
 -------------------------------------------------------------------------------
 
 --The var func should be a reference to a function that takes
---a string argument (the sound name) and returns a bool.
---If it returns true, the sound will be "denied" (it will not be played).
-function p.reg_deny_sound_cb(name, func)
-    m_deny_cbs[name] = func
+--a string argument (the sound name) and returns a float.
+--The float is the volume the sound should be played at.
+--0.0 (or a negative number) means it will not be played.
+--1.0 is the max volume.
+function p.reg_soften_sound_cb(name, func)
+    m_soften_cbs[name] = func
 end
 
-function p.unreg_deny_sound_cb(name)
-    m_deny_cbs[name] = nil
+function p.unreg_soften_sound_cb(name)
+    m_soften_cbs[name] = nil
 end
 
 --This should only be called from inside this script.
-function p.m_should_deny_sound(name)
-    for k,v in pairs(m_deny_cbs) do
+function p.m_soften_sound_volume(name)
+    --We call ALL off the callbacks,
+    --even after one of them says to deny the sound.
+    local lowest = 1.0
+    for k,v in pairs(m_soften_cbs) do
         local func = v
-        local should_deny = func(name)
-        if( should_deny ) then return true end
+        local cur_vol = func(name)
+        if( cur_vol < lowest ) then lowest = cur_vol end
     end
-    return false
+    return lowest
 end
 
 --Note: We could imagine an alternate system were we deny sounds
@@ -48,34 +53,32 @@ end
 
 function p.play_sound(sound_name)
     if( sound_name == "" ) then return end --Could complain.
-    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
-    ga_play_sound(sound_name) --__TRUST_ME__
+    local soften_vol = p.m_soften_sound_volume(sound_name)
+    if( soften_vol < 0.0 ) then return end
+    if( soften_vol < 0.99 ) then
+        ga_play_sound_with_volume(sound_name, soften_vol) --__TRUST_ME__
+    else
+        ga_play_sound(sound_name) --__TRUST_ME__
+    end
 end
 
 function p.play_sound_menu(sound_name)
     if( sound_name == "" ) then return end --Could complain.
-    if( p.m_should_deny_sound(name) ) then return end --Added in "1.02.02".
-    ga_play_sound_menu(sound_name) --__TRUST_ME__
+    local soften_vol = p.m_soften_sound_volume(sound_name)
+    if( soften_vol < 0.0 ) then return end
+    if( soften_vol < 0.99 ) then
+        ga_play_sound_menu_with_volume(sound_name, soften_vol) --__TRUST_ME__
+    else
+        ga_play_sound_menu(sound_name) --__TRUST_ME__
+    end
 end
-
--- function p.play_sound_with_volume(sound_name, vol)
---     if( sound_name == "" ) then return end --Could complain.
---     local __TRUST_ME__ = sound_name
---     ga_play_sound_with_volume(__TRUST_ME__, vol)
--- end
-
--- function p.play_sound_menu_with_volume(sound_name, vol)
---     if( sound_name == "" ) then return end --Could complain.
---     local __TRUST_ME__ = sound_name
---     ga_play_sound_menu_with_volume(__TRUST_ME__, vol)
--- end
 
 -------------------------------------------------------------------------------
 -- Loading
 -------------------------------------------------------------------------------
 
 function p.__load_game_early()
-    m_deny_cbs = {}
+    m_soften_cbs = {}
 
     -- p.m_test()
 end
@@ -85,9 +88,14 @@ end
 -------------------------------------------------------------------------------
 
 function p.m_test()
-    p.reg_deny_sound_cb("test_deny_everything", p.m_test_deny_cb)
+    -- p.reg_soften_sound_cb("test_deny_everything", p.m_test_deny_cb)
+    p.reg_soften_sound_cb("test_soften_everything", p.m_test_soften_cb)
 end
 
 function p.m_test_deny_cb(sound_name)
-    return true --Denies every sound.
+    return -1.0 --Denies every sound.
+end
+
+function p.m_test_soften_cb(sound_name)
+    return 0.1 --Denies every sound.
 end
